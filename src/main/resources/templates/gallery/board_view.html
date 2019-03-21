@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting :: head"></head>
+<body oncontextmenu="return false">
+<section th:include="./include/header :: header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<!--게시글 업로드-->
+<input type="hidden" id="board_likes_check" th:value="${likes_check}">
+<input type="hidden" id="board_idx" th:value="${gallery.idx}">
+<input type="hidden" id="writer_idx" th:value="${gallery.member.idx}">
+<input type="hidden" id="session_idx" th:value="${session.idx}">
+<input type="hidden" id="alert_comment_idx" th:if="${alert_comment_idx != null}" th:value="${alert_comment_idx}">
+<input type="hidden" th:if="${parsing_contents != null} "id="parsing_contents" th:value="${parsing_contents}"/>
+
+<div class="sns-share-section">
+    <div>
+        <button type="button" class="__share-facebook" data-href="http://localhost:8080/gallery/view/75"
+                data-layout="button" th:text="#{community.share.facebook}">페이스북 공유 버튼입니다.
+        </button>
+        <button type="button" class="__share-twitter" th:text="#{community.share.twitter}">트위터 공유 버튼입니다.</button>
+        <button type="button" class="__copy-clipboard" th:text="#{community.share.url}">클립보드 복사버튼 입니다.</button>
+        <textarea id="clip-board"></textarea>
+    </div>
+</div>
+<article class="gallery-view-section section">
+    <div class="gallery-view-section--client">
+        <!--# 작성자의 썸네일 이미지-->
+        <a th:href="@{'/community/view_member_info/' + ${gallery.member.idx} + '/gallery/1'}">
+            <img th:src="${(gallery.member.thumbnail != null) ? gallery.member.thumbnail : './images/default-person.svg'}"
+                 alt="" width="auto" height="auto"/>
+        </a>
+        <h3 th:text="${gallery.member.nickname}"></h3>
+        <!--수정된 게시글은 뒤에 (수정됨) 붙여줘야 함 -->
+        <time th:text="${gallery.date_created}">이틀 전</time>
+        <span th:if="${gallery.date_updated != null}" th:text="#{community.modified}">(수정됨)</span>
+    </div>
+    <div class="gallery-view-section--image">
+        <img th:src="${gallery.id_files[0].file_url}" width="auto" height="auto"/>
+    </div>
+    <div class="gallery-view-section--count">
+        <a th:if="${likes_check != null && likes_check == 1}" class="__my-likes" id="gallery_likes"
+           th:text="${gallery.likes}"></a>
+        <a th:unless="${likes_check != null && likes_check == 1}" class="__likes" id="gallery_likes"
+           th:text="${gallery.likes}"></a>
+        <!--# 게시글의 댓글 개수-->
+        <a class="__comments" th:text="${comment_list != null && #lists.size(comment_list) > 0 ? #lists.size(comment_list) : 0}">12</a>
+        <a class="__views" th:text="${gallery.hits}"></a>
+        <span class="__more-info"></span>
+    </div>
+    <div class="gallery-view-section--desc">
+        <h5 class="__like-list-interaction" th:data-idx="${gallery.idx}" th:text="${'좋아요 ' + gallery.likes + '개'}">좋아요 ?개</h5>
+        <h1 id="gallery_subject" th:text="${gallery.subject}"></h1>
+        <p id="gallery_contents" style="min-height: 200px;" th:text="${gallery.contents}"></p>
+        <div class="gallery-view-section--hash-tag">
+            <a th:if="${hashtag != null}" th:each="hashtag : ${hashtag}"
+               th:text="'#' + ${hashtag}" th:href="@{'/gallery/searchByTag/' + ${hashtag} + '/1'}"
+               class="__hash-link"></a>
+        </div>
+    </div>
+    <div class="client-reply-section">
+        <img th:src="${session.session_thumbnail != null ? session.session_thumbnail:'/images/default-person.svg'}"
+             class="client-reply-section--thumb"/>
+        <label class="client-reply-section--text" for="client-reply-component">
+            <input type="text" name="reply" value="" id="client-reply-component" th:placeholder="#{gallery.comments.placeholder}"/>
+        </label>
+        <button type="button" class="__add-reply-btn" th:text="#{community.submit}">등록</button>
+    </div>
+    <div>
+        <a href="javascript:void(0)" class="__active-all-comment" th:if="${comment_list != null && #lists.size(comment_list) >= 1}"
+           th:classappend="${comment_list != null && #lists.size(comment_list) >= 5 ? 'active':null}"
+           th:text="${comment_list != null && #lists.size(comment_list) >= 5 ? '댓글 숨기기':'댓글 모두 보기'}" >댓글 모두 보기</a>
+
+        <a href="javascript:void(0)" th:unless="${comment_list != null && #lists.size(comment_list) >= 1}" class="__active-all-comment"
+           th:classappend="${comment_list != null && #lists.size(comment_list) >= 5 ? 'active':null}"></a>
+    </div>
+
+    <ul class="client-reply-list" th:classappend="${comment_list != null && #lists.size(comment_list) >= 5 ? 'active':null}">
+        <li class="client-reply-list--container" th:if="${comment_list != null}" th:each="comment : ${comment_list}"
+            th:data-reply-idx="${comment.idx}">
+            <a th:href="@{'/community/view_member_info/' + ${comment.writer_idx} + '/gallery/1'}">
+                <img th:src="${comment.writer_thumbnail != null ? comment.writer_thumbnail : '/images/default-person.svg'}"
+                     width="auto" height="auto" class="__client-thumb"/>
+            </a>
+            <div class="__client-contents">
+                <h4 th:text="${comment.writer_nickname}"></h4>
+                <p th:text="${comment.contents}" th:data-comment-idx="${comment.idx}"></p>
+            </div>
+            <div class="__client-reply-list--contents-edit" th:data-comment-idx="${comment.idx}"></div>
+            <time class="__client-date" th:text="${comment.date_created}">하루 전</time>
+            <div class="client-reply-list--container--modify">
+                <div class="__count" th:data-comment-idx="${comment.idx}" th:text="${comment.likes}">0</div>
+                <a href="#" class="__add-likes-btn" th:data-comment-idx="${comment.idx}">
+                    <svg th:if="${comment.likes_check == 0}" width="19" height="18" viewBox="0 0 19 18" xmlns="http://www.w3.org/2000/svg"><path d="M18.802 7.446c-.393 1.703-1.303 3.252-2.63 4.48L9.497 18H9.39l-6.562-6.076C1.502 10.698.592 9.15.198 7.446c-.213-.918-.231-1.617-.162-2.048C.314 2.272 2.488 0 5.21 0 6.945 0 8.51.922 9.45 2.476 10.4.94 12.029 0 13.789 0c2.723 0 4.896 2.271 5.175 5.395.069.441.05 1.135-.162 2.05zm-.781-.187c.256-1.107.15-1.733.15-1.74C17.931 2.78 16.09.817 13.789.817c-1.738 0-3.311 1.09-4.01 2.777l-.333.807-.333-.807C8.403 1.88 6.909.816 5.21.816 2.911.816 1.07 2.78.834 5.484l-.005.038c0 .004-.106.63.15 1.737.357 1.542 1.183 2.946 2.39 4.062l6.08 5.628 6.185-5.63c1.204-1.113 2.03-2.518 2.387-4.06z" fill="#181818" fill-rule="nonzero" class="svg-fill" th:data-comment-idx="${comment.idx}"/></svg>
+                	<svg th:if="${comment.likes_check == 1}" width="19" height="18" viewBox="0 0 19 18" xmlns="http://www.w3.org/2000/svg"><path d="M18.802 7.446c-.393 1.703-1.303 3.252-2.63 4.48L9.497 18H9.39l-6.562-6.076C1.502 10.698.592 9.15.198 7.446c-.213-.918-.231-1.617-.162-2.048C.314 2.272 2.488 0 5.21 0 6.945 0 8.51.922 9.45 2.476 10.4.94 12.029 0 13.789 0c2.723 0 4.896 2.271 5.175 5.395.069.441.05 1.135-.162 2.05zm-.781-.187c.256-1.107.15-1.733.15-1.74C17.931 2.78 16.09.817 13.789.817c-1.738 0-3.311 1.09-4.01 2.777l-.333.807-.333-.807C8.403 1.88 6.909.816 5.21.816 2.911.816 1.07 2.78.834 5.484l-.005.038c0 .004-.106.63.15 1.737.357 1.542 1.183 2.946 2.39 4.062l6.08 5.628 6.185-5.63c1.204-1.113 2.03-2.518 2.387-4.06z" fill="#ff5274" fill-rule="nonzero" class="svg-fill" th:data-comment-idx="${comment.idx}"/></svg>
+                </a>
+                <!--댓글 작성자의 idx값(session.idx)과 comment_list에서 원 댓글 작성자의(idx)값의 비교를 위해 값이 필요함-->
+                <a href="#" class="__modify-reply-btn" th:if="${session.idx == gallery.member.idx ||session.idx== comment.writer_idx}" th:data-comment-idx="${comment.idx}">
+                    <span>...</span>
+                </a>
+            </div>
+            <div class="__modify-reply-container" th:data-comment-idx="${comment.idx}">
+                <button type="button" th:data-comment-idx="${comment.idx}" class="__modify-gallery-reply" th:text="#{community.modify}">수정</button>
+                <button type="button" th:data-comment-idx="${comment.idx}" class="__remove-gallery-reply" th:text="#{community.delete}">삭제</button>
+            </div>
+        </li>
+        <!--유저 댓글 리스트-->
+    </ul>
+</article>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/community/gallery/view.js}" type="text/javascript"></script>
+<script th:src="@{~/js/community/gallery/reply.js}" type="text/javascript"></script>
+<script th:src="@{~/js/lib/facebook_sdk.js}" type="text/javascript"></script>
+<script th:replace="./include/handlebar_template :: handlebar_template"></script>
+</body>
+</html>

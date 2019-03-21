@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<div class="ie_warining">
+    <h1 class="browserupgrade">(주)리틀원의 웹사이트는 인터넷 익스폴로러 10버전 미만은 지원하지 않습니다. 더 나은 환경과 좋은 서비스를 위해 불편하시더라도 이곳에서<a
+            href="http://browsehappy.com/">브라우저 업그레이드 하기</a>최신버젼으로 업그레이드 해주세요.</h1>
+    <p> 최적의 환경을 위해 크롬(chrome) 최신 버젼을 추천합니다.</p>
+</div>
+<![endif]-->
+
+<div class="application">
+    <section class="mypage-section">
+        <div class="mypage-section--profile">
+            <img th:src="${member.thumbnail != null ? member.thumbnail:'/images/default-person.svg'}"
+                 class="mypage-section--profile--user-thumbnail" th:alt="${member.nickname+'님의 프로필이미지.'}"
+                 th:data-member-idx="${member.idx}"
+                 th:data-gallery-count="${gallery != null ? #lists.size(gallery) : '0'}"
+                 th:data-community-count="${board != null ? #lists.size(board) : '0'}"
+                 th:data-like-count="${totalLikes}"
+                 th:data-comment-count="${total_comment_count}" id="user-info">
+            <div class="mypage-section--profile--desc" th:inline="text">
+                <div class="mypage-section--profile--desc--info">
+                    <h2 th:text="${member.nickname}">나야나</h2>
+                    <div th:text="${member.email}">itsme@littleone.kr</div>
+                    <button type="button" class="__edit-profile-button" role="button" th:if="${session.idx == member.idx}" th:text="#{user.modify_profile}">프로필 수정</button>
+                </div>
+                <!--본인-->
+                <p class="mypage-section--profile--desc--introduce" th:if="${session.idx == member.idx}" th:text="${introduction} != null ? ${introduction} :#{user.introduction}" th:data-contents-val="${introduction}"></p>
+                <!--타인-->
+                <p class="mypage-section--profile--desc--introduce" th:unless="${session.idx == member.idx}" th:text="${introduction} != null ? ${introduction} : #{user.no_intro}" th:data-contents-val="${introduction}"></p>
+                <time th:unless="${session.idx == member.idx}" th:text="${member.join_date} + ' ' + #{user.join}" style="margin-top: 10px; display: block">가입일자</time>
+            </div>
+        </div>
+        <div class="mypage-section--user-info">
+            <div class="mypage-section--user-info--container">
+                <h3 th:text="#{user.infant_info}">아이정보</h3>
+                <span class="baby-info" id="baby-info" th:classappend="${#strings.equals(check_auth,'true') ? '__under':null}" th:id="${#strings.equals(check_auth, 'true') ? 'baby-info':null}" th:if="${infant != null}"
+                      th:data-baby-idx="${infant.idx}"
+                      th:data-baby-gender="${infant.sex}" th:data-baby-height="${infant.height}"
+                      th:data-baby-weight="${infant.weight}" th:data-baby-blood="${infant.blood_type}"
+                      th:data-baby-name="${infant.name}" th:data-baby-birth="${infant.birth}"
+                      th:data-auth="${check_auth}"
+                      th:data-baby-thumb="${infant.thumbnail != null ? infant.thumbnail.url : '/images/default-person.svg'}"
+                      th:text="${infant_age} + #{user.infant.month}">4개월
+
+                </span>
+                <span class="baby-info" th:unless="${infant != null}" th:text="#{user.none}">
+                    없음
+                </span>
+            </div>
+            <!-- <div class="mypage-section--user-info--container">
+                <h3 th:text="#{user.activity}">활동내역</h3>
+                <span class="__under board-history" th:text="${total_write} + #{user.activity_num}">159건</span>
+            </div> -->
+            <div class="mypage-section--user-info--container" th:if="${member.idx == session.idx}">
+                <h3 th:text="#{user.grade}">등급</h3>
+                <span th:text="${grade} + #{user.grade_num}">유저등급</span>
+            </div>
+            <div class="mypage-section--user-info--container" th:if="${member.idx == session.idx}">
+                <h3 th:text="#{user.point}">포인트</h3>
+                <span th:text="${point} + 'p'">유저 POINT</span>
+            </div>
+        </div>
+        <!--그룹 섹션-->
+        <div class="mypage-section--user-group" th:if="${group_members != null && check_auth == true}">
+            <h2 th:text="#{user.group}">그룹</h2>
+            <div class="mypage-section--user-group--container">
+                <div class="mypage-section--user-group--container--list master">
+                    <div class="__user">
+                        <img th:src="${group_master_thumb == null ? '/images/default-person.svg' : group_master_thumb}"/>
+                        <span class="__master"></span>
+                    </div>
+                    <h3 class="__name" th:text="${group_master}">나야나</h3>
+                    <span class="__line"></span>
+                </div>
+                <div class="mypage-section--user-group--container--list" th:each=" group_member : ${group_members}">
+                    <img th:src="${group_member.value == null ? '/images/default-person.svg' : group_member.value}"/>
+                    <h3 class="__name" th:text="${group_member.key}">나야나</h3>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="mypage-section--tab-menu">
+            <a href="javascript:void(0)" class="__gallery-button active" role="button">
+                <div></div>
+            </a>
+            <span class="__line"></span>
+            <a href="javascript:void(0)" class="__community-button" role="button">
+                <div></div>
+            </a>
+        </div> -->
+        <!--유저 갤러리 글-->
+        <!-- <div class="mypage-section--gallery-list active">
+            <ul id="user--gallery-history" class="gallery-list" th:if="${gallery != null}">
+                <li class="grid" th:each="gallery : ${gallery}">
+                    <a th:href="@{'/gallery/view/' + ${gallery.diary_idx}}">
+                        <img th:src="${gallery.file_url}">
+                    </a>
+                </li>
+            </ul>
+            <p th:unless="${gallery != null}" class="none-board" th:text="#{user.no_gallery}">갤러리에 공유한 게시물이 없습니다.</p>
+        </div> -->
+        <!--모델 값에 따라서 active클래스 주기-->
+        <!-- 커뮤니티 작성글 -->
+        <!-- <div class="mypage-section--history-list">
+            유저 게시판 글
+            <ul id="user--community-history" class="community-list" th:if="${board != null}">
+                <li th:each="board : ${board}">
+                    <div class="community-list--title">
+                        <a th:href="@{'~/community/'+${#strings.equals(board.category, '1') ? 'qna':'service'}+'/'+${board.idx} }">
+                            <span class="__category" th:text="${#strings.equals(board.category, '1')} ? #{user.product} : #{user.service}">카테고리</span>
+                            <h1 class="__title" th:text="${board.subject}">스마트 보틀 써보니까 어떠세요?</h1>
+                        </a>
+                        <span class="__img" th:if="${board.attached_file == 't'}"></span>
+                    </div>
+                    <a th:href="@{'~/community/'+${#strings.equals(board.category, '1') ? 'qna':'service'}+'/'+${board.idx} }">
+                        <p class="community-list--contents" th:text="${board.contents}">지난 주에 스마트 보틀 배송받아서 써보는 중인데요~ 제가 제대로
+                            쓰...</p>
+                    </a>
+                    <div class="community-list--info">
+                        <img th:src="${member.thumbnail != null ? member.thumbnail:'/images/default-person.svg'}" class="__thumb"/>
+                        <span class="__nick" th:text="${'by ' + member.nickname}">by <em>호동이엄마</em></span>
+                        <time class="__date" th:text="${board.date_created}">2018-09-17 09:21:03</time>
+                    </div>
+                    <div class="community-list--count">
+                        <span class="__like" th:text="${board.likes}">좋아요 개수</span>
+                        <span class="__comment" th:text="${board.comment_count}">코멘트 개수</span>
+                        <span class="__view" th:text="${board.hits}">0</span>
+                        <time class="__date" th:text="${board.date_created}">2018-09-17 09:21:03</time>
+                    </div>
+                </li>
+            </ul>
+            <div class="pagination">
+                <div class="pagination--list">
+                    <div class="pagination--list--pager">
+                        선택된 요소
+                        <span th:if="${page_index > 1 && #lists.size(page_size) >= 3}">
+                    	<a th:href="@{'/community/view_member_info/' + ${member.idx} + '/' + ${type} +'/1?community=active'}" class="prev-first"> << </a>
+                    </span>
+                        <a th:if="${page_index > 1 && #lists.size(page_size) >= 2}" th:href="@{'/community/view_member_info/'+ ${member.idx} + '/' + ${type} + '/' + ${page_index - 1}+'?community=active'}" class="prev" th:text="#{user.prev}">이전으로 이동합니다.</a>
+                        <span th:each="page_size : ${page_size}" style="vertical-align: baseline" class="pagination--indexing--list">
+                       <a th:if="${page_size == page_index}" th:text="${page_size}" class="selected" th:href="@{'/community/view_member_info/' +  ${member.idx} + '/' + ${type} + '/' + ${page_size}+'?community=active'}"></a>
+                       <a th:unless="${page_size == page_index}" th:text="${page_size}" class="continue" th:href="@{'/community/view_member_info/' +  ${member.idx} + '/' + ${type} + '/' + ${page_size}+'?community=active'}"></a>
+                       <a th:if="${#lists.size(page_size) >= 6}">...</a>
+                    </span>
+
+                        <a th:if="${page_index < #lists.size(page_size) && #lists.size(page_size) >= 2}" th:href="@{'/community/view_member_info/'+ ${member.idx} + '/' + ${type} + '/' + ${page_index + 1}+'?community=active'}" class="next"> > </a>
+                        <a th:if="${page_index < #lists.size(page_size) && #lists.size(page_size) >= 3}" th:href="@{'/community/view_member_info/'+ ${member.idx} + '/' + ${type} + '/' + ${#lists.size(page_size)}+'?community=active'}"
+                           class="next-last"> >> </a>
+                        마지막 페이징
+                    </div>
+                </div>
+            </div>
+
+            <p th:unless="${board != null}" class="none-board" th:text="#{user.no_board}">
+                커뮤니티에 작성한 게시글이 없습니다.
+            </p>
+        </div> -->
+    </section>
+</div>
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/user/user.js}" type="text/javascript"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+<script th:replace="./include/handlebar_template ::handlebar_template"></script>
+</body>
+</html>

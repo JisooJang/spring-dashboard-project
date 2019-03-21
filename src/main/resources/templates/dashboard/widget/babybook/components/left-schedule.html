@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<body>
+<div class="dashboard-babybook--box--section schedule-list active" id="dashboard-schedule-section" th:fragment="left-component">
+    <div class="dashboard-babybook--box--section--head">
+        <h2 class="dashboard-babybook--box--section--head--title" th:text="#{schedule.list}">일정 목록</h2>
+        <span class="dashboard-babybook--box--section__schedule-alarm" id="schedule-count-component" th:classappend="${schedule_list != null&& #arrays.length(schedule_list) > 0 ? 'active':null}"
+              th:text="${schedule_list != null&& #arrays.length(schedule_list) > 0 ? '+'+#arrays.length(schedule_list) : null}">+ 일기 갯수</span>
+    </div>
+    <ul role="listbox" class="dashboard-babybook--box--section--list" id="client-schedule-list">
+        <li role="listitem" class="schedule--list" th:if="${schedule_list != null}" th:each="schedule, iter : ${schedule_list}"
+            th:with="startDate = ${schedule.event_date_start}, endDate = ${schedule.event_date_end},
+            startEvent = ${#strings.substring(#strings.replace(startDate,'-',''),0,8)},
+            endEvent=${#strings.substring(#strings.replace(endDate,'-',''),0,8)}" th:data-schedule-idx="${schedule.idx}">
+            <a href="javascript:void(0)" role="link" style="padding: 14.5px 0;">
+                <div class="list--info">
+                    <div class="list--info--time">
+                        <time th:text="${#strings.substring(startDate,11,16)}">시작 날짜</time>
+                        <time th:text="${#strings.substring(endDate,11,16)}">종료 날짜</time>
+                    </div>
+                    <div class="list--info--status">
+                        <span th:if="${#strings.equals(schedule.event_type,'0')}" class="reserved"></span>
+                        <span th:if="${#strings.equals(schedule.event_type,'1')}" class="anniversary"></span>
+                        <span th:if="${#strings.equals(schedule.event_type,'2')}" class="appointment"></span>
+                    </div>
+                    <div class="list--info--desc"
+                         th:with="startMonth = ${#strings.substring(startDate,5,7)},
+                                  startDay = ${#strings.substring(startDate,8,10)},
+                                  startTime = ${#strings.substring(startDate,11,16)},
+                                  endMonth = ${#strings.substring(endDate,5,7)},
+                                  endDay = ${#strings.substring(endDate,8,10)},
+                                  endTime = ${#strings.substring(endDate,11,16)}">
+                        <p th:text="${!#strings.isEmpty(schedule.title)} ? ${schedule.title} : #{schedule.subject.none}">일정명</p>
+                        <span th:if="${startEvent != endEvent}" th:text="${startMonth+'월 '+startDay+'일 '+startTime +' ~ '+endMonth+'월 '+endDay+'일 '+endTime}"></span>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li role="listitem" th:if="${schedule_list == null}">
+            <a href="javascript:void(0);" class="none-schedule" th:html="#{schedule.add}">
+                +&nbsp;&nbsp;일정을 추가하세요.
+            </a>
+        </li>
+    </ul>
+    <div class="dashboard-babybook--box--section--edit-box schedule-list">
+        <div id="schedule-handler">
+            <button type="button" role="button" class="__delete-button" th:text="#{schedule.delete}">삭제하기</button>
+            <button type="button" role="button" class="__modify-button" th:text="#{schedule.edit}">편집하기</button>
+            <button type="button" role="button" class="__register-button" th:tex="#{schedule.new}">일정추가</button>
+        </div>
+    </div>
+    <div id="schedule-list-viewbox"></div>
+    <div class="dashboard-babybook--form">
+        <form enctype="multipart/form-data" id="dashboard-schedule-form" method="post" action="#">
+            <div class="empty-section"></div>
+            <legend th:text="#{schedule.legend}">일정폼</legend>
+            <div class="dashboard-babybook--container">
+                <div class="dashboard-babybook--container--inner">
+                    <input type="text" name="title" value="" class="dashboard-babybook--container--title"
+                           id="dashboard-schedule-title" autocapitalize="off" autocomplete="off" maxlength="60" data-cs-title="제목" th:placeholder="#{schedule}"/>
+                    <span class="dashboard-babybook--container__count" data-cs-maxlength="60">0/60</span>
+                </div>
+            </div>
+            <div class="dashboard-babybook--container schedule-selection">
+                <div class="dashboard-babybook--container--inner">
+                    <div class="dashboard-babybook--container--box" id="start-picker">
+                        <a href="javascript:void(0)">
+                            <label for="start-schedule-time" class="dashboard-babybook--container__schedule start" th:text="#{schedule.start2}">시작</label>
+                            <input type="hidden" name="start_date" value="" id="start-schedule-time"/>
+                        </a>
+                        <div class="schedule--date start">
+                            <time>2018-08-17 (목)</time>
+                            <span>13:00</span>
+                        </div>
+                    </div>
+                    <div class="dashboard-babybook--container--box" id="end-picker">
+                        <a href="javascript:void(0)">
+                            <label for="end-schedule-time" class="dashboard-babybook--container__schedule end" th:text="#{schedule.end2}">종료</label>
+                            <input type="hidden" name="end_date" value="" id="end-schedule-time"/>
+                        </a>
+                        <div class="schedule--date end">
+                            <time>2018-08-17 (목)</time>
+                            <span>13:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="picker-container"></div>
+            <div class="dashboard-babybook--container" style="padding: 21.5px; padding-left: 33px;">
+                <div class="dashboard-babybook--container--inner">
+                    <label class="dashboard-babybook--container--heading" th:text="#{schedule.divide}">일정 구분</label>
+                    <div class="dashboard-babybook--container--type" id="schedule-type-container">
+                        <a href="javascript:void(0)" class="__event-type active" data-event-type="0">
+                            <div class="hospital" th:text="#{event.schedule.hospital2}">병원</div>
+                        </a>
+                        <a href="javascript:void(0)" class="__event-type" data-event-type="1">
+                            <div class="birth-day" th:text="#{event.schedule.birth2}">생일</div>
+                        </a>
+                        <a href="javascript:void(0)" class="__event-type" data-event-type="2">
+                            <div class="etc" th:text="#{event.schedule.etc2}">기타</div>
+                        </a>
+                        <input type="hidden" name="event_type" value="0"/>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-babybook--container-save" style="margin-top: 200px;">
+                <button type="button" role="button" class="__save-schedule-button" th:text="#{schedule.save}">저장하기</button>
+                <button type="submit" role="button" class="__modify-schedule-button" th:text="#{schedule.edit}">수정하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

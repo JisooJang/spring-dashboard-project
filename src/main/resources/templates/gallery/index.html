@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting :: head"></head>
+<body oncontextmenu="return false">
+<section th:include="./include/header :: header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<div class="application">
+    <section class="gallery-section">
+        <!--검색-->
+        <div class="search-component" style=" bottom: 0px;" th:styleappend="${gallery_list == null ? 'bottom:130px;':null}">
+            <div>
+                <a href="javascript:void(0)" class="__slide-top" role="button"></a>
+                <div class="search-component-bar">
+                    <form action="/gallery/tag_search" method="get">
+                        <div class="search-component-bar--inner">
+                            <div class="search-component-bar--inner--option">
+                                <label for="search-select">
+                                    <select name="type" id="search-select">
+                                        <option value="writer" th:selected="${type=='writer'}">닉네임</option>
+                                        <option value="title" th:selected="${type=='title'}">제목</option>
+                                        <option value="contents" th:selected="${type=='contents'}">내용</option>
+                                        <option value="tag" th:selected="${type=='contents'}">해시태그</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="search-component-bar--inner--input">
+                                <input type="text" name="keyword" placeholder="검색" autocapitalize="off" autocomplete="false"/>
+                                <button type="submit" class="__search-button" role="button">엔터키 입력시 현재 입력값을 삭제하는 버튼입니다.</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="gallery--section--header">
+            <a href="/gallery">
+                <h1 th:text="#{gallery}">갤러리</h1>
+            </a>
+            <p th:text="#{gallery.msg}">회원님들이 육아일기에서 공유한 사진 전시관입니다.</p>
+        </div>
+        <!--정렬-->
+        <div class="gallery-section--order">
+            <ul>
+                <li>
+                    <!--검색 url 링크 달기-->
+                    <a href="/gallery" class="__order-link order-new" th:title="#{community.paging.new}">
+                        <img th:src="${sort_type == 'new' ? '/images/community/web-gallery-order-new-selected.svg':'/images/community/web-gallery-order-new-unselected.svg'}"
+                             width="auto" height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='new'}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/gallery/pageByOld" class="__order-link order-old" th:title="#{community.paging.old}">
+                        <img th:src="${sort_type=='old' ? '/images/community/web-gallery-order-old-selected.svg':'/images/community/web-gallery-order-old-unselected.svg'}"
+                             width="auto" height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='old'}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/gallery/pageByLikes" class="__order-link order-like" th:title="#{community.paging.likes}">
+                        <img th:src="${sort_type=='likes' ? '/images/community/web-gallery-order-like-selected.svg':'/images/community/web-gallery-order-like-unselected.svg'}"
+                             width="auto" height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='likes'}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/gallery/pageByComments" class="__order-link order-comment" th:title="#{community.paging.comments}">
+                        <img th:src="${sort_type=='comments' ? '/images/community/web-gallery-order-comment-selected.svg':'/images/community/web-gallery-order-comment-unselected.svg'}"
+                             width="auto"
+                             height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='comments'}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/gallery/pageByHits" class="__order-link order-view" th:title="#{community.paging.hits}">
+                        <img th:src="${sort_type=='hits'? '/images/community/web-gallery-order-view-selected.svg':'/images/community/web-gallery-order-view-unselected.svg'}"
+                             width="auto" height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='hits'}"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--갤러리 게시글-->
+        <div class="gallery--section--list">
+            <ul id="gallery-container">
+                <li class="gallery-board" th:if="${gallery_list != null}" th:each="gallery_list : ${gallery_list}"
+                    th:data-board-idx="${gallery_list.diary_idx}">
+                    <div class="gallery-board--writer">
+                        <a th:href="${'/community/view_member_info/' + gallery_list.member_idx + '/board/1'}">
+                            <img th:src="${(gallery_list.thumbnail != null) ? gallery_list.thumbnail : 'images/default-person.svg'}">
+                            <span th:text="${gallery_list.nickname != null ? gallery_list.nickname:'탈퇴한 회원' }">작성자명</span>
+                        </a>
+                        <time th:text="${gallery_list.date_created}">게시글 작성 시간</time>
+                    </div>
+                    <div class="gallery-board--image">
+                        <a th:href="@{'/gallery/view/' + ${gallery_list.diary_idx}}">
+                            <img th:src="${gallery_list.file_url != null ? gallery_list.file_url : '/images/default-person.svg'}"
+                                 class="lazyload" width="auto" height="auto"/>
+                        </a>
+                    </div>
+                    <div class="pm-container">
+                        <div class="gallery-board--desc">
+                            <a href="javascript:void(0)" style="font-size: 10px;  display: block; font-weight: 500; white-space: nowrap;  width: 60px;  margin-bottom: 13px; opacity: .85;" th:text="${'좋아요 '+gallery_list.likes+'개'}"
+                               class="__who-likes-button" th:data-gallery-idx="${gallery_list.diary_idx}"></a>
+                            <a th:href="@{'/gallery/view/' + ${gallery_list.diary_idx}}">
+                                <h2 th:text="${gallery_list.subject}">제목</h2>
+                                <div class="gallery-board--desc--paragraph">
+                                    <p th:text="${gallery_list.contents}">내용</p>
+                                    <span class="__more-info" th:text="#{gallery.more}">더보기</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="gallery-board--hash-tag" th:if="${gallery_list.hashtag != null}">
+                            <a th:each="hashtag : ${gallery_list.hashtag2}"
+                               th:href="@{'/gallery/searchByTag/' + ${hashtag} + '/1'}" th:text="${'#'+hashtag}"></a>
+                        </div>
+                        <div class="gallery-board--info">
+                            <span class="gallery-board--info--like"
+                                  th:classappend="${gallery_list.likes_check == 1 ? 'active':''}"
+                                  th:text="${gallery_list.likes}" th:data-idx="${gallery_list.diary_idx}"></span>
+                            <a th:href="@{'/gallery/view/' + ${gallery_list.diary_idx}+'?focus=on'}">
+                                <span class="gallery-board--info--comment" id="target"
+                                      th:text="${gallery_list.comment_count}"
+                                      th:data-idx="${gallery_list.diary_idx}"></span>
+                            </a>
+                            <span class="gallery-board--info--view" th:text="${gallery_list.hits}">99</span>
+                        </div>
+                    </div>
+                </li>
+                <li th:if="${gallery_list == null}" class="gallery--section--list--none-board" data-board-idx="0">
+                    <p th:html="#{gallery.none}">아직 공유된 게시물이 없습니다.<br/>육아일기를 작성한 후 갤러리로 공유해보세요.</p>
+                </li>
+            </ul>
+        </div>
+    </section>
+</div>
+<footer th:replace="./include/footer ::footer"></footer>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script th:src="@{~/js/lib/lazyload.min.js}" type="text/javascript"></script>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/login_ajax.js}" type="text/javascript"></script>
+<script th:src="@{~/js/community/gallery/index.js}" type="text/javascript"></script>
+<script th:replace="./include/handlebar_template :: handlebar_template"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+</body>
+</html>

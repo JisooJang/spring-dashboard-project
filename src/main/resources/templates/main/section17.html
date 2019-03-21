@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<section class="seventeenth-section section" th:fragment="main-section-17">
+    <div>
+        <div class="seventeenth-section--article">
+            <h1 th:text="#{main.inquiry}">문의하기</h1>
+            <p th:text="#{main.inquiry.detail}">리틀원에 궁금한 점이 있으시면 이메일이나 카카오톡으로 문의하세요!</p>
+        </div>
+        <div class="seventeenth-section--buttons">
+            <a href="#" role="button" class="seventeenth-section__email">
+                <div>
+                    <img src="/images/main/section-17/web-m-17-kor-icn-email.svg" alt="이메일로 리틀원에 제품과 서비스에 대해 물어보세요!"/>
+                    <span th:text="#{main.inquiry.byemail}">이메일로 문의하기</span>
+                </div>
+            </a>
+            <a href="http://pf.kakao.com/_xmIQHu/chat" target="_blank" role="button" class="seventeenth-section__kakao">
+                <div>
+                    <img src="/images/main/section-17/web-m-17-kor-icn-kakaotalk.svg" alt="카카오톡으로 리틀원에 대해 물어보는 아이콘"/>
+                    <span th:text="#{main.inquiry.bykakao}">카카오톡으로 문의하기</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body oncontextmenu="return false">
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<div class="ie_warining">
+    <h1 class="browserupgrade">(주)리틀원의 웹사이트는 인터넷 익스폴로러 10버전 미만은 지원하지 않습니다. 더 나은 환경과 좋은 서비스를 위해 불편하시더라도 이곳에서<a
+            href="http://browsehappy.com/">브라우저 업그레이드 하기</a>최신버젼으로 업그레이드 해주세요.</h1>
+    <p> 최적의 환경을 위해 크롬(chrome) 최신 버젼을 추천합니다.</p>
+</div>
+
+<![endif]-->
+<div class="application">
+    <input type="hidden" id="board_category" value="qna">
+    <section class="community-section">
+        <div class="search-component" th:styleappend="${#arrays.isEmpty(user_board) == true ? 'bottom:130px;':null}">
+            <div>
+                <a href="#" class="__slide-top" role="button"></a>
+                <div class="search-component-bar">
+                    <form method="get" th:action="@{'/community/'+${category}+'/search/1'}" id="community-search-form">
+                        <div class="search-component-bar--inner">
+                            <div class="search-component-bar--inner--option">
+                                <label for="search-select">
+                                    <select name="type" id="search-select">
+                                        <option value="writer" th:selected="${type=='writer'}" th:text="#{community.nickname}">닉네임</option>
+                                        <option value="title" th:selected="${type=='title'}" th:text="#{community.subject}">제목</option>
+                                        <option value="contents" th:selected="${type=='contents'}" th:text="#{community.contents}">내용</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="search-component-bar--inner--input">
+                                <input type="text" name="keyword" placeholder="검색" autocapitalize="off" autocomplete="false"/>
+                                <button type="submit" class="__search-button" role="button" th:text="#{community.enter}">엔터키 입력시 현재 입력값을 삭제하는 버튼입니다.</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <a th:href="@{'/community/'+${category}+'/write'}" class="__write-board" th:if="${session.session_email != null}"></a>
+            </div>
+        </div>
+        <div class="community--section--header" th:classappend="${'__'+category+'--header'}">
+            <a th:href="@{'/community/'+${category}+'/page/1'}">
+                <h1 th:if="${#strings.equals(category, 'qna')}" th:text="#{community.product}">제품 커뮤니티</h1>
+                <h1 th:if="${#strings.equals(category, 'service')}" th:text="#{community.service}">서비스 커뮤니티</h1>
+            </a>
+            <p th:if="${#strings.equals(category, 'qna')}" th:text="#{community.product.msg}">리틀원의 제품에 대해 자유롭게 토론할 수 있습니다.</p>
+            <p th:if="${#strings.equals(category, 'service')}" th:text="#{community.service.msg}">리틀원의 서비스에 대해 자유롭게 토론할 수 있습니다.</p>
+        </div>
+        <!--본문-->
+        <div class="community-section--order">
+            <ul>
+                <li>
+                    <!--검색 url 링크 달기-->
+                    <a th:href="@{'/community/' + ${category} + '/page/' + ${page_index}}" class="__order-link order-new" th:title="#{community.paging.new}">
+                        <img th:src="${sort_type == 'new' ? '/images/community/web-gallery-order-new-selected.svg':'/images/community/web-gallery-order-new-unselected.svg'}" width="auto" height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='new'}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{'/community/' + ${category} + '/pageByOld/' + ${page_index}}" class="__order-link order-old" th:title="#{community.paging.new}">
+                        <img th:src="${sort_type=='old' ? '/images/community/web-gallery-order-old-selected.svg':'/images/community/web-gallery-order-old-unselected.svg'}" width="auto" height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='old'}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{'/community/' + ${category} + '/pageByLikes/' + ${page_index}}" class="__order-link order-like" th:title="#{community.paging.likes}">
+                        <img th:src="${sort_type=='likes' ? '/images/community/web-gallery-order-like-selected.svg':'/images/community/web-gallery-order-like-unselected.svg'}" width="auto" height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='likes'}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{'/community/' + ${category} + '/pageByComment/' + ${page_index}}" class="__order-link order-comment" th:title="#{community.paging.comments}">
+                        <img th:src="${sort_type=='comment' ? '/images/community/web-gallery-order-comment-selected.svg':'/images/community/web-gallery-order-comment-unselected.svg'}" width="auto"
+                             height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='comment'}"></span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{'/community/' + ${category} + '/pageByHits/' + ${page_index}}" class="__order-link order-view" th:title="#{community.paging.hits}">
+                        <img th:src="${sort_type=='hits'? '/images/community/web-gallery-order-view-selected.svg':'/images/community/web-gallery-order-view-unselected.svg'}" width="auto" height="auto"/>
+                        <span class="__under-bar" th:if="${sort_type=='hits'}"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="community--section--board">
+            <ul class="community-list margin-m" th:if="${notice_board != null}">
+                <li class="admin-section" th:if="${#arrays.length(notice_board) > 0}"
+                    th:each="admin_board : ${notice_board}">
+                    <a th:href="@{'/community/' + ${category} + '/' + ${admin_board.idx}}">
+                        <div class="community-list--title">
+                            <span class="__category" style="color:#ff1a6f" th:text="#{community.notice}">[공지]</span>
+                            <h1 class="__title" th:text="${admin_board.subject}">공지사항 제목</h1>
+                            <p th:if="${admin_board.contents != null}"
+                               style="font-size: 11px; display:inline-block; font-weight: 300; margin-left: 20px; opacity: .8; vertical-align: bottom;">
+                                자세히 보기...</p>
+                            <span class="__img" th:if="${#strings.equals(admin_board.attached_file,'t')}"></span>
+                            <span class="__new" th:if="${admin_board.new_check == 1}">NEW</span>
+                        </div>
+                    </a>
+                    <div class="community-list--info">
+                        <img th:src="${admin_board.thumbnail != null ? admin_board.thumbnail:'/images/default-person.svg'}"
+                             class="__thumb"/>
+                        <span class="__nick" th:inline="text">by <em>[[${admin_board.nickname}]]</em></span>
+                        <time class="__date" th:text="${admin_board.date_created2}">2018-09-17 09:21:03</time>
+                    </div>
+                    <div class="community-list--count">
+                        <span class="__like" th:text="${admin_board.likes}">0</span>
+                        <span class="__comment" th:text="${admin_board.comment_count}">0</span>
+                        <span class="__view" th:text="${admin_board.hits}">0</span>
+                    </div>
+                </li>
+            </ul>
+            <ul class="community-list" th:if="${user_board != null}">
+                <li th:if="${#arrays.length(user_board) > 0}" th:each="board : ${user_board}">
+                    <a th:href="@{'/community/'+${category}+'/'+${board.idx}}">
+                        <div class="community-list--title">
+                            <span class="__category" th:if="${#strings.equals(category, 'qna')}" th:text="#{community.board.product}">[제품]</span>
+                            <span class="__category" th:unless="${#strings.equals(category, 'qna')}" th:text="#{communioty.board.service}">[서비스]</span>
+                            <h1 class="__title" th:text="${board.subject}">스마트 보틀 써보니까 어떠세요?</h1>
+                            <span class="__img" th:if="${#strings.equals(board.attached_file, 't')}"></span>
+                            <span class="__new" th:if="${board.new_check == 1}">NEW</span>
+                        </div>
+                        <p class="community-list--contents" th:text="${board.contents}">지난 주에 스마트 보틀 배송받아서 써보는 중인데요~ 제가
+                            제대로
+                            쓰...</p>
+                    </a>
+                    <div class="community-list--info">
+                        <!--같은 그룹원이 쓴 글 일경우에는 썸네일에 group-member 클래스 추가 #start-->
+                        <a th:href="@{'/community/view_member_info/' + ${board.member_idx} + '/board/1'}">
+                            <img th:src="${board.thumbnail != null ? board.thumbnail :'/images/default-person.svg'}"
+                                 class="__thumb"/>
+                        </a>
+                        <!--같은 그룹원이 쓴 글 일경우에는 썸네일에 group-member 클래스 추가 #end-->
+                        <a th:href="@{'/community/view_member_info/' + ${board.member_idx} + '/board/1'}"
+                           style="height: 20px; display: inline-block;">
+
+                    <span class="__nick">by <em
+                            th:text="${board.nickname != null ? board.nickname:'무명회원'}">호동이엄마</em></span>
+                        </a>
+                        <time class="__date" th:text="${board.date_created2}">2018-09-17 09:21:03</time>
+                    </div>
+                    <div class="community-list--count">
+                        <span class="__like" th:text="${board.likes}">좋아요 개수</span>
+                        <span class="__comment" th:text="${board.comment_count}">코멘트 개수</span>
+                        <span class="__view" th:text="${board.hits}">조회수 개수</span>
+                        <time class="__date" th:text="${board.date_created2}">작성날짜</time>
+                    </div>
+                </li>
+            </ul>
+            <ul class="community-list" th:if="${#arrays.isEmpty(user_board)}">
+                <li style="border: none; text-align: center;">
+                    <p th:text="#{community.board.none}">게시글이 없습니다.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="pagination">
+            <div class="pagination--list">
+                <div class="pagination--list--pager">
+                    <div class="pagination">
+                        <div class="pagination--list">
+                            <div class="pagination--list--pager">
+                                <span style="vertical-align: baseline" th:if="${page_index > 1 && #lists.size(page_size) >= 3}"><a th:href="@{'/community/'+${category}+'/page/1'}" class="prev-first"> << </a></span>
+                                <a th:if="${page_index > 1 && #lists.size(page_size) >= 2}" th:href="@{'/community/'+${category}+'/page/'+${page_index - 1}}" class="prev">이전으로 이동합니다.</a>
+                                <span th:each="page_size : ${page_size}" style="vertical-align: baseline" class="pagination--indexing--list">
+                                  <a th:if="${page_size == page_index}" th:text="${page_size}" class="selected" th:href="@{'/community/' + ${category} + '/page/' + ${page_size}}"></a>
+                                  <a th:unless="${page_size == page_index}" th:text="${page_size}" class="continue" th:href="@{'/community/' + ${category} + '/page/' + ${page_size}}"></a>
+                                  <a th:if="${#lists.size(page_size) >= 6}">...</a>
+                                </span>
+                                <a th:if="${page_index < #lists.size(page_size) && #lists.size(page_size) >= 2}" th:href="@{'/community/'+${category}+'/page/'+${page_index + 1}}" class="next">> </a>
+                                <a th:if="${page_index < #lists.size(page_size) && #lists.size(page_size) >= 3}" th:href="@{'/community/'+${category}+'/page/'+ ${#lists.size(page_size)}}" class="next-last"> >> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/login_ajax.js}" type="text/javascript"></script>
+<script th:src="@{~/js/community/index.js}" type="text/javascript"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+<script th:replace="./include/handlebar_template :: handlebar_template"></script>
+</body>
+</html>

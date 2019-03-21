@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="../include/setting::head"></head>
+<script>
+$(document).ready(function () {
+	$("#").on("click", function() {
+		var form_data = $("#notice_form").serialize();
+		$.ajax({
+			type: "POST",
+			url: "/admin/sendNotice",
+			data: form_data,
+			dataType: "text",
+			beforeSend: function(xhr) {
+				sendCsrfToken(xhr);
+			},
+			success: function(data) {
+				if(data == 'success') {
+					alert("공지를 성공적으로 추가하였습니다.");
+					// 소켓 이벤트 send 필요
+				} else {
+					alert("공지 추가를 실패하였습니다. 잠시 후에 다시 시도해주세요.");
+				}
+			}, error: function() {
+				alert("ajax 오류");
+			}
+		});
+	})
+});
+</script>
+<body>
+<div th:include="../include/modal"></div>
+<section th:include="../include/header::header"></section>
+ <div>
+        <h1>메세지 보내기</h1>
+        <form method="post" id="notice_form" action="#">
+            <table>
+                <caption>메세지</caption>
+                <tr>
+                    <th>
+                        <label for="message_text">공지 종류</label>
+                    </th>
+                    <td>
+                        <select name="event_type">
+                        	<option value="1">그룹요청</option>
+                        	<option value="2">친구요청</option>
+                        	<option value="3">쿠폰전송</option>
+                        	<option value="4">업데이트</option>
+                        	<option value="5">아기 예방접종</option>
+                        	<option value="6">아기 생일</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="message_text">내용</label>
+                    </th>
+                    <td>
+                        <input type="text" placeholder="내용" name="message_text" id="message_text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        대상
+                    </th>
+                    <td>
+                        <input type="radio" name="message_target" id="message_individual" value="individual"><label for="message_individual">개인</label>
+                        <input type="radio" name="message_target" id="message_all" value="all"><label for="message_all">모두</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="client_id">발행할 고객(id)</label>
+                    </th>
+                    <td>
+                        <input type="text" name="client_id" id="client_id"><button type="submit" id="send_admin_notice">보내기</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <!--쿠폰-->
+    <ul class="container">
+        <li><h1 id="coupon_title">쿠폰 관리</h1></li>
+        <li>
+            <h1>쿠폰 발행</h1>
+            <form method="post" action="/" class="coupon_form">
+                <legend>쿠폰 발행</legend>
+                <fieldset>
+                    <table>
+                        <thead>
+                        <tr class="row">
+                            <th scope="col" class="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="row">
+                            <td><label for="name">쿠폰명</label></td>
+                            <td><input type="text" name="name" id="name"></td>
+                        </tr>
+                        <tr class="row">
+                            <td scope="row">
+                                <label for="category">종류</label>
+                            </td>
+                            <td scope="row">
+                                <select name="category" id="category">
+                                    <!--값 임의로 조정-->
+                                    <option value="10000">10000 POINT</option>
+                                    <option value="30000">30000 POINT</option>
+                                    <option value="50000">50000 POINT</option>
+                                    <option value="100000">100000 POINT</option>
+                                    <option value="200000">200000 POINT</option>
+                                    <option value="500000">500000 POINT</option>
+                                    <option value="1000000">1000000 POINT</option>
+                                    <!--값 임의로 조정-->
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td scope="row">
+                                <label>생성 분류</label>
+                            </td>
+                            <td scope="row">
+                                <input type="radio" value="personal" id="radio1" name="recipient" checked="checked"><label for="radio1" title="지정한 한 명의 회원에게만 쿠폰을 발급합니다.">개인고객</label>
+                                <input type="radio" value="all" id="radio2" name="recipient"><label for="radio2" title="당 사이트의 모든 고객분들에게 쿠폰을 발급합니다.">모든 고객</label>
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td scope="row">
+                                <label>발행할 고객(id)</label>
+                            </td>
+                            <td colspan="2" scope="row">
+                                <input type="text" name="user_id2" id="personal_input">&nbsp;&nbsp;<input type="submit" value="생성" class="generate_coupon">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </form>
+        </li>
+    </ul>
+</body>
+</html>

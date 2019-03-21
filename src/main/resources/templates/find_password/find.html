@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<div id="firebaseui-auth-container" style="width:360px; max-width: 100%;" data-type="findId"></div>
+<section class="client-join-section section">
+    <div class="client-join-section--logo" th:text="#{google_join.logo}">
+        리틀원의 회원가입 섹션의 로고입니다.
+    </div>
+    <div class="client-join-section--bar"></div>
+    <div class="client-join-section--desc">
+        <h1 th:text="#{find_id.title}">아이디 찾기</h1>
+        <p id="find_id_result"></p>
+        <p th:text="#{find_id.msg}">휴대폰 인증을 통해 이메일 아이디를 찾아보실 수 있습니다.</p>
+    </div>
+    <div id="find-result-box">
+        <p th:text="#{find_id.none}">등록된 아이디가 없습니다.</p>
+        <a href="/login" th:text="#{find_id.login}">
+            로그인 화면으로
+        </a>
+    </div>
+    <div>
+        <form class="client-join-section--form" id="client-join-section--form" role="form" action="/find_email" method="POST">
+            <fieldset form="client-join-section--form">
+                <legend th:text="#{find_id.form}">리틀원의 아이디 찾기 폼입니다.</legend>
+                <div class="client-join-section--form--authorization-box">
+                    <a href="javascript:void(0)" class="__auth-client-phone-button" role="button" id="buttons">
+                        <span class="--mobile-icon" th:text="#{join.auth_phone}">휴대폰 인증</span>
+                        <input type="hidden" name="phone" value="">
+                        <input type="hidden" name="token" value="">
+                        <span class="__authorization"></span>
+                    </a>
+                </div>
+                <div class="client-join-section--form--warning" data-name="phone">
+                    <em th:if="${result_type != null && result_type == 'firebase_auth_failed'}" th:text="#{find_id.auth_failed}"></em>
+                    <em th:unless="${result_type != null && result_type == 'firebase_auth_failed'}"></em>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>
+<div id="loader"></div>
+<footer th:replace="./include/footer ::footer"></footer>
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+<script th:if="${session.tmp_locale ==  null}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__ko.js"></script>
+<script th:if="${#strings.equals(locale, 'ko')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__ko.js"></script>
+<script th:if="${#strings.equals(locale, 'en')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__en.js"></script>
+<script th:if="${#strings.equals(locale, 'ja')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__ja.js"></script>
+<script th:if="${#strings.equals(locale, 'zh')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__zh_cn.js"></script>
+<script th:src="@{~/js/api/fireBaseAuth.js}" type="text/javascript"></script>
+<script th:src="@{~/js/validation.js}"></script>
+<script th:src="@{~/js/littleone_script.js}"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+</body>
+</html>

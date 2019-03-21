@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body oncontextmenu="return false">
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<section class="delivery-manage-section">
+    <div class="delivery-manage-section--logo" th:text="#{address.logo}">리틀원의 배송지 관리 로고이미지입니다.</div>
+    <div>
+        <div class="delivery-manage-section-horizontal-bar"></div>
+    </div>
+    <div class="delivery-manage-section--desc">
+        <h1 th:text="#{address.title}">배송지 관리</h1>
+        <p th:text="#{address.title.msg}">자주 쓰는 배송지를 등록 및 관리하실 수 있습니다. (최대 3개)</p>
+    </div>
+    <div class="delivery-manage-section--button-box">
+        <button type="button" class="__register-address-btn" th:classappend="${address_list == null || #lists.size(address_list) < 3 ? 'active':null}" th:text="#{address.add}"></button>
+    </div>
+    <ul class="delivery-manage-section--list">
+        <li class="delivery-manage-section--list--info" th:if="${address_list != null && #lists.size(address_list) > 0}"
+            th:each="address : ${address_list}">
+            <div class="delivery-manage-section--list--info--head">
+                <h2 th:text="${address.address_name}"></h2><span th:if="${#strings.equals('y', address.default_check)}" th:text="#{address.default}">(기본 배송지)</span>
+            </div>
+            <div class="delivery-manage-section--list--info--desc">
+                <div>
+                    <div class="client-delivery-info" th:tex="#{address.addr}">주소</div>
+                    <div class="client-delivery-address" th:text="${address.zipcode +' '+ address.address1 +' '+address.address2 }"></div>
+                </div>
+                <div>
+                    <div class="client-delivery-info" th:text="#{address.recipient}">받는 사람</div>
+                    <div class="client-delivery-getter" th:text="${address.recipient_name}"></div>
+                </div>
+                <div>
+                    <div class="client-delivery-info" th:text="#{address.phone}">휴대전화</div>
+                    <div class="client-delivery-mobile" th:text="${address.recipient_phone}">010-8396-3007</div>
+                </div>
+                <div class="__last-components">
+                    <div class="client-delivery-info" th:text="#{address.phone.etc}">기타 연락처</div>
+                    <div class="client-delivery-other"
+                         th:text="${address.recipient_phone2 == null ||address.recipient_phone2=='' ? '()':address.recipient_phone2}">01083963007754
+                    </div>
+                </div>
+            </div>
+            <div class="delivery-manage-section--list--info--button-box">
+                <button type="button" class="__set-default-btn" th:unless="${#strings.equals('y', address.default_check)}" th:data-client-idx="${address.idx}">기본 배송지로 설정</button>
+                <button type="button" class="__modify-delivery-btn" th:data-client-idx="${address.idx}" th:text="#{address.submit}">수정</button>
+                <button type="button" class="__remove-delivery-btn" th:data-client-idx="${address.idx}" th:text="#{address.delete}">삭제</button>
+            </div>
+        </li>
+        <li th:if="${address_list == null}" class="none-address" th:text="#{address.none}">
+            등록된 배송지가 없습니다.
+        </li>
+    </ul>
+</section>
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/new_header.js}" type="text/javascript"></script>
+<script th:src="@{~/js/address_manage.js}" type="text/javascript"></script>
+<!--다음 우편번호 검색 동적로딩 script -->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+<script th:src="@{~/js/lib/daumPostCode.js}"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+<script th:replace="./include/handlebar_template :: handlebar_template"></script>
+</body>
+</html>

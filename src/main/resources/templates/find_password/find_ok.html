@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<section class="littleone-common-section password-change-section">
+    <div class="littleone-common-section--logo" th:text="#{find_password_ok.logo}">
+        리틀원의 비밀번호 변경 페이지의 로고입니다.
+    </div>
+    <div class="littleone-common-section--bar"></div>
+    <div class="littleone-common-section--desc">
+        <h1 th:text="#{find_password_ok}">비밀번호 변경</h1>
+    </div>
+    <form class="littleone-common-section--form" id="password-change-form" role="form" method="post" action="#">
+        <fieldset form="password-change-form">
+            <legend th:text="#{find_password_ok.form}">리틀원 비밀번호 변경 폼 입니다.</legend>
+            <div class="client-join-section--form--box">
+                <label for="password-input-component" class="password-icon" th:title="#{join.password.title}"></label>
+                <input type="password" name="new_password" required="required" value="" id="password-input-component" maxlength="20" th:placeholder="#{join.password.title}" autocapitalize="off" class="__default-input-component"/>
+                <button type="button" role="button" data-name="password" class="__remove-input-button" th:text="#{join.delete_input}">입력 값을 지웁니다.</button>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 12" class="__check-animation" data-name="password">
+                    <path fill="none" stroke="#19ebdd" stroke-width="3" stroke-miterlimit="10" d="M1.1,5.6"/>
+                </svg>
+            </div>
+            <div class="client-join-section--form--warning" data-name="password">
+                <em class="pass"></em>
+            </div>
+            <div class="client-join-section--form--box">
+                <label for="re-password-input-component" class="password-icon"
+                       th:title="#{join.password_confirm.placeholder}"></label>
+                <input type="password" name="new_password_config" value="" required="required" id="re-password-input-component" maxlength="20" th:placeholder="#{join.password_confirm.placeholder}" autocapitalize="off" class="__default-input-component"/>
+                <button type="button" role="button" data-name="re-password" class="__remove-input-button" th:text="#{join.delete_input}">입력 값을 지웁니다.</button>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 12" class="__check-animation" data-name="re-password">
+                    <path fill="none" stroke="#19ebdd" stroke-width="3" stroke-miterlimit="10" d="M1.1,5.6"/>
+                </svg>
+            </div>
+            <div class="client-join-section--form--warning" data-name="re-password">
+                <em></em>
+            </div>
+            <!-- <input type="hidden" id="find_type" th:value="${session.temp_token != null ? 'email' : 'phone'}"> -->
+            <button type="submit" role="button" class="__password-change-button __submit-btn" th:text="#{find_password_ok.confirm}">확인</button>
+        </fieldset>
+    </form>
+</section>
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/find/find_password.js}" type="text/javascript"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head">
+    <meta name="google-signin-client_id" content="178974824889-f5dae16987972p0mtablrl798gq7rlk2.apps.googleusercontent.com">
+</head>
+<body>
+<div th:if="${dormant_chk == 'true' || login_result =='password_renew_required'}" style="position: fixed; width:100%;height:100%; top:0;left:0;z-index: 5;background-color: #181818;opacity: .6;"></div>
+<header th:replace="./include/header::header"></header>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<div th:if="${dormant_chk == 'true'}">
+    <div th:replace="/modal/dormant.html :: dormant"></div>
+</div>
+<div th:if="${login_result != null && login_result == 'password_renew_required'}">
+    <div th:replace="/modal/expiryPassword.html :: expiryPassword"></div>
+</div>
+<section class="login-section security">
+    <div class="login-section--logo">
+        리틀원 로그인 섹션의 기업로고입니다.
+    </div>
+    <div class="login-section-form">
+        <form method="post" action="/login/post" role="form" id="littleone-login-form">
+            <fieldset>
+                <legend>리틀원의 로그인 페이지입니다. 아이디 비밀번호 입력 후 로그인 하실 수 있습니다.</legend>
+                <div class="login-section-form--box">
+                    <label for="user_email" class="client-email"></label>
+                    <input type="email" name="email" id="user_email" maxlength="42" required="required" autocapitalize="off" th:placeholder="#{login.email.placeholder}" th:value="${email == null ? '':email}"/>
+                    <button type="button" class="__remove-component __email" role="button" th:classappend="${email != null && #strings.length(email) > 0 ? 'active':null}">닫기</button>
+                </div>
+                <div class="login-section-form--box">
+                    <label for="user_password" class="client_password"></label>
+                    <input type="password" name="password" id="user_password" required="required" autocapitalize="off" th:placeholder="#{login.password.placeholder}" maxlength="16" th:value="${password == null ? '':password}"/>
+                    <button type="button" class="__remove-component __password" role="button" th:classappend="${password != null && #strings.length(password) > 0 ? 'active':null}">닫기</button>
+                    <button type="button" class="__check-client-password-num" role="button"></button>
+                </div>
+                <div class="login-section-warning-text"></div>
+                <div class="login-section-captcha-area" id="gcaptcha_div"></div>
+                <div class="login-section-form--submit">
+                    <input type="hidden" id="login_result" th:if="${login_result != null}" th:value="${login_result}"/>
+                    <input type="hidden" id="error_count" th:if="${login_error_count != null}" th:value="${login_error_count}"/>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="__login-button" role="button" th:text="#{header.login}">로그인</button>
+                </div>
+            </fieldset>
+            <div class="login-section-find-action-box">
+                <a href="#" class="__check-box-pointer">
+                    <span>자동 로그인 체크박스 입니다.
+                        <svg width="15" height="12" viewBox="0 0 15 12" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.708 0l-7.5 7.447-2.916-2.895L0 6.83 5.208 12 15 2.277z" fill="#9013FE"
+                                  fill-rule="nonzero" id="auto-check-svg"/>
+                        </svg>
+                    </span>
+                    <label for="auto-login" class="__set-auto-login" th:inline="text">[[#{login.auto_login}]]
+                        <input type="checkbox" name="auto_login" id="auto-login" class="__check-component"/>
+                    </label>
+                </a>
+                <div class="login-section-find-action-box--find-section">
+                    <a href="/find_email" class="__find-account" th:text="#{login_find_id}">아이디 찾기</a>
+                    <span class="login-section-find-action-box--find-section--vertical-bar"></span>
+                    <a href="/find_password" class="__find-password" th:text="#{login.find_password}">비밀번호 찾기</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <input type="hidden" id="dormant_chk_idx" th:if="${session.dormant_member_idx != null}" th:value="${session.dormant_member_idx}">
+    <div class="login-section-horizontal-line">
+        <em>OR</em>
+        <span class="login-section-horizontal-line--bar"></span>
+    </div>
+    <div class="login-section-social-media">
+        <a href="/naver_login" class="__access-naver-account"><span></span><em th:text="#{login.naver_login}">네이버 계정 로그인</em></a>
+        <a href="#" id="bg_google" class="__access-google-account"><span></span><em th:text="#{login.google_login}">구글 계정 로그인</em></a>
+    </div>
+    <div class="login-section-join">
+        <p th:text="#{login.msg}">아직 계정이 없으신가요?</p><a href="/join_personal" th:text="#{login.join}">회원가입</a>
+    </div>
+</section>
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/login_ajax.js}" th:inline="javascript" type="text/javascript"></script>
+<script th:src="@{~/js/google_login.js}" type="text/javascript"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://apis.google.com/js/api:client.js" type="text/javascript"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+<script th:if="${login_result == 'count_failed'}" type="text/javascript">
+    var onSubmit = function (token) {
+        token_val = token;
+    };
+
+    var onloadCallback = function () {
+        grecaptcha.render('gcaptcha_div', {
+            'sitekey': '6LeeEYAUAAAAANgKKvevChLUTcUWu1SSbwVCAQj3',
+            'callback': onSubmit
+        });
+    };
+
+</script>
+<script>startApp();</script>
+</body>
+</html>

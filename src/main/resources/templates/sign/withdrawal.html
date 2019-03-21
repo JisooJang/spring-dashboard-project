@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body oncontextmenu="return false">
+<section th:include="./include/header::header" th:if="${app != true}"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<section class="withdrawal-section section">
+    <div>
+        <div class="withdrawal-section--farewell">
+            리틀원의 회원탈퇴 안내 페이지 로고입니다.
+        </div>
+        <div class="withdrawal-section--desc">
+            <p>회원님의 탈퇴가 정상적으로 이루어졌습니다.</p>
+            <p>그 동안 리틀원을 이용해주셔서 감사드립니다.
+                앞으로 더 나은 서비스를 위해 더욱 개선하여
+                회원님을 다시 모실 수 있도록 노력하겠습니다.</p>
+            <p>감사합니다.</p>
+            <em>리틀원 드림</em>
+        </div>
+        <a href="/?thankyou=true">
+            <div class="withdrawal-section--logo"></div>
+        </a>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="dashboard--header" th:fragment="dashboard-header">
+    <!--클라이언트의 자녀-->
+    <div class="dashboard--header--babies">
+        <div class="baby-selected" th:classappend="${shared_infant != null ? 'baby-active':null}">
+            <a href="javascript:void(0)" th:if="${shared_infant != null}">
+                <img th:if="${shared_infant_thumbnail != null}"
+                     th:data-baby-idx="${shared_infant.idx}"
+                     th:title="${shared_infant.name != null ? shared_infant.name:'이름 없음'}"
+                     th:src="${shared_infant_thumbnail}" id="current-baby-info"/>
+
+                <img th:if="${shared_infant_thumbnail == null && #strings.equals(shared_infant.sex, 'm')}"
+                     th:data-baby-idx="${shared_infant.idx}"
+                     th:title="${shared_infant.name != null ? shared_infant.name:'이름 없음'}"
+                     src="/images/dashboard/card-baby-info-icn-biy@2x.png" id="current-baby-info"/>
+
+                <img th:if="${shared_infant_thumbnail == null && #strings.equals(shared_infant.sex, 'f')}"
+                     th:data-baby-idx="${shared_infant.idx}"
+                     th:title="${shared_infant.name != null ? shared_infant.name:'이름 없음'}"
+                     src="/images/dashboard/card-baby-info-icn-girl@2x.png" id="current-baby-info"/>
+            </a>
+            <a href="javascript:void(0)" th:unless="${shared_infant != null}" title="등록된 아기가 없습니다.">
+                <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGZpbGw9IiNDM0NCRDUiIGZpbGwtcnVsZT0ibm9uemVybyIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+PHBhdGggZD0iTTE5LjM0MSA2Mi4wMTJjLS4yMTcuMDY4LS40NDEuMTItLjY3MS4xNTYtMy4wNDUuNDcyLTUuOTg2LTIuMTg4LTYuNTctNS45NDItLjU4MS0zLjc1NCAxLjQxNS03LjE4IDQuNDYtNy42NTMuNjQtLjA5OSAxLjI3NS0uMDYgMS44ODUuMDk4IDIuNzY5LTIyLjk1IDE0LjYzMS0zMi41MTQgMzIuMzY2LTMyLjUxNCAxOC41MDcgMCAyOS4yODMgMTAuNTEyIDMyLjMzMSAzMi4zNDYuMTgtLjAwOC4zNjItLjAwNS41NDUuMDEgMy4wNzMuMjM0IDUuMzI5IDMuNDk2IDUuMDM4IDcuMjg0LS4yOSAzLjc4OC0zLjAxNiA2LjY2OC02LjA5IDYuNDMzYTQuNTkgNC41OSAwIDAgMS0uNTY0LS4wNzljLTQuMjQ2IDEyLjg3Ny0xNy4zMDcgMjEuODM2LTMxLjAzNyAyMS44MzYtMTQuMDc0IDAtMjcuNjYtOC4xMTMtMzEuNjkzLTIxLjk3NXoiIGZpbGw9IiNGQUZBRkEiLz48cGF0aCBkPSJNMzcuNSA0MS42MDNjMC0xLjU2OC41MDgtMy4xNTggMS41MjUtNC43NjggMS4wMTYtMS42MSAyLjUtMi45NDMgNC40NS00IDEuOTUtMS4wNTYgNC4yMjUtMS41ODUgNi44MjUtMS41ODUgMi40MTYgMCA0LjU1LjQ0MiA2LjQgMS4zMjUgMS44NS44ODQgMy4yNzkgMi4wODUgNC4yODggMy42MDQgMS4wMDggMS41MiAxLjUxMiAzLjE3IDEuNTEyIDQuOTU0IDAgMS40MDMtLjI4OCAyLjYzNC0uODYzIDMuNjlhMTEuMzA1IDExLjMwNSAwIDAgMS0yLjA1IDIuNzM3Yy0uNzkxLjc2OC0yLjIxMiAyLjA2LTQuMjYyIDMuODc3YTE3LjI1IDE3LjI1IDAgMCAwLTEuMzYzIDEuMzVjLS4zNDEuMzg4LS41OTYuNzQzLS43NjIgMS4wNjRhNS4xNyA1LjE3IDAgMCAwLS4zODguOTY3Yy0uMDkxLjMyMS0uMjI5Ljg4Ny0uNDEyIDEuNjk2LS4zMTcgMS43MTgtMS4zMDkgMi41NzYtMi45NzUgMi41NzYtLjg2NyAwLTEuNTk2LS4yOC0yLjE4OC0uODQyLS41OTEtLjU2MS0uODg3LTEuMzk1LS44ODctMi41MDIgMC0xLjM4Ny4yMTYtMi41ODguNjUtMy42MDNhOS4xMyA5LjEzIDAgMCAxIDEuNzI1LTIuNjc1Yy43MTYtLjc2OCAxLjY4My0xLjY4IDIuOS0yLjczNyAxLjA2Ni0uOTI1IDEuODM3LTEuNjIzIDIuMzEyLTIuMDkzLjQ3Ni0uNDcxLjg3NS0uOTk1IDEuMi0xLjU3M2EzLjc3NiAzLjc3NiAwIDAgMCAuNDg4LTEuODgzYzAtMS4zMi0uNDk2LTIuNDM1LTEuNDg3LTMuMzQ0LS45OTItLjkwNy0yLjI3Mi0xLjM2Mi0zLjgzOC0xLjM2Mi0xLjgzNCAwLTMuMTg0LjQ1OC00LjA1IDEuMzc1LS44NjcuOTE2LTEuNiAyLjI2Ni0yLjIgNC4wNS0uNTY3IDEuODY2LTEuNjQyIDIuNzk4LTMuMjI1IDIuNzk4LS45MzQgMC0xLjcyMS0uMzI1LTIuMzYzLS45NzgtLjY0MS0uNjUyLS45NjItMS4zNTgtLjk2Mi0yLjExOHpNNDkuNyA2OC43NWMtMS4wMTcgMC0xLjkwNC0uMzI2LTIuNjYzLS45NzgtLjc1OC0uNjUyLTEuMTM3LTEuNTY1LTEuMTM3LTIuNzM3IDAtMS4wNC4zNjYtMS45MTYgMS4xLTIuNjI2LjczMy0uNzEgMS42MzMtMS4wNjUgMi43LTEuMDY1IDEuMDUgMCAxLjkzMy4zNTUgMi42NSAxLjA2NS43MTYuNzEgMS4wNzUgMS41ODUgMS4wNzUgMi42MjYgMCAxLjE1Ni0uMzc1IDIuMDY0LTEuMTI1IDIuNzI0LS43NS42Ni0xLjYxNy45OTEtMi42Ljk5MXoiIGZpbGw9IiNDM0NCRDUiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L3N2Zz4=" id="current-baby-info"/>
+            </a>
+        </div>
+        <!--<ul th:unless="${infant == null}">-->
+            <!--<li th:unless="${infant == null}" th:each="infantArray : ${infant}">-->
+                <!--<a th:href="@{'/dashboard/select_infant/' + ${infantArray.idx}}"-->
+                   <!--th:if="${infantArray.thumbnail != null }">-->
+                    <!--<img class="current-baby"-->
+                         <!--th:classappend="${shared_infant.idx == infantArray.idx ? 'active':null}"-->
+                         <!--th:data-baby-idx="${infantArray.idx}"-->
+                         <!--th:src="${'https://s3.ap-northeast-2.amazonaws.com/littleone/thumbnail/infant/'+infantArray.thumbnail.server_file}"-->
+                         <!--src="">-->
+                <!--</a>-->
+                <!--<a th:href="@{'/dashboard/select_infant/' + ${infantArray.idx}}"-->
+                   <!--th:unless="${infantArray.thumbnail != null }">-->
+                    <!--<img class="current-baby"-->
+                         <!--th:classappend="${shared_infant.idx == infantArray.idx ? 'active':null}"-->
+                         <!--th:data-baby-gender="${#strings.equals(infantArray.sex,'m') ? '남아':'여아'}"-->
+                         <!--th:data-baby-idx="${infantArray.idx}"-->
+                         <!--th:title="${infantArray.name}"-->
+                         <!--th:src="${#strings.equals(infantArray.sex,'m') ? '/images/dashboard/icn-boy-small.svg':'/images/dashboard/icn-girl-small.svg'}"-->
+                         <!--src=""/>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    </div>
+    <!--클라이언트의 자녀-->
+    <!--날짜-->
+    <div class="dashboard--header--date">
+        <label for="dashboard--header--date__calendar"></label>
+        <input type="text" id="dashboard--header--date__calendar" class="dashboard--header--date__calendar"
+               readonly="readonly" th:if="${shared_infant!= null}"/>
+        <div class="dashboard--header--date--navigation">
+            <a href="#" class="dashboard--header--date--navigation__prev" role="button"
+               th:if="${shared_infant!= null}"></a>
+            <time id="selected_date" th:text="${selected_date}">선택 날짜</time>
+            <a href="#" class="dashboard--header--date--navigation__next" role="button"
+               th:if="${shared_infant!= null}"></a>
+        </div>
+    </div>
+    <div class="dashboard--header--info">
+        <h2 th:text="#{dashboard.recent_update}">최근 업데이트</h2>
+        <!-- <span th:text="#{dashboard.recent_update.msg}">* 앱 동기화 이후 약 10분 후에 업데이트됩니다.</span> -->
+        <div class="dashboard--header--info--devices">
+            <a href="javascript:void(0)" onclick="return false;">
+                <img src="/images/dashboard/web-update-icn-bottle.svg" alt="smartbottle latest update-time" width="auto" height="auto"/>
+                <time class="__bottle-time" th:text="${bottle_time != null} ? ${bottle_time} : #{dashboard.time.none}">00:00:00</time>
+            </a>
+            <a href="javascript:void(0)" onclick="return false;">
+                <img src="/images/dashboard/web-update-icn-peepee.svg" alt="smartbottle latest update-time" width="auto" height="auto"/>
+                <time class="__peepee-time" th:text="${peepee_time != null} ? ${peepee_time} : #{dashboard.time.none}">00:00:00</time>
+            </a>
+            <a href="javascript:void(0)" onclick="return false;">
+                <img src="/images/dashboard/web-update-icn-temp.svg" alt="smartbottle latest update-time" width="auto" height="auto"/>
+                <time class="__temp-time" th:text="${temp_time != null} ? ${temp_time} : #{dashboard.time.none}">00:00:00</time>
+            </a>
+        </div>
+    </div>
+    <!--날짜-->
+    <!--연동 스마트 기기-->
+    <div class="dashboard--header--devices">
+        <div class="dashboard--header--devices__desc">
+            <p th:inline="text">[[#{dashboard.device1}]]<br/>[[#{dashboard.device2}]]</p>
+        </div>
+        <div class="dashboard--header--devices__connected">
+            <img th:src="${device_list != null && device_list.bottle != null ? '/images/dashboard/dashboard-icn-bottle-active.svg':'/images/dashboard/dashboard-icn-bottle-inactive.svg'}"
+                 th:alt="${device_list != null && device_list.bottle != null} ? #{dashboard.connect.bottle} : #{dashboard.connect.none}"
+                 th:classappend="${device_list != null && device_list.bottle != null ?'active':null}" src="dd" width="auto" height="auto" th:title="${device_list != null && device_list.temp != null ?'연결 됨':null}"/>
+            <img th:src="${device_list != null && device_list.peepee != null ? '/images/dashboard/dashboard-icn-peepee-active.svg':'/images/dashboard/dashboard-icn-peepee-inactive.svg'}"
+                 th:alt="${device_list != null && device_list.peepee != null} ? #{dashboard.connect.peepee} : #{dashboard.connect.none}"
+                 th:classappend="${device_list != null && device_list.peepee != null ?'active':null}" src="dd" width="auto" height="auto" th:title="${device_list != null && device_list.temp != null ?'연결 됨':null}"/>
+            <img th:src="${device_list != null && device_list.temp != null ? '/images/dashboard/dashboard-icn-temp-active.svg':'/images/dashboard/dashboard-icn-temp-inactive.svg'}"
+                 th:alt="${device_list != null && device_list.temp != null} ? #{dashboard.connect.temp} : #{dashboard.connect.none}"
+                 th:classappend="${device_list != null && device_list.temp != null ?'active':null}" src="dd" width="auto" height="auto" th:title="${device_list != null && device_list.temp != null ?'연결 됨':null}"/>
+        </div>
+    </div>
+    <!--연동 스마트 기기-->
+    <input type="hidden" id="dashboard_date" th:if="${selected_date != null}" th:value="${selected_date}">
+</div>
+</body>
+</html>

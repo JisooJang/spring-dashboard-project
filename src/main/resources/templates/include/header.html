@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<section th:fragment="header">
+    <header class="header" th:classappend="${index_check== true? 'index-layout':null}">
+        <div>
+            <div class="header--logo">
+                <a href="/">
+                    <span class="__beta-testing"></span>
+                </a>
+            </div>
+            <nav class="header--navigation">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0)" class="link_device devices">
+                            <span th:classappend="${session.menu == 'device' ? 'active':null}" th:text="#{header.device}">�뵒諛붿씠�뒪</span>
+                            <div class="navigation__effect" th:classappend="${session.menu == 'device' ? 'active':null}"></div>
+                            <div class="selected_effect" th:if="${session.menu == 'device'}"></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard" class="link_device">
+                            <span th:classappend="${session.menu == 'dashboard' ? 'active':null}" th:text="#{header.dashboard}">���떆蹂대뱶</span>
+                            <div class="navigation__effect" th:classappend="${session.menu == 'dashboard' ? 'active':null}"></div>
+                            <div class="selected_effect" th:if="${session.menu == 'dashboard'}"></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/community" class="link_device">
+                            <span th:classappend="${session.menu == 'community' ? 'active':null}" th:text="#{community}">而ㅻ�ㅻ땲�떚</span>
+                            <div class="navigation__effect" th:classappend="${session.menu == 'community' ? 'active':null}"></div>
+                            <div class="selected_effect" th:if="${session.menu == 'community'}"></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/gallery" class="link_device">
+                            <span th:classappend="${session.menu == 'gallery' ? 'active':null}" th:text="#{header.gallery}">媛ㅻ윭由�</span>
+                            <div class="navigation__effect" th:classappend="${session.menu == 'gallery' ? 'active':null}"></div>
+                            <div class="selected_effect" th:if="${session.menu == 'gallery'}"></div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header--menu">
+                <div class="header--menu__login" th:if="${session.session_email == null}">
+                    <a href="/login" th:text="#{header.login}">
+                        濡쒓렇�씤
+                    </a>
+                </div>
+                <div class="header--menu__alarm" role="graphics-object" th:unless="${session.session_email == null}">
+                    <div class="header--menu__alarm__notification"></div>
+                    <div class="header--menu__alarm__message">
+                        <div class="menu_triangle"></div>
+                        <div class="header--menu__alarm__message__header">
+                            <h4 th:text="#{header.alert}">�븣由�</h4>
+                            <!--<button th:text="#{header.alert.set_read_all}" id="header_alarm_readAll" class="__read-all">紐⑤몢 �씫�� �긽�깭濡� �몴�떆</button>-->
+                        </div>
+                        <ul class="header--menu__alarm__message__list">
+                            <li class="default_message">
+                                <a href="#">
+                                    <p th:html="#{header.alert.error}"><em>�씪�떆�쟻�씤 �삤瑜�</em>濡쒕텋�윭�삤�뒗 �뜲 �떎�뙣�뻽�뒿�땲�떎.</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="header--menu__alarm__message__list-next">
+                            <button type="button" onclick="location.href = '/alarm_more'" th:text="#{header.alert.readAll}">紐⑤몢 蹂닿린</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="header--menu__client-info" role="graphics-symbol"
+                     th:unless="${session.session_email == null}">
+                    <a href="javascript:void(0)">
+                        <img src="" th:src="${(session.session_thumbnail != null && !#strings.isEmpty(session.session_thumbnail)) ? session.session_thumbnail : 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIyMHB4IiBoZWlnaHQ9IjIwcHgiIHZpZXdCb3g9IjAgMCAyMCAyMCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT43NzJFMThCMy0zQUFBLTRFMDEtOEQ5My0yQzVEMTY1ODdDMjE8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggc2tldGNodG9vbC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IldlYl9Nb2JpbGVXZWIiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9IldlYl9IZWFkZXJfQWZ0ZXJMb2dpbiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE2MTIuMDAwMDAwLCAtMjAuMDAwMDAwKSIgZmlsbD0iI0MzQ0JENSI+ICAgICAgICAgICAgPGcgaWQ9IldlYl9IZWFkZXJfSWNuX1VzZXIiPiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYyMiw0MCBDMTYxNi40NzcxNSw0MCAxNjEyLDM1LjUyMjg0NzUgMTYxMiwzMCBDMTYxMiwyNC40NzcxNTI1IDE2MTYuNDc3MTUsMjAgMTYyMiwyMCBDMTYyNy41MjI4NSwyMCAxNjMyLDI0LjQ3NzE1MjUgMTYzMiwzMCBDMTYzMiwzNS41MjI4NDc1IDE2MjcuNTIyODUsNDAgMTYyMiw0MCBaIE0xNjIyLDMxIEMxNjIwLjYwNDU3LDMxIDE2MTkuNDY4ODYsMjkuODY0Mjg1NyAxNjE5LjQ2ODg2LDI4LjQ2ODg1NzEgQzE2MTkuNDY4ODYsMjcuMDcyNTcxNCAxNjIwLjYwNDU3LDI1LjkzNzcxNDMgMTYyMiwyNS45Mzc3MTQzIEMxNjIzLjM5NTQzLDI1LjkzNzcxNDMgMTYyNC41MzExNCwyNy4wNzI1NzE0IDE2MjQuNTMxMTQsMjguNDY4ODU3MSBDMTYyNC41MzExNCwyOS44NjQyODU3IDE2MjMuMzk1NDMsMzEgMTYyMiwzMSBaIE0xNjI2LjI0Mjg2LDMyLjc1NzE0MjkgQzE2MjUuNTg4ODYsMzIuMTA0IDE2MjQuODExNDMsMzEuNjIwNTcxNCAxNjIzLjk2Mjg2LDMxLjMyNzQyODYgQzE2MjQuODcyMjksMzAuNzAwODU3MSAxNjI1LjQ2ODg2LDI5LjY1MzQyODYgMTYyNS40Njg4NiwyOC40Njg4NTcxIEMxNjI1LjQ2ODg2LDI2LjU1NTcxNDMgMTYyMy45MTIyOSwyNSAxNjIyLDI1IEMxNjIwLjA4NzcxLDI1IDE2MTguNTMxMTQsMjYuNTU1NzE0MyAxNjE4LjUzMTE0LDI4LjQ2ODg1NzEgQzE2MTguNTMxMTQsMjkuNjUzNDI4NiAxNjE5LjEyODU3LDMwLjcwMDg1NzEgMTYyMC4wMzcxNCwzMS4zMjc0Mjg2IEMxNjE5LjE4ODU3LDMxLjYyMDU3MTQgMTYxOC40MTExNCwzMi4xMDQgMTYxNy43NTcxNCwzMi43NTcxNDI5IEMxNjE2LjYyNCwzMy44OTAyODU3IDE2MTYsMzUuMzk3MTQyOSAxNjE2LDM3IEwxNjE2LjkzNzcxLDM3IEMxNjE2LjkzNzcxLDM0LjIwODI4NTcgMTYxOS4yMDgyOSwzMS45Mzc3MTQzIDE2MjIsMzEuOTM3NzE0MyBDMTYyNC43OTE3MSwzMS45Mzc3MTQzIDE2MjcuMDYyMjksMzQuMjA4Mjg1NyAxNjI3LjA2MjI5LDM3IEwxNjI4LDM3IEMxNjI4LDM1LjM5NzE0MjkgMTYyNy4zNzUxNCwzMy44OTAyODU3IDE2MjYuMjQyODYsMzIuNzU3MTQyOSBaIj48L3BhdGg+ICAgICAgICAgICAgPC9nPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+'}" th:alt="${session.session_email+'�떂�쓽 �봽濡쒗븘 �씠誘몄� �엯�땲�떎.'}"/>
+                    </a>
+                    <div>
+                        <div class="menu_triangle"></div>
+                        <div class="header--menu__client-info__head">
+                            <img src="" th:src="${(session.session_thumbnail != null && !#strings.isEmpty(session.session_thumbnail)) ? session.session_thumbnail:'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIyMHB4IiBoZWlnaHQ9IjIwcHgiIHZpZXdCb3g9IjAgMCAyMCAyMCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT43NzJFMThCMy0zQUFBLTRFMDEtOEQ5My0yQzVEMTY1ODdDMjE8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggc2tldGNodG9vbC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IldlYl9Nb2JpbGVXZWIiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9IldlYl9IZWFkZXJfQWZ0ZXJMb2dpbiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE2MTIuMDAwMDAwLCAtMjAuMDAwMDAwKSIgZmlsbD0iI0MzQ0JENSI+ICAgICAgICAgICAgPGcgaWQ9IldlYl9IZWFkZXJfSWNuX1VzZXIiPiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYyMiw0MCBDMTYxNi40NzcxNSw0MCAxNjEyLDM1LjUyMjg0NzUgMTYxMiwzMCBDMTYxMiwyNC40NzcxNTI1IDE2MTYuNDc3MTUsMjAgMTYyMiwyMCBDMTYyNy41MjI4NSwyMCAxNjMyLDI0LjQ3NzE1MjUgMTYzMiwzMCBDMTYzMiwzNS41MjI4NDc1IDE2MjcuNTIyODUsNDAgMTYyMiw0MCBaIE0xNjIyLDMxIEMxNjIwLjYwNDU3LDMxIDE2MTkuNDY4ODYsMjkuODY0Mjg1NyAxNjE5LjQ2ODg2LDI4LjQ2ODg1NzEgQzE2MTkuNDY4ODYsMjcuMDcyNTcxNCAxNjIwLjYwNDU3LDI1LjkzNzcxNDMgMTYyMiwyNS45Mzc3MTQzIEMxNjIzLjM5NTQzLDI1LjkzNzcxNDMgMTYyNC41MzExNCwyNy4wNzI1NzE0IDE2MjQuNTMxMTQsMjguNDY4ODU3MSBDMTYyNC41MzExNCwyOS44NjQyODU3IDE2MjMuMzk1NDMsMzEgMTYyMiwzMSBaIE0xNjI2LjI0Mjg2LDMyLjc1NzE0MjkgQzE2MjUuNTg4ODYsMzIuMTA0IDE2MjQuODExNDMsMzEuNjIwNTcxNCAxNjIzLjk2Mjg2LDMxLjMyNzQyODYgQzE2MjQuODcyMjksMzAuNzAwODU3MSAxNjI1LjQ2ODg2LDI5LjY1MzQyODYgMTYyNS40Njg4NiwyOC40Njg4NTcxIEMxNjI1LjQ2ODg2LDI2LjU1NTcxNDMgMTYyMy45MTIyOSwyNSAxNjIyLDI1IEMxNjIwLjA4NzcxLDI1IDE2MTguNTMxMTQsMjYuNTU1NzE0MyAxNjE4LjUzMTE0LDI4LjQ2ODg1NzEgQzE2MTguNTMxMTQsMjkuNjUzNDI4NiAxNjE5LjEyODU3LDMwLjcwMDg1NzEgMTYyMC4wMzcxNCwzMS4zMjc0Mjg2IEMxNjE5LjE4ODU3LDMxLjYyMDU3MTQgMTYxOC40MTExNCwzMi4xMDQgMTYxNy43NTcxNCwzMi43NTcxNDI5IEMxNjE2LjYyNCwzMy44OTAyODU3IDE2MTYsMzUuMzk3MTQyOSAxNjE2LDM3IEwxNjE2LjkzNzcxLDM3IEMxNjE2LjkzNzcxLDM0LjIwODI4NTcgMTYxOS4yMDgyOSwzMS45Mzc3MTQzIDE2MjIsMzEuOTM3NzE0MyBDMTYyNC43OTE3MSwzMS45Mzc3MTQzIDE2MjcuMDYyMjksMzQuMjA4Mjg1NyAxNjI3LjA2MjI5LDM3IEwxNjI4LDM3IEMxNjI4LDM1LjM5NzE0MjkgMTYyNy4zNzUxNCwzMy44OTAyODU3IDE2MjYuMjQyODYsMzIuNzU3MTQyOSBaIj48L3BhdGg+ICAgICAgICAgICAgPC9nPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+'}" th:alt="${session.nickname+'�떂�쓽 �뜽�꽕�씪 �씠誘몄� �엯�땲�떎.'}">
+                            <div class="header--menu__client-info__head--desc">
+                                <p th:text="${session.nickname}">�땳�꽕�엫<span>�떂</span></p>
+                                <div>
+                                    <span th:if="${session.grade != null}" th:text="#{header.grade} + ${session.grade} + #{header.grade.suffix}">�벑湲� : 怨⑤뱶</span>
+                                    <span th:if="${session.point != null}" th:text="#{header.point} + ${session.point + 'p'}">�룷�씤�듃 : 2,340 P</span>
+                                </div>
+                            </div>
+                            <div class="header--menu__client-info__head--more">
+                                <a th:href="@{'/community/view_member_info/'+ ${session.idx}+'/board/1'}" role="button" class="more-info__button" th:text="#{header.more_info}">�뜑蹂닿린</a>
+                                <div class="header--menu__client-info__head--more--bottom-bar"></div>
+                            </div>
+                        </div>
+                        <ul class="header--menu__client-info__list">
+                            <li>
+                                <a href="/mypage/modify_info" th:text="#{header.modify_info}">�쉶�썝�젙蹂� �닔�젙</a>
+                            </li>
+                            <li>
+                                <a href="#" id="modify_password_menu" th:text="#{header.modify_password}">鍮꾨�踰덊샇 蹂�寃�</a>
+                            </li>
+                            <!-- <li>
+                                <a href="/address_list" th:text="#{header.address_list}">諛곗넚吏� 愿�由�</a>
+                            </li> -->
+                            <li>
+                                <a href="/mypage/setting" th:text="#{header.setting}">�솚寃� �꽕�젙</a>
+                            </li>
+                        </ul>
+                        <div class="header--menu__client-info__logout">
+                            <a th:if="${session.session_type != 'admin'}" href="/logout" th:text="#{header.logout}">濡쒓렇�븘�썐</a>
+                            <a th:unless="${session.session_type != 'admin'}" href="/admin/logout" th:text="#{header.logout}">濡쒓렇�븘�썐</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="header--hamburger">
+                <a href="#" class="header--hamburger__menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+            </div>
+
+        </div>
+        <div class="header--sublink">
+            <nav class="header--sublink__device">
+                <a href="/device/smartbottle" class="header--sublink__device__smart-bottle">
+                    <div></div>
+                    <span th:text="#{bottle}">�뒪留덊듃 蹂댄�</span>
+                </a>
+                <a href="/device/smartpeepee" class="header--sublink__device__smart-peepee">
+                    <div></div>
+                    <span th:text="#{peepee}">�뒪留덊듃 �뵾�뵾</span>
+                </a>
+                <a href="/device/smarttemp" class="header--sublink__device__smart-temp">
+                    <div></div>
+                    <span th:text="#{temp}">�뒪留덊듃 �뀥�봽</span>
+                </a>
+            </nav>
+        </div>
+        <div class="header--mobile">
+            <nav class="slide-nav">
+                <ol class="header--mobile--menu">
+                    <li class="header--mobile--menu__device">
+                        <a href="/device/smartbottle" th:text="#{header.device}">�뵒諛붿씠�뒪</a>
+                    </li>
+                    <li class="header--mobile--menu__shopping">
+                        <a href="/dashboard" th:text="#{header.dashboard}">���떆蹂대뱶</a>
+                    </li>
+                    <!--<li class="header&#45;&#45;mobile&#45;&#45;menu__community">-->
+                        <!--<a href="/community" th:text="#{community}">而ㅻ�ㅻ땲�떚</a>-->
+                    <!--</li>-->
+                    <!--<li class="header&#45;&#45;mobile&#45;&#45;menu__dashboard">-->
+                        <!--<a href="/gallery" th:text="#{header.gallery}">媛ㅻ윭由�</a>-->
+                    <!--</li>-->
+                </ol>
+                <div class="header--mobile--user-info">
+                    <div class="menu_triangle"></div>
+                    <div class="header--menu__client-info__head"  th:unless="${session.session_email == null}">
+                        <img src="" th:src="${(session.session_thumbnail != null && !#strings.isEmpty(session.session_thumbnail)) ? session.session_thumbnail:'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIyMHB4IiBoZWlnaHQ9IjIwcHgiIHZpZXdCb3g9IjAgMCAyMCAyMCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT43NzJFMThCMy0zQUFBLTRFMDEtOEQ5My0yQzVEMTY1ODdDMjE8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggc2tldGNodG9vbC48L2Rlc2M+ICAgIDxkZWZzPjwvZGVmcz4gICAgPGcgaWQ9IldlYl9Nb2JpbGVXZWIiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPiAgICAgICAgPGcgaWQ9IldlYl9IZWFkZXJfQWZ0ZXJMb2dpbiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE2MTIuMDAwMDAwLCAtMjAuMDAwMDAwKSIgZmlsbD0iI0MzQ0JENSI+ICAgICAgICAgICAgPGcgaWQ9IldlYl9IZWFkZXJfSWNuX1VzZXIiPiAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMTYyMiw0MCBDMTYxNi40NzcxNSw0MCAxNjEyLDM1LjUyMjg0NzUgMTYxMiwzMCBDMTYxMiwyNC40NzcxNTI1IDE2MTYuNDc3MTUsMjAgMTYyMiwyMCBDMTYyNy41MjI4NSwyMCAxNjMyLDI0LjQ3NzE1MjUgMTYzMiwzMCBDMTYzMiwzNS41MjI4NDc1IDE2MjcuNTIyODUsNDAgMTYyMiw0MCBaIE0xNjIyLDMxIEMxNjIwLjYwNDU3LDMxIDE2MTkuNDY4ODYsMjkuODY0Mjg1NyAxNjE5LjQ2ODg2LDI4LjQ2ODg1NzEgQzE2MTkuNDY4ODYsMjcuMDcyNTcxNCAxNjIwLjYwNDU3LDI1LjkzNzcxNDMgMTYyMiwyNS45Mzc3MTQzIEMxNjIzLjM5NTQzLDI1LjkzNzcxNDMgMTYyNC41MzExNCwyNy4wNzI1NzE0IDE2MjQuNTMxMTQsMjguNDY4ODU3MSBDMTYyNC41MzExNCwyOS44NjQyODU3IDE2MjMuMzk1NDMsMzEgMTYyMiwzMSBaIE0xNjI2LjI0Mjg2LDMyLjc1NzE0MjkgQzE2MjUuNTg4ODYsMzIuMTA0IDE2MjQuODExNDMsMzEuNjIwNTcxNCAxNjIzLjk2Mjg2LDMxLjMyNzQyODYgQzE2MjQuODcyMjksMzAuNzAwODU3MSAxNjI1LjQ2ODg2LDI5LjY1MzQyODYgMTYyNS40Njg4NiwyOC40Njg4NTcxIEMxNjI1LjQ2ODg2LDI2LjU1NTcxNDMgMTYyMy45MTIyOSwyNSAxNjIyLDI1IEMxNjIwLjA4NzcxLDI1IDE2MTguNTMxMTQsMjYuNTU1NzE0MyAxNjE4LjUzMTE0LDI4LjQ2ODg1NzEgQzE2MTguNTMxMTQsMjkuNjUzNDI4NiAxNjE5LjEyODU3LDMwLjcwMDg1NzEgMTYyMC4wMzcxNCwzMS4zMjc0Mjg2IEMxNjE5LjE4ODU3LDMxLjYyMDU3MTQgMTYxOC40MTExNCwzMi4xMDQgMTYxNy43NTcxNCwzMi43NTcxNDI5IEMxNjE2LjYyNCwzMy44OTAyODU3IDE2MTYsMzUuMzk3MTQyOSAxNjE2LDM3IEwxNjE2LjkzNzcxLDM3IEMxNjE2LjkzNzcxLDM0LjIwODI4NTcgMTYxOS4yMDgyOSwzMS45Mzc3MTQzIDE2MjIsMzEuOTM3NzE0MyBDMTYyNC43OTE3MSwzMS45Mzc3MTQzIDE2MjcuMDYyMjksMzQuMjA4Mjg1NyAxNjI3LjA2MjI5LDM3IEwxNjI4LDM3IEMxNjI4LDM1LjM5NzE0MjkgMTYyNy4zNzUxNCwzMy44OTAyODU3IDE2MjYuMjQyODYsMzIuNzU3MTQyOSBaIj48L3BhdGg+ICAgICAgICAgICAgPC9nPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+'}" th:alt="${session.nickname+'�떂�쓽 �뜽�꽕�씪 �씠誘몄� �엯�땲�떎.'}">
+                        <div class="header--menu__client-info__head--desc">
+                            <p th:text="${session.nickname != null ? session.nickname:session.session_email}">�땳�꽕�엫<span>�떂</span></p>
+                            <div>
+                                <span th:if="${session.grade != null}" th:text="#{header.grade} + ${session.grade} + #{header.grade.suffix}">�벑湲� : 怨⑤뱶</span>
+                                <span th:if="${session.point != null}" th:text="#{header.point} + ${session.point + 'p'}">�룷�씤�듃 : 2,340 P</span>
+                            </div>
+                        </div>
+                        <div class="header--menu__client-info__head--more">
+                            <a th:href="@{'/community/view_member_info/'+ ${session.idx}+'/board/1'}" role="button" class="more-info__button" th:text="#{header.more_info}">�뜑蹂닿린</a>
+                            <div class="header--menu__client-info__head--more--bottom-bar"></div>
+                        </div>
+                    </div>
+                    <ul class="header--mobile--user-info__list" th:unless="${session.session_email == null}">
+                        <li>
+                            <a href="/mypage/modify_info" th:text="#{header.modify_info}">�쉶�썝�젙蹂� �닔�젙</a>
+                        </li>
+                        <li>
+                            <a href="/mypage/modify_password" th:text="#{header.modify_password}">鍮꾨�踰덊샇 蹂�寃�</a>
+                        </li>
+                        <!--<li>-->
+                            <!--<a href="/address_list" th:text="#{header.address_list}">諛곗넚吏� 愿�由�</a>-->
+                        <!--</li>-->
+                        <li>
+                            <a href="/mypage/setting" th:text="#{header.setting}">�솚寃� �꽕�젙</a>
+                        </li>
+                    </ul>
+                    <div class="header--mobile--user-info__logout">
+                        <a th:if="${session.session_email == null}" href="/login" th:text="#{header.login}">濡쒓렇�씤�꺕�쉶�썝媛��엯</a>
+                        <a th:unless="${session.session_email == null}" href="/logout" th:text="#{header.logout}">濡쒓렇�븘�썐</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="header--mobile__alarm__message">
+                <div class="menu_triangle"></div>
+                <div class="header--menu__alarm__message__header">
+                    <h4 th:text="#{header.alert}">�븣由�</h4>
+                    <button th:text="#{header.alert.set_read_all}">紐⑤몢 �씫�� �긽�깭濡� �몴�떆</button>
+                </div>
+                <ul class="header--mobile__alarm__message__list">
+                    <li class="default_message">
+                        <a href="#">
+                            <p th:html="#{header.alert.error}"><em>�씪�떆�쟻�씤 �삤瑜�</em>濡쒕텋�윭�삤�뒗 �뜲 �떎�뙣�뻽�뒿�땲�떎.</p>
+                        </a>
+                    </li>
+                </ul>
+                <div class="header--mobile__alarm__message__list-next">
+                    <button type="button" onclick="location.href = '/alarm_more'" th:text="#{header.alert.readAll}">紐⑤몢 蹂닿린</button>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" th:if="${session.idx != null}" id="session_idx" th:value="${session.idx}">
+        <input type="hidden" th:if="${session.infant_idx != null}" id="infant_idx" th:value="${session.infant_idx}">
+    </header>
+</section>
+<script></script>
+</body>
+</html>

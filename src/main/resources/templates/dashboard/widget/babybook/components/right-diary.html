@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<body>
+<!--diary_list_by_Member:최근에 작성된 다이어리, babybook객체에 diary_list,schedule_list-->
+<div class="dashboard-babybook--box--section babybook-list active" id="dashboard-babybook-section" th:fragment="right-diary">
+    <div class="dashboard-babybook--box--section--head">
+        <h2 class="dashboard-babybook--box--section--head--title" th:text="#{diary.list}">일기 목록</h2>
+        <span class="dashboard-babybook--box--section__schedule-alarm" id="babybook-count-component" th:classappend="${diary_list != null && #arrays.length(diary_list) > 0 ? 'active':null}"  th:text="${diary_list != null &&  #arrays.length(diary_list) > 0 ? '+'+#arrays.length(diary_list) : null}">+ 일기 갯수</span>
+    </div>
+    <ul role="listbox" class="dashboard-babybook--box--section--list" id="babybook-list-container">
+        <li role="listitem" th:if="${diary_list != null}" th:each="diary, iter: ${diary_list}" class="__diary-list"
+            th:data-diary-idx="${diary.idx}" th:data-diary-time="${diary.date_created}"
+            th:data-diary-subject="${diary.subject}"
+            th:data-diary-contents="${diary.contents}">
+            <a href="javascript:void(0)" role="link">
+                <div class="list--info">
+                    <div class="list--info--time">
+                        <time th:text="${diary.date_created}">생성된 시간</time>
+                    </div>
+                    <div class="list--info--status">
+                        <span class="appointment"></span>
+                    </div>
+                    <div class="list--info--desc">
+                        <p th:text="${diary.subject}">일기 제목</p>
+                    </div>
+                    <div class="list--info--image">
+                        <img th:src="${#arrays.isEmpty(diary.id_files) == false ? diary.id_files[0].file_url:'data:image/png;base64,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'}"/>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li th:unless="${diary_list != null}">
+            <a class="none-schedule" href="javascript:void(0);" th:html="#{diary.add.msg}">
+                +&nbsp;&nbsp;일기를 추가하세요.
+            </a>
+        </li>
+    </ul>
+    <div class="dashboard-babybook--box--section--edit-box babybook-list">
+        <div id="babybook-handler">
+            <button type="button" role="button" class="__delete-button" th:text="#{schedule.delete}">삭제하기</button>
+            <button type="button" role="button" class="__modify-button" th:text="#{schedule.edit}">편집하기</button>
+            <button type="button" role="button" class="__register-button" th:text="#{diary.new}">새글쓰기</button>
+        </div>
+    </div>
+    <section class="baby-book-upload-section">
+        <form enctype="multipart/form-data" id="dashboard-babybook-form" method="post">
+            <div class="babybook-image-container">
+                <div class="babybook-image-container--image current-image" id="current-image">
+                    <div class="__image-handler" data-order="0">
+                        <img src="data:image/png;base64,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"
+                             data-order="0" class="thumb" id="main-diary-image" width="auto" height="auto"/>
+                    </div>
+                    <button type="button" class="__remove-image-button" role="button" th:text="#{diary.close}">닫기</button>
+                </div>
+                <div class="babybook-image-container--image">
+                    <div class="__image-handler" data-order="1">
+                        <img src="data:image/png;base64,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"
+                             data-order="1" class="thumb convey-image" width="auto" height="auto"/>
+                    </div>
+                    <div class="__image-handler" data-order="2">
+                        <img src="data:image/png;base64,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"
+                             data-order="2" class="thumb convey-image" width="auto" height="auto"/>
+                    </div>
+                    <div class="__image-handler" data-order="3">
+                        <img src="data:image/png;base64,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"
+                             data-order="3" class="thumb convey-image" width="auto" height="auto"/>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-babybook--box--section--file-upload">
+                <div class="upload-box">
+                    <input class="upload-box__upload" type="text" value="이미지를 업로드해주세요." disabled="disabled"/>
+                    <label for="upload-box--hidden" th:text="#{diary.upload}">업로드</label>
+                    <div class="upload-box--checkbox">
+                        <label for="share-babybook" th:text="#{diary.share}">선택한 대표 이미지 및 일기를 커뮤니티>갤러리에 공유합니다.</label>
+                        <div>
+                            <label for="share-babybook" th:text="#{share}">공유</label>
+                            <div class="__shared-checked-box"></div>
+                            <input id="share-babybook" class="upload-box--checkbox__share" type="checkbox" name="share" value="0"/>
+                        </div>
+                    </div>
+                    <input type="file" class="upload-box--hidden" id="upload-box--hidden" name="babybook_image" accept="image/*"/>
+                    <div id="file-list"></div>
+                    <div id="share-list"></div>
+                </div>
+            </div>
+            <!--<div class="empty-section"></div>-->
+            <div class="dashboard-babybook--form">
+                <legend th:text="#{diary.form}">육아일기 작성 폼</legend>
+                <div class="dashboard-babybook--container title-input">
+                    <div class="__validation-text" th:text="#{diary.subject}">제목을 입력하세요. (최소 2자)</div>
+                    <label for="dashboard-babybook--container--title">
+                        <input type="text" name="title" value="" class="dashboard-babybook--container--title" id="dashboard-babybook--container--title" th:placeholder="#{community.subject}"/>
+                    </label>
+                    <span class="dashboard-babybook--container__count" data-cs-maxlength="60">0/60</span>
+                </div>
+                <div class="dashboard-babybook--container contents-input">
+                    <div class="__validation-text" th:text="#{diary.contents}">내용을 입력하세요. (최소 5자)</div>
+                    <label for="dashboard-babybook--container--contents">
+                        <textarea cols="41" class="dashboard-babybook--container--contents" name="update_contents" id="dashboard-babybook--container--contents" th:placeholder="#{community.contents}"></textarea>
+                    </label>
+                    <span class="dashboard-babybook--container__count" data-cs-maxlength="500">0/500</span>
+                </div>
+                <div class="dashboard-babybook--container tag-box">
+                    <div class="tag-box--list">
+                        <a href="javascript:void(0)" id="hash-station"></a>
+                        <label for="hash-tag-input">
+                            <input type="text" th:placeholder="#{diary.tag}" class="__tags" id="hash-tag-input" autocapitalize="off" maxlength="20"/>
+                        </label>
+                    </div>
+                    <button type="button" role="button" class="__add-tags" th:text="#{add}">추가</button>
+                </div>
+                <div class="dashboard-babybook--container-save">
+                    <button type="submit" role="button" class="__save-babybook-button active" th:text="#{schedule.save}">저장하기</button>
+                    <button type="submit" role="button" class="__modify-babybook-button" th:text="#{diary.modify}">수정하기</button>
+                </div>
+                <input type="hidden" name="event_date" value=""/>
+            </div>
+        </form>
+        <div class="dashboard-babybook-view">
+            <div class="dashboard-babybook-view--title">
+                <h3></h3>
+                <time></time>
+                <label th:text="#{diary.open}">전체공개</label>
+            </div>
+            <div class="dashboard-babybook-view--image">
+                <div class="slider">
+                    <img src="/images/default-person.svg" width="auto" height="auto">
+                    <img src="/images/default-person.svg" width="auto" height="auto">
+                    <img src="/images/default-person.svg" width="auto" height="auto">
+                    <img src="/images/default-person.svg" width="auto" height="auto">
+                </div>
+                <div class="__image-index">
+                    <div>
+                        <span>1/4</span>
+                    </div>
+                </div>
+                <a href="#" class="__download-image" target="_blank">
+                    <div th:text="#{diary.download}">다운로드</div>
+                    <iframe src="" frameborder="0" style="display: none;" id="download"></iframe>
+                </a>
+            </div>
+            <div class="dashboard-babybook-view--contents">
+                <p>간만에 목욕을 시켰더니 하루종일 울어요...ㅠㅠ 우리 딸래미님은
+                    누굴 닮아서 이렇게 우나요? 난 어릴 때 한번도 안 울었잖ddddddddddddddddddddddd냐</p>
+                <span class="__more-button">더보기</span>
+            </div>
+            <div class="dashboard-babybook-view--tags">
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

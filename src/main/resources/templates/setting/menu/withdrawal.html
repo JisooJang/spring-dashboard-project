@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<h1 class="web-setting-section--container--options--head withdrawal-icon" th:text="#{setting.withdrawal}">
+    회원 탈퇴
+</h1>
+<ul class="web-setting-section--container--options--measure-list">
+    <li class="leaving-list">
+        <div class="web-setting-section--container--options--measure-list--desc">
+            <h2 th:text="#{setting.withdrawal}">회원 탈퇴</h2>
+            <p th:if="${#strings.equals(session.session_type, 'personal')}" th:text="#{setting.withdrawal.password}">리틀원을 탈퇴하시려면 비밀번호를 입력해주세요.</p>
+            <p th:if="${#strings.equals(session.session_type, 'personal_s')}" th:text="#{setting.withdrawal.mail_auth}">리틀원을 탈퇴하시려면 아래의 이메일 인증 버튼을 눌러주세요.</p>
+            <div class="client-leaving-component">
+                <form th:if="${#strings.equals(session.session_type, 'personal')}" id="client-withdrawal-form" method="post">
+                    <fieldset form="client-withdrawal-form">
+                        <legend th:text="#{setting.withdrawal.form}">리틀원 회원 탈퇴 이력 폼입니다.</legend>
+                        <div class="client-leaving-component--container">
+                            <input type="password" name="withdrawal-password" role="textbox" placeholder="비밀번호를 입력하세요."/>
+                            <button type="button" class="__remove-input-button" th:text="#{setting.reset.password}">엔터키를 입력시 비밀번호 입력을 초기화합니다.</button>
+                        </div>
+                        <button type="button" class="__leaving-submit-button" th:text="#{setting.withdrawal.submit}">탈퇴</button>
+                    </fieldset>
+                </form>
+                
+                <form th:if="${#strings.equals(session.session_type, 'personal_s')}" id="client-withdrawal-form" method="post">
+                    <fieldset form="client-withdrawal-form">
+                        <legend th:text="#{setting.withdrawal.form}">리틀원 회원 탈퇴 이력 폼입니다.</legend>
+                        <div class="client-leaving-component--container">
+                            <button type="button" class="sns_leave_mail_btn" th:text="#{setting.withdrawal.main_auth_btn}">이메일 인증</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </li>
+</ul>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<body>
+<div class="dormant-client-form modal-form" th:fragment="dormant">
+    <div class="dormant-client-form--logo">
+        휴면계정 처리 안내 로고입니다.
+    </div>
+    <div class="dormant-client-form--bar"></div>
+    <div class="dormant-client-form--desc">
+        <h1>휴면계정 처리 안내</h1>
+        <p>휴면계정 서비스는 리틀원 서비스 이용시 자동으로 제공되는 서비스입니다.</p>
+        <p>마지막 접속일이&nbsp; 1년을 경과하여 회원님의 계정이 휴면처리 되었습니다.<strong>휴면처리 해제</strong>를 선택하시면 바로 계정을 다시 이용하실 수 있습니다.</p>
+        <time th:text="${'마지막 접속일 : ' + last_login_date}">마지막 접속일 : 2018-01-01</time>
+    </div>
+    <a href="javascript:void(0)" role="button" class="__release-dormant-button">휴면처리 해제</a>
+</div>
+</body>
+</html>

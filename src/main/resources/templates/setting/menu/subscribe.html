@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<h1 class="web-setting-section--container--options--head subscription-icon" th:text="#{setting.subscribe}">
+    구독
+</h1>
+<ul class="web-setting-section--container--options--list">
+    <li>
+        <h2 th:text="#{setting.subscribe.mail}">이메일 구독</h2>
+        <p th:text="#{setting.subscribe.mail.desc}">리틀원의 이벤트 및 소식 등에 대한 메일링을 받습니다.</p>
+        <a href="#" class="__switch" th:classappend="${subscribe_mail != null && subscribe_mail == true ? 'active':null}" id="mailing-activity-option">
+            <div></div>
+            <input type="hidden" name="option-email-subscribe" value="false" readonly="readonly" th:if="${subscribe_mail != null}" th:value="${subscribe_mail}"/>
+        </a>
+    </li>
+</ul>
+</html>

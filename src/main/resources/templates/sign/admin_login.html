@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head">
+<meta name="google-signin-client_id" content="178974824889-f5dae16987972p0mtablrl798gq7rlk2.apps.googleusercontent.com">
+</head>
+<body>
+<header th:replace="./include/header::header"></header>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<div th:if="${dormant_chk == 'true'}">
+    <div th:replace="/modal/dormant.html :: dormant"></div>
+</div>
+<div th:if="${login_result != null && login_result == 'password_renew_required'}">
+    <div th:replace="/modal/expiryPassword.html :: expiryPassword"></div>
+</div>
+<div th:if="${dormant_chk == 'true' || login_result =='password_renew_required'}" class="screen_block" style="display: block !important;"></div>
+<section class="login-section security">
+    <div class="login-section--logo">
+        리틀원 로그인 섹션의 기업로고입니다.
+    </div>
+    <div class="login-section-form">
+        <form method="post" action="/admin/login" role="form" id="littleone-login-form">
+            <fieldset>
+                <legend>리틀원의 로그인 페이지입니다. 아이디 비밀번호 입력 후 로그인 하실 수 있습니다.</legend>
+                <div class="login-section-form--box">
+                    <label for="user_email" class="client-email"></label>
+                    <input type="email" name="email" id="user_email" maxlength="42" required="required" autocapitalize="off" placeholder="이메일(아이디)" th:value="${email == null ? '':email}"/>
+                    <button type="button" class="__remove-component __email" role="button" th:classappend="${email != null && #strings.length(email) > 0 ? 'active':null}">닫기</button>
+                </div>
+                <div class="login-section-form--box">
+                    <label for="user_password" class="client_password"></label>
+                    <input type="password" name="password" id="user_password" required="required" autocapitalize="off" placeholder="비밀번호" maxlength="16" th:value="${password == null ? '':password}"/>
+                    <button type="button" class="__remove-component __password" role="button" th:classappend="${password != null && #strings.length(password) > 0 ? 'active':null}">닫기</button>
+                    <button type="button" class="__check-client-password-num" role="button"></button>
+                </div>
+                <div class="login-section-warning-text"></div>
+                <div class="login-section-captcha-area" id="gcaptcha_div"></div>
+                <div class="login-section-form--submit">
+                    <input type="hidden" id="login_result" th:if="${login_result != null}" th:value="${login_result}"/>
+                    <input type="hidden" id="error_count" th:if="${login_error_count != null}" th:value="${login_error_count}"/>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <input th:if="${session.dest != null}" type="hidden" name="original_dest" th:value="${session.dest}"/>
+                    <button type="submit" class="__login-button" role="button">로그인</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/login_ajax.js}" th:inline="javascript" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body oncontextmenu="return false">
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<div class="ie_warining">
+    <h1 class="browserupgrade">(주)리틀원의 웹사이트는 인터넷 익스폴로러 10버전 미만은 지원하지 않습니다. 더 나은 환경과 좋은 서비스를 위해 불편하시더라도 이곳에서<a
+            href="http://browsehappy.com/">브라우저 업그레이드 하기</a>최신버젼으로 업그레이드 해주세요.</h1>
+    <p> 최적의 환경을 위해 크롬(chrome) 최신 버젼을 추천합니다.</p>
+</div>
+<![endif]-->
+<section class="wrap_contents">
+    <div class="container_contents">
+        <h1 class="join_header">LITTLE <em style="vertical-align: bottom; color:#ff5274;">O</em>NE</h1>
+        <p class="join_sub_header">NEXT LEVEL PARENTING</p>
+        <div class="container_join">
+            <form method="post" action="/join_business" id="join_form">
+                <div class="container_join_input">
+                    <input type="text" class="join_input" disabled="disabled" th:value="${corp_num}">
+                    <input type="hidden" name="corp_num" th:value="${corp_num}">
+                    <span class="validation_check" style="color:#ea8255;">인증된 사업장 번호</span>
+                </div>
+                <div class="container_join_input">
+                    <input type="text" class="join_input" disabled="disabled" th:value="${corp_name}">
+                    <input type="hidden" name="corp_name" th:value="${corp_name}">
+                    <span class="validation_check" style="color:#ea8255;">사업장</span>
+                </div>
+                <div class="container_join_input">
+                    <input type="tel" class="join_input" id="ceo_phone" disabled="disabled" th:value="${phone}">
+                    <input type="hidden" name="phone" th:value="${phone}">
+                    <span class="validation_check" style="color:#ea8255;">인증됨</span>
+                </div>
+                <div class="container_join_input">
+                    <input type="text" class="join_input" id="ceo_name" disabled="disabled" th:value="${name}">
+                    <input type="hidden" name="name" th:value="${name}">
+                    <span class="validation_check" style="color:#ea8255;">대표성함</span>
+                </div>
+                <div class="container_join_input">
+                    <input type="email" class="join_input" maxlength="42" name="personal_email" placeholder="이메일 / 이메일은 아이디로 사용됩니다.">
+                    <span class="validation_check"></span>
+                </div>
+                <div class="container_join_input">
+                    <input type="password" class="join_input password" maxlength="20" name="password"
+                           placeholder="비밀번호 / 6~20자 알파벳+숫자 조합">
+                    <span class="validation_check"></span>
+                </div>
+                <div class="container_join_input">
+                    <input type="password" class="join_input password_check" maxlength="20" name="password_check" placeholder="비밀번호 확인">
+                    <span class="validation_check"></span>
+                </div>
+                <div class="container_join_input service_container">
+                    <h2 class="join_service_header">담당자 정보</h2>
+                    <p class="join_service_context">서비스 책임자의 정보를 입력해주세요.</p>
+                    <div class="checkbox_container">
+                        <div class="radio_container2">
+                            <span class="checkbox_mirror load_ceo_info"></span>
+                            <label for="check_pic" class="checkbox_label">
+                                <input type="checkbox" class="checkbox_input" id="check_pic">담당자 정보가 대표정보와 같습니다.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="container_join_input">
+                    <input type="text" class="join_input" id="phone_person_in_charge" maxlength="11" name="dphone"
+                           placeholder="기업 담당자 연락처 / '-'없이 입력">
+                    <span class="validation_check"></span>
+                </div>
+                <div class="container_join_input">
+                    <input type="text" id="signup_enterprise_person_in_charge" class="join_input box_api" maxlength="20"
+                           name="dname" placeholder="기업 담당자 성함">
+                    <span class="validation_check2"></span>
+                    <select class="join_button type_of_business sort" name="field_code">
+                        <option value="" selected="selected">-업종선택-</option>
+                        <option value="service_business">서비스업</option>
+                        <option value="manufacturing_business">제조업</option>
+                        <option value="wholesale_reatil_business">도소매</option>
+                        <option value="etc">기타</option>
+                    </select>
+                </div>
+                <div class="container_join_input service_container">
+                    <h2 class="join_service_header">서비스 선택</h2>
+                    <p class="join_service_context">귀사에서 제공하실 서비스를 선택해주세요.</p>
+                    <div class="checkbox_container">
+                        <div class="radio_container">
+                            <span class="checkbox_mirror"></span>
+                            <label for="radio_information_service" class="checkbox_label">
+                                <input type="checkbox" class="checkbox_input" id="radio_information_service"
+                                       name="service_code" value="1">지식서비스
+                            </label>
+                        </div>
+                        <div class="radio_container">
+                            <span class="checkbox_mirror"></span>
+                            <label for="radio_ecommerce_service" class="checkbox_label">
+                                <input type="checkbox" class="checkbox_input" id="radio_ecommerce_service"
+                                       name="service_code" value="2">전자상거래
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkbox_container">
+                    <label class="checkbox_label" for="join_agree1">
+                        <input type="checkbox" value="true" class="checkbox_input" id="join_agree1" name="terms_agree">
+                        가입하시면 LITTLEONE의 <a href="/join_business/privacypolicy" target="_blank" title="약관보기">개인정보처리방침</a> 및 <a href="/join_business/termsofuse" target="_blank" title="약관보기">모든 약관</a>에 동의하게 됩니다.
+                    </label>
+                    <span class="checkbox_mirror"></span>
+                </div>
+                <br>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="button enterprise_join">SIGN UP</button>
+                <br>
+            </form>
+        </div>
+    </div>
+</section>
+<footer th:include="./include/footer :: footer" class="footer" role="contentinfo"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/sign/enterprise_sign_2.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<!--다음 우편번호 검색 동적로딩 script -->
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+<script th:src="@{~/js/lib/daumPostCode.js}"></script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+
+<div class="application" style="  background-color: #6f68be;" id="dashboard-component">
+    <div th:replace="./dashboard/widget/header/dashboard_header.html :: dashboard-header"></div>
+    <ul class="dashboard section">
+        <!--�븘�씠�젙蹂�-->
+        <li class="dashboard--list active" data-widget-id="3">
+            <div class="dashboard--list--widget baby-info-widget">
+                <h1 class="dashboard--list--widget--title" th:text="#{dashboard.infant.info}">�븘�씠�젙蹂�</h1>
+                <div class="dashboard--list--widget--baby-thumbnail" th:if="${shared_infant == null}">
+                    <img th:src="${shared_infant_thumbnail != null ? shared_infant_thumbnail:'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGZpbGw9IiNDM0NCRDUiIGZpbGwtcnVsZT0ibm9uemVybyIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+PHBhdGggZD0iTTE5LjM0MSA2Mi4wMTJjLS4yMTcuMDY4LS40NDEuMTItLjY3MS4xNTYtMy4wNDUuNDcyLTUuOTg2LTIuMTg4LTYuNTctNS45NDItLjU4MS0zLjc1NCAxLjQxNS03LjE4IDQuNDYtNy42NTMuNjQtLjA5OSAxLjI3NS0uMDYgMS44ODUuMDk4IDIuNzY5LTIyLjk1IDE0LjYzMS0zMi41MTQgMzIuMzY2LTMyLjUxNCAxOC41MDcgMCAyOS4yODMgMTAuNTEyIDMyLjMzMSAzMi4zNDYuMTgtLjAwOC4zNjItLjAwNS41NDUuMDEgMy4wNzMuMjM0IDUuMzI5IDMuNDk2IDUuMDM4IDcuMjg0LS4yOSAzLjc4OC0zLjAxNiA2LjY2OC02LjA5IDYuNDMzYTQuNTkgNC41OSAwIDAgMS0uNTY0LS4wNzljLTQuMjQ2IDEyLjg3Ny0xNy4zMDcgMjEuODM2LTMxLjAzNyAyMS44MzYtMTQuMDc0IDAtMjcuNjYtOC4xMTMtMzEuNjkzLTIxLjk3NXoiIGZpbGw9IiNGQUZBRkEiLz48cGF0aCBkPSJNMzcuNSA0MS42MDNjMC0xLjU2OC41MDgtMy4xNTggMS41MjUtNC43NjggMS4wMTYtMS42MSAyLjUtMi45NDMgNC40NS00IDEuOTUtMS4wNTYgNC4yMjUtMS41ODUgNi44MjUtMS41ODUgMi40MTYgMCA0LjU1LjQ0MiA2LjQgMS4zMjUgMS44NS44ODQgMy4yNzkgMi4wODUgNC4yODggMy42MDQgMS4wMDggMS41MiAxLjUxMiAzLjE3IDEuNTEyIDQuOTU0IDAgMS40MDMtLjI4OCAyLjYzNC0uODYzIDMuNjlhMTEuMzA1IDExLjMwNSAwIDAgMS0yLjA1IDIuNzM3Yy0uNzkxLjc2OC0yLjIxMiAyLjA2LTQuMjYyIDMuODc3YTE3LjI1IDE3LjI1IDAgMCAwLTEuMzYzIDEuMzVjLS4zNDEuMzg4LS41OTYuNzQzLS43NjIgMS4wNjRhNS4xNyA1LjE3IDAgMCAwLS4zODguOTY3Yy0uMDkxLjMyMS0uMjI5Ljg4Ny0uNDEyIDEuNjk2LS4zMTcgMS43MTgtMS4zMDkgMi41NzYtMi45NzUgMi41NzYtLjg2NyAwLTEuNTk2LS4yOC0yLjE4OC0uODQyLS41OTEtLjU2MS0uODg3LTEuMzk1LS44ODctMi41MDIgMC0xLjM4Ny4yMTYtMi41ODguNjUtMy42MDNhOS4xMyA5LjEzIDAgMCAxIDEuNzI1LTIuNjc1Yy43MTYtLjc2OCAxLjY4My0xLjY4IDIuOS0yLjczNyAxLjA2Ni0uOTI1IDEuODM3LTEuNjIzIDIuMzEyLTIuMDkzLjQ3Ni0uNDcxLjg3NS0uOTk1IDEuMi0xLjU3M2EzLjc3NiAzLjc3NiAwIDAgMCAuNDg4LTEuODgzYzAtMS4zMi0uNDk2LTIuNDM1LTEuNDg3LTMuMzQ0LS45OTItLjkwNy0yLjI3Mi0xLjM2Mi0zLjgzOC0xLjM2Mi0xLjgzNCAwLTMuMTg0LjQ1OC00LjA1IDEuMzc1LS44NjcuOTE2LTEuNiAyLjI2Ni0yLjIgNC4wNS0uNTY3IDEuODY2LTEuNjQyIDIuNzk4LTMuMjI1IDIuNzk4LS45MzQgMC0xLjcyMS0uMzI1LTIuMzYzLS45NzgtLjY0MS0uNjUyLS45NjItMS4zNTgtLjk2Mi0yLjExOHpNNDkuNyA2OC43NWMtMS4wMTcgMC0xLjkwNC0uMzI2LTIuNjYzLS45NzgtLjc1OC0uNjUyLTEuMTM3LTEuNTY1LTEuMTM3LTIuNzM3IDAtMS4wNC4zNjYtMS45MTYgMS4xLTIuNjI2LjczMy0uNzEgMS42MzMtMS4wNjUgMi43LTEuMDY1IDEuMDUgMCAxLjkzMy4zNTUgMi42NSAxLjA2NS43MTYuNzEgMS4wNzUgMS41ODUgMS4wNzUgMi42MjYgMCAxLjE1Ni0uMzc1IDIuMDY0LTEuMTI1IDIuNzI0LS43NS42Ni0xLjYxNy45OTEtMi42Ljk5MXoiIGZpbGw9IiNDM0NCRDUiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L3N2Zz4='}"
+                         src="" width="auto" height="auto"/>
+                </div>
+                <div class="dashboard--list--widget--baby-thumbnail" th:unless="${shared_infant == null}">
+                    <img th:if="${shared_infant_thumbnail != null}"
+                         th:src="${shared_infant_thumbnail != null ? shared_infant_thumbnail:'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGZpbGw9IiNDM0NCRDUiIGZpbGwtcnVsZT0ibm9uemVybyIgY3g9IjUwIiBjeT0iNTAiIHI9IjUwIi8+PHBhdGggZD0iTTE5LjM0MSA2Mi4wMTJjLS4yMTcuMDY4LS40NDEuMTItLjY3MS4xNTYtMy4wNDUuNDcyLTUuOTg2LTIuMTg4LTYuNTctNS45NDItLjU4MS0zLjc1NCAxLjQxNS03LjE4IDQuNDYtNy42NTMuNjQtLjA5OSAxLjI3NS0uMDYgMS44ODUuMDk4IDIuNzY5LTIyLjk1IDE0LjYzMS0zMi41MTQgMzIuMzY2LTMyLjUxNCAxOC41MDcgMCAyOS4yODMgMTAuNTEyIDMyLjMzMSAzMi4zNDYuMTgtLjAwOC4zNjItLjAwNS41NDUuMDEgMy4wNzMuMjM0IDUuMzI5IDMuNDk2IDUuMDM4IDcuMjg0LS4yOSAzLjc4OC0zLjAxNiA2LjY2OC02LjA5IDYuNDMzYTQuNTkgNC41OSAwIDAgMS0uNTY0LS4wNzljLTQuMjQ2IDEyLjg3Ny0xNy4zMDcgMjEuODM2LTMxLjAzNyAyMS44MzYtMTQuMDc0IDAtMjcuNjYtOC4xMTMtMzEuNjkzLTIxLjk3NXoiIGZpbGw9IiNGQUZBRkEiLz48cGF0aCBkPSJNMzcuNSA0MS42MDNjMC0xLjU2OC41MDgtMy4xNTggMS41MjUtNC43NjggMS4wMTYtMS42MSAyLjUtMi45NDMgNC40NS00IDEuOTUtMS4wNTYgNC4yMjUtMS41ODUgNi44MjUtMS41ODUgMi40MTYgMCA0LjU1LjQ0MiA2LjQgMS4zMjUgMS44NS44ODQgMy4yNzkgMi4wODUgNC4yODggMy42MDQgMS4wMDggMS41MiAxLjUxMiAzLjE3IDEuNTEyIDQuOTU0IDAgMS40MDMtLjI4OCAyLjYzNC0uODYzIDMuNjlhMTEuMzA1IDExLjMwNSAwIDAgMS0yLjA1IDIuNzM3Yy0uNzkxLjc2OC0yLjIxMiAyLjA2LTQuMjYyIDMuODc3YTE3LjI1IDE3LjI1IDAgMCAwLTEuMzYzIDEuMzVjLS4zNDEuMzg4LS41OTYuNzQzLS43NjIgMS4wNjRhNS4xNyA1LjE3IDAgMCAwLS4zODguOTY3Yy0uMDkxLjMyMS0uMjI5Ljg4Ny0uNDEyIDEuNjk2LS4zMTcgMS43MTgtMS4zMDkgMi41NzYtMi45NzUgMi41NzYtLjg2NyAwLTEuNTk2LS4yOC0yLjE4OC0uODQyLS41OTEtLjU2MS0uODg3LTEuMzk1LS44ODctMi41MDIgMC0xLjM4Ny4yMTYtMi41ODguNjUtMy42MDNhOS4xMyA5LjEzIDAgMCAxIDEuNzI1LTIuNjc1Yy43MTYtLjc2OCAxLjY4My0xLjY4IDIuOS0yLjczNyAxLjA2Ni0uOTI1IDEuODM3LTEuNjIzIDIuMzEyLTIuMDkzLjQ3Ni0uNDcxLjg3NS0uOTk1IDEuMi0xLjU3M2EzLjc3NiAzLjc3NiAwIDAgMCAuNDg4LTEuODgzYzAtMS4zMi0uNDk2LTIuNDM1LTEuNDg3LTMuMzQ0LS45OTItLjkwNy0yLjI3Mi0xLjM2Mi0zLjgzOC0xLjM2Mi0xLjgzNCAwLTMuMTg0LjQ1OC00LjA1IDEuMzc1LS44NjcuOTE2LTEuNiAyLjI2Ni0yLjIgNC4wNS0uNTY3IDEuODY2LTEuNjQyIDIuNzk4LTMuMjI1IDIuNzk4LS45MzQgMC0xLjcyMS0uMzI1LTIuMzYzLS45NzgtLjY0MS0uNjUyLS45NjItMS4zNTgtLjk2Mi0yLjExOHpNNDkuNyA2OC43NWMtMS4wMTcgMC0xLjkwNC0uMzI2LTIuNjYzLS45NzgtLjc1OC0uNjUyLTEuMTM3LTEuNTY1LTEuMTM3LTIuNzM3IDAtMS4wNC4zNjYtMS45MTYgMS4xLTIuNjI2LjczMy0uNzEgMS42MzMtMS4wNjUgMi43LTEuMDY1IDEuMDUgMCAxLjkzMy4zNTUgMi42NSAxLjA2NS43MTYuNzEgMS4wNzUgMS41ODUgMS4wNzUgMi42MjYgMCAxLjE1Ni0uMzc1IDIuMDY0LTEuMTI1IDIuNzI0LS43NS42Ni0xLjYxNy45OTEtMi42Ljk5MXoiIGZpbGw9IiNDM0NCRDUiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvZz48L3N2Zz4='}"
+                         src="" width="auto" height="auto"/>
+                    <img th:unless="${shared_infant_thumbnail != null}" th:src="${#strings.equals(shared_infant.sex, 'm') ? '/images/dashboard/card-baby-info-icn-biy@2x.png':'/images/dashboard/card-baby-info-icn-girl@2x.png'}"
+                         width="auto" height="auto"/>
+                </div>
+                <div class="dashboard--list--widget--baby-info" th:if="${shared_infant!=null}">
+                    <div>
+                        <h2 th:data-baby-idx="${shared_infant.idx}" th:text="${shared_infant.name}">�쐧由ъ뾼</h2>
+                        <img class="__gender" th:src="${#strings.equals(shared_infant.sex, 'm') ? '/images/dashboard/boy.png':'/images/dashboard/girl.png'}" alt="�쉶�썝�떂�쓽 �븘湲곗쓽 �꽦蹂� �젙蹂댁엯�땲�떎." width="auto" height="auto"/>
+                    </div>
+                    <span th:text="${'생년월일 : '+shared_infant.birth}">�깮�뀈�썡�씪 : 2014-04-26(4媛쒖썡)</span>
+                    <span th:text="${'키 : '+shared_infant.height+'cm , '+'몸무게: '+shared_infant.weight +' kg , 혈액형 : '+#strings.toUpperCase(shared_infant.blood_type)}">�궎 : 54cm, 紐몃Т寃� : 10kg, �삁�븸�삎 : O</span>
+                </div>
+                <div class="dashboard--list--widget--baby-info" th:unless="${shared_infant!=null}">
+                    <h2 th:text="#{dashboard.infant.none}">�븘�씠 �젙蹂� �뾾�쓬</h2>
+                </div>
+                <div class="dashboard--list--widget--button-container">
+                    <button type="button" class="__baby-add-button __more-info" th:if="${shared_infant == null || #arrays.length(shared_infant) < 1}" style="margin-top: 40px;">�벑濡�</button>
+                    <button type="button" th:if="${shared_infant != null}" class="__baby-update-button __more-info"
+                            th:data-baby-idx="${shared_infant.idx}"
+                            th:data-baby-name="${shared_infant.name}"
+                            th:data-baby-gender="${shared_infant.sex}"
+                            th:data-baby-year="${#strings.substring(shared_infant.birth,0,4)}"
+                            th:data-baby-month="${#strings.substring(shared_infant.birth,4,6)}"
+                            th:data-baby-date="${#strings.substring(shared_infant.birth,6,8)}"
+                            th:data-baby-weight="${shared_infant.weight}"
+                            th:data-baby-height="${shared_infant.height}"
+                            th:data-baby-blood="${shared_infant.blood_type}"
+                            th:data-baby-img="${shared_infant_thumbnail != null ? shared_infant_thumbnail:null}">
+                        수정
+                    </button>
+                </div>
+            </div>
+        </li>
+        <!--�닔�쑀-->
+        <li class="dashboard--list active" data-widget-id="1">
+            <div class="dashboard--list--widget baby-feeding-widget">
+                <h1 class="dashboard--list--widget--title" th:text="#{dashboard.feed}">�닔�쑀</h1>
+                <div class="dashboard--list--widget--icon" th:text="#{dashboard.feed.msg}">�븘�씠�쓽 �닔�쑀�젙蹂� �엯�땲�떎.</div>
+                <p th:text="#{dashboard.feed.time}">留덉�留� �닔�쑀 �떆媛�</p>
+                <!-- <p th:if="${feed_cnt != null && feed_cnt > 0}" th:text="${feed_cnt + '�쉶'}" id="baby-feed-widget"></p> -->
+                <time th:if="${bottle_time != null}" th:text="${bottle_time}" class="dashboard--list--widget--data" id="baby-feeding-widget"
+                      data-baby-feeding="">12:43
+                </time>
+                <h4 th:unless="${bottle_time != null}" class="dashboard--list--widget--no-data"
+                    style="font-size:24px; font-weight: bold; color:#3726af; text-align: center" th:text="#{dashboard.time.none}">湲곕줉 �뾾�쓬</h4>
+            </div>
+            <a href="javascript:void(0)" th:if="${bottle != null}" class="widget-info today" th:text="#{dashboard.day_info}">
+                �떦�씪�젙蹂�
+            </a>
+            <a href="javascript:void(0)" th:if="${bottle != null}" class="widget-info all" th:text="#{dashboard.total_info}">
+                �쟾泥댁젙蹂�
+            </a>
+        </li>
+        
+        
+        
+        <li class="dashboard--list active long" data-widget-id="5">
+            <div class="dashboard--list--widget babybook-widget">
+                <h1 class="dashboard--list--widget--title" th:text="#{dashboard.diary}">�쑁�븘�씪湲�</h1>
+                <div class="dashboard--list--widget--icon" th:text="#{dashboard.diary.msg}">�븘�씠�뿉 愿��븳 �쑁�븘�씪湲� �쐞�젽 �엯�땲�떎.</div>
+                <p th:text="#{dashboard.diary.time}">理쒓렐 �씪湲� �옉�꽦�씪</p>
+                <time class="dashboard--list--widget--data" id="baby-book-widget" data-baby-feeding=""
+                      th:if="${diary_list_by_Member != null}" th:text="${diary_list_by_Member}"></time>
+                <h4 class="dashboard--list--widget--no-data" id="baby-book-widget" data-baby-feeding="" th:unless="${diary_list_by_Member != null}" th:text="#{dashboard.time.none}"
+                    style="font-size:24px; font-weight: bold; color:#3726af; text-align: center">湲곕줉 �뾾�쓬</h4>
+            </div>
+            <div class="dashboard--list--container">
+                <div class="dashboard--list--container--info">
+                    <h2 role="heading" class="dashboard--list--container--info--title" th:text="#{dashboard.schedule}">�삤�뒛 �씪�젙</h2>
+                    <ul role="listbox" th:if="${schedule_list != null && #arrays.length(schedule_list) > 0}">
+                        <li role="listitem" th:each="schedule, iter : ${schedule_list}" th:if="${iter.index < 3}">
+                            <a href="javascript:void(0)" role="link">
+                                <div class="list--info">
+                                    <div class="list--info--time">
+                                        <time th:text="${#strings.substring(schedule.event_date_start,11,16)}">�떆�옉 �궇吏�
+                                        </time>
+                                        <time th:text="${#strings.substring(schedule.event_date_end,11,16)}">醫낅즺 �궇吏�
+                                        </time>
+                                    </div>
+                                    <div class="list--info--status">
+                                        <span th:if="${#strings.equals(schedule.event_type,'0')}"
+                                              class="reserved"></span>
+                                        <span th:if="${#strings.equals(schedule.event_type,'1')}"
+                                              class="anniversary"></span>
+                                        <span th:if="${#strings.equals(schedule.event_type,'2')}"
+                                              class="appointment"></span>
+                                    </div>
+                                    <div class="list--info--desc">
+                                        <p th:text="${schedule.title}">�씪�젙紐�</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="dashboard--list--container--info__extra">
+                            <a href="javascript:void(0)">
+                                <span th:text="${'+'+#arrays.length(schedule_list)}">�삤�뒛 �씪�젙�쓽 珥� 媛��닔</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p th:unless="${schedule_list != null}" class="none-list"
+                       style="margin-top: 40px; margin-bottom: 134px;" th:text="#{dashboard.schedule.none}">
+                        �씪�젙�씠 �뾾�뒿�땲�떎.
+                    </p>
+                </div>
+                <div class="dashboard--list--container--info long">
+                    <h2 role="heading" class="dashboard--list--container--info--title" th:text="#{dashboard.diary.today}">�삤�뒛 �씪湲�</h2>
+                    <ul role="listbox" th:if="${diary_list != null}">
+                        <li role="listitem" th:each="diary, iter : ${diary_list}" th:if="${iter.index == 0}">
+                            <a href="javascript:void(0)" role="link">
+                                <div class="list--info">
+                                    <div class="list--info--time">
+                                        <time th:text="${diary.date_created}">09:00</time>
+                                    </div>
+                                    <div class="list--info--status">
+                                        <span class="appointment"></span>
+                                    </div>
+                                    <div class="list--info--desc">
+                                        <p th:text="${diary.subject}"></p>
+                                    </div>
+                                    <div class="list--info--image">
+                                        <img th:if="${diary.id_files != null && #lists.size(diary.id_files) > 0}" th:src="${diary.id_files[0].file_url}"/>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="dashboard--list--container--info__extra">
+                            <a href="javascript:void(0)">
+                                <span th:text="${'+'+#arrays.length(diary_list)}">�삤�뒛 �씪湲곗쓽 珥앷갗�닔</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p th:if="${diary_list == null}" class="none-list"
+                       style="margin-top: 40px; margin-bottom: 42px;" th:text="#{dashboard.diary.none}">
+                        湲곕줉�씠 �뾾�뒿�땲�떎. 
+                    </p>
+                </div>
+                <div class="dashboard--list--container--info">
+                    <button th:if="${session.infant_idx != null}" type="button" role="button" class="__more-info" id="__babybook-more-info" th:text="#{dashboard.total_info}">�쟾泥댁젙蹂�</button>
+                </div>
+            </div>
+        </li>
+        
+        
+        
+        <li class="dashboard--list active long" data-widget-id="6">
+            <div class="dashboard--list--widget group-widget">
+                <div class="group-widget--head">
+                    <h1 th:text="#{dashboard.group}">洹몃９</h1>
+                    <p th:inline="text"><em>[[#{dashboard.group.msg1}]]</em>[[#{dashboard.group.msg2}]]<br/>
+                        [[#{dashboard.group.msg3}]]</p>
+                    <div class="group-widget--head--setting" th:classappend="${family_group != null && session.group_idx != null  ? 'active':null}">
+                        <div style="position: absolute;top: 41px; left:-82px;" th:if="${family_group != null && session.group_idx != null}">
+                            <div class="option-menu-select">
+                                <div class="option-menu-select--pointer"></div>
+                                <ul>
+                                    <!--洹몃９�옣�씠硫� 洹몃９愿�由ш� 蹂댁씠寃�-->
+                                    <li>
+                                        <a th:if="${session.idx == group_admin_idx}" href="javascript:void(0)" class="__menu-handle-group">洹몃９ 愿�由�</a>
+                                    </li>
+                                    <!--洹몃９�옣�씠硫� 洹몃９愿�由ш� 蹂댁씠寃�-->
+
+                                    <!--洹몃９�깉�눜�뒗 洹몃９�썝 紐⑤몢媛� 蹂� �닔 �엳寃�-->
+                                    <li>
+                                        <a href="javascript:void(0)" class="__menu-leave-group">洹몃９ �깉�눜</a>
+                                    </li>
+                                    <!--洹몃９�깉�눜�뒗 洹몃９�썝 紐⑤몢媛� 蹂� �닔 �엳寃�-->
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="group-search-component">
+                    <div class="group-search-component--input-container">
+                        <label for="search_member">
+                            <input type="text" id="search_member" name="search_member" placeholder="珥덈��븷 媛�議� 寃��깋(�땳�꽕�엫)" th:placeholder="#{dashboard.group.search}" maxlength="20" class="__search-input">
+                        </label>
+                        <button type="button" class="__search-button" role="button" th:text="#{dashboard.group.search.msg}">�겢由��떆 媛�議�,移쒓뎄瑜� 珥덈��빀�땲�떎</button>
+                    </div>
+                    <div class="group-search-component-user-list">
+                        <ul class="group-search-component-user-list--container"></ul>
+                    </div>
+                </div>
+                <div class="group-widget--list" th:if="${family_group != null && session.group_idx != null}">
+                    <div class="group-master" th:if="${group_admin_idx == group_member.idx}"
+                         th:each="group_member : ${family_group}">
+                        <h2 th:text="#{dashboard.group.admin}">洹몃９�옣</h2>
+                        <ul>
+                            <li>
+                                <a th:href="@{'/community/view_member_info/'+${group_admin_idx}+'/board/1'}">
+                                    <img th:src="${group_member.thumbnail != null ? group_member.thumbnail : '/images/dashboard/group/web-header-icn-user.svg'}"/>
+                                </a>
+                                <span th:text="${group_admin}"></span>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                    <h2 style="font-size: 10px;  padding: 6px 0; color: #3726af;  text-indent: 30px;  border-bottom: 1px solid #f0f0f0;  border-top: 1px solid #f0f0f0;" th:text="#{dashboard.group_member}">洹몃９�썝</h2>
+                    <div th:unless="${group_admin_idx == group_member.idx}" th:each="group_member : ${family_group}">
+                        <ul>
+                            <li class="my-group-list" th:data-member-idx="${group_member.idx}">
+                                <a th:href="@{'/community/view_member_info/'+${group_member.idx}+'/board/1'}">
+                                    <img th:src="${group_member.thumbnail != null ? group_member.thumbnail : '/images/dashboard/group/web-header-icn-user.svg'}"/>
+                                </a>
+                                <span th:text="${group_member.name}">洹몃９�썝 A</span>
+                                <!--洹몃９�옣留� 蹂댁씠寃�-->
+                               <div class="__unscribe-group-member" th:data-member-idx="${group_member.idx}">�궘�젣</div>
+                                <!--洹몃９�옣留� 蹂댁씠寃�-->
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="none-group" th:unless="${family_group != null && session.group_idx != null}">
+                    <img src="/images/dashboard/group/card-group-icn-family.svg" alt="珥덈��맂 媛�議깆씠 �뾾�뒿�땲�떎." width="auto" height="auto"/>
+                    <p th:text="#{dashboard.group.none}">�븘吏� 珥덈��맂 媛�議깆씠 �뾾�뒿�땲�떎.</p>
+                </div>
+                <div class="group-widget--invitation">
+                    <h2 th:text="#{dashboard.group.invite}">SNS/�씠硫붿씪 珥덈�</h2>
+                    <div class="group-widget--invitation--container">
+                        <!--<a href="javascript:void(0)" class="__invite-facebook-button">-->
+                            <!--<span th:text="#{dashboard.facebook}">�럹�씠�뒪遺�</span>-->
+                        <!--</a>-->
+                        <a href="javascript:void(0)" class="__invite-kakaotalk-button">
+                            <span th:text="#{dashboard.kakao}">移댁뭅�삤�넚</span>
+
+                        </a>
+                        <a href="javascript:void(0)" class="__invite-email-button">
+                            <span th:text="#{dashboard.email}">�씠硫붿씪</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </li>
+        <!--諛곕�-->
+        <li class="dashboard--list active" data-widget-id="2">
+            <div class="dashboard--list--widget defecation-widget">
+                <h1 class="dashboard--list--widget--title" th:text="#{dashboard.defec}">諛곕�</h1>
+                <div class="dashboard--list--widget--icon" th:text="#{dashboard.defec.msg}">�븘�씠�쓽 諛곕��젙蹂� �엯�땲�떎.</div>
+                <p th:text="#{dashboard.defec.count}">諛곕� �슏�닔</p>
+                <!-- <p th:if="${peepee_time != null}" th:text="${peepee_time}">諛곕� �떆媛�</p> -->
+                <time th:if="${defec_cnt != null && defec_cnt > 0}" th:inline="text" class="dashboard--list--widget--data" id="baby-defecation-widget"
+                      data-baby-feeding="">[[${defec_cnt}]]
+                    <span>�쉶</span>
+                </time>
+                <h4 th:unless="${defec_cnt != null && defec_cnt > 0}" class="dashboard--list--widget--no-data"
+                    style="font-size:24px; font-weight: bold; color:#3726af; text-align: center" th:text="#{dashboard.time.none}">湲곕줉 �뾾�쓬</h4>
+            </div>
+            <a href="javascript:void(0)" th:if="${peepee != null}" class="widget-info today" th:text="#{dashboard.day_info}">
+                �떦�씪�젙蹂�
+            </a>
+            <a href="javascript:void(0)" th:if="${peepee != null}" class="widget-info all" th:text="#{dashboard.total_info}">
+                �쟾泥댁젙蹂�
+            </a>
+        </li>
+
+        <!--泥댁삩-->
+        <li class="dashboard--list" data-widget-id="4">
+            <div class="dashboard--list--widget temperature-widget">
+                <h1 class="dashboard--list--widget--title" th:text="#{dashboard.temp}">泥댁삩</h1>
+                <div class="dashboard--list--widget--icon" th:text="#{dashboard.temp.msg}">�븘�씠�쓽 泥댁삩�젙蹂� �엯�땲�떎.</div>
+                <p class="__temp-time2" th:text="#{dashboard.temp.last}">留덉�留� 痢≪젙 泥댁삩</p>
+                <time th:if="${last_temp != null}" class="dashboard--list--widget--data" id="baby-temperature-widget"
+                      data-baby-temperature="" th:inline="text">[[${last_temp}]]
+                    <span>�꼦</span>
+                </time>
+                <h4 th:unless="${last_temp != null}" class="dashboard--list--widget--no-data"
+                    style="font-size:24px; font-weight: bold; color:#3726af; text-align: center" th:text="#{dashboard.time.none}">湲곕줉 �뾾�쓬</h4>
+            </div>
+            <a href="javascript:void(0)" th:if="${temp != null}" class="widget-info today" th:text="#{dashboard.day_info}">
+                �떦�씪�젙蹂�
+            </a>
+            <a href="javascript:void(0)" th:if="${temp != null}" class="widget-info all" th:text="#{dashboard.total_info}">
+                �쟾泥댁젙蹂�
+            </a>
+        </li>
+    </ul>
+</div>
+<script th:replace="./include/handlebar_template :: handlebar_template"></script>
+<div th:include="./dashboard/widget/babybook/modal.html ::  babybook-modal"></div>
+<script th:src="@{~/js/lib/packery.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/widgetHandler.js}" type="text/javascript"></script>
+<script type="text/javascript" th:src="@{~/js/lib/cropper.js}" charset="UTF-8"></script>
+<script th:src="@{~/js/lib/bxslider.min.js}" type="text/javascript"></script>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/file.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/widgetAjax.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/dashboard.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/babyboard/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/babyinfo/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/lib/datepicker.min.js}" type="text/javascript"></script>
+<script th:src="@{~/js/lib/datepicker.lang.js}" type="text/javascript"></script>
+<script th:src="@{~/js/lib/picker.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/babyboard/index.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/babybookHandler.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/scheduleHandler.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/invitation.js}" type="text/javascript"></script>
+
+</body>
+</html>

@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<section id="container_handlebars" th:fragment="handlebar_template">
+    <!--검색 결과가 없습니다.-->
+    <script id="search-template2" type="text/x-handlebars-template" th:inline="text">
+        <li>
+            <p style="height:40px; line-height:40px; margin:0;">[[#{dashboard.search.no_result}]]</p>
+        </li>
+    </script>
+
+    <!--상단 알림벨 -->
+
+
+    <script id="search-template" type="text/x-handlebars-template" th:inline="text">
+        {{#each objects}}
+        <li class="search_user_data {{search_idx}}" data-search-idx="{{search_idx}}">
+            {{#if search_thumbnail}}
+            <img src="{{search_thumbnail}}"/>
+            {{else}}
+            <img src="/images/default-person.svg"/>
+            {{/if}}
+            <div class="search_info left">
+                <div>{{search_phone}}</div>
+                <div>
+                    {{#if search_name}}
+                    <span>{{search_name}}</span>
+                    {{else}}
+                    [[#{dashboard.search.no_name}]]
+                    {{/if}}
+                    {{#group_check group_request_check}}
+                    {{else}}
+                    <span class="invitation_status">[[#{dashboard.search.invite_complete}]]</span>
+                    {{/group_check}}
+                </div>
+            </div>
+            {{#group_check group_request_check}}
+            <a href="javascript:void(0)" data-idx="{{search_idx}}" class="btn_pf btn_search_invite">[[#{dashboard.search.request}]]</a>
+            {{else}}
+            <a href="javascript:void(0)" data-idx="{{search_idx}}" class="btn_pf btn_search_cancel">[[#{dashboard.search.cancel}]]</a>
+            {{/group_check}}
+        </li>
+        {{/each}}
+    </script>
+
+
+    <script id="default-template" type="text/x-handlebars-template" th:inline="text">
+        <li class="user-message--list">
+            <a href="javascript:void(0)">
+                <div class="user-message--list__profile">
+                    <img src="/images/user.svg">
+                </div>
+                <div class="user-message--list__message">
+                    <p><em>희망이맘</em>[[#{alarm.follow}]]</p>
+                    <time>6월 19일 오전 10:32</time>
+                </div>
+                <!--거줄 수락 있을 경우 position absolute-->
+                <div class="user-message--list__conditions">
+                    <a href="#" class="__cancel-button">[[#{reject}]]</a>
+                    <a href="#" class="__accept-button">[[#{accept}]]</a>
+                </div>
+                <button data-idx="{{alarm_idx}}" class="btn_req btn_accept">[[#{accept}]]</button>
+                <button data-idx="{{alarm_idx}}" class="btn_req btn_cancel">[[#{dashboard.search.cancel}]]</button>
+            </a>
+        </li>
+    </script>
+
+
+    <script id="alarm_template" type="text/x-handlebars-template" th:inline="text">
+        {{#each alarm}}
+		
+		{{#checkMessage0 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a class="my-reply__link" href="/dashboard">
+                <div class="user-message--list__profile">
+                    {{#nullCheck requester_thumbnail}}
+                    <img src="{{requester_thumbnail}}">
+                    {{else}}
+                    <img src="/images/default-person.svg">
+                    {{/nullCheck}}
+                </div>
+                <div class="user-message--list__message">
+                    <p><em>{{requester_name}}</em>[[#{alarm.accept_group}]]</p>
+                    <time>{{date}}</time>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage0}}
+
+		{{#checkMessageA event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a class="my-reply__link" href="/dashboard">
+                <div class="user-message--list__profile">
+                    {{#nullCheck requester_thumbnail}}
+                    <img src="{{requester_thumbnail}}">
+                    {{else}}
+                    <img src="/images/default-person.svg">
+                    {{/nullCheck}}
+                </div>
+                <div class="user-message--list__message">
+                    <p><em>{{requester_name}}</em>[[#{alarm.request_group}]]</p>
+                    <time>{{date}}</time>
+                </div>
+				<div class="user-message--list__conditions">
+                	<p class="group-accepted-message">[[#{alarm.accept}]]</p>
+				</div>
+            </a>
+        </li>
+        {{/checkMessageA}}
+
+		{{#checkMessageB event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a class="my-reply__link" href="/dashboard">
+                <div class="user-message--list__profile">
+                    {{#nullCheck requester_thumbnail}}
+                    <img src="{{requester_thumbnail}}">
+                    {{else}}
+                    <img src="/images/default-person.svg">
+                    {{/nullCheck}}
+                </div>
+                <div class="user-message--list__message">
+                    <p><em>{{requester_name}}</em>[[#{alarm.request_group}]]</p>
+                    <time>{{date}}</time>
+                </div>
+				<div class="user-message--list__conditions">
+                    <p class="group-denied-message">[[#{alarm.reject}]]</p>
+				</div>
+            </a>
+        </li>
+        {{/checkMessageB}}
+
+        {{#checkMessage1 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a class="my-reply__link" href="javascript:void(0)">
+                <div class="user-message--list__profile">
+                    {{#nullCheck requester_thumbnail}}
+                    <img src="{{requester_thumbnail}}">
+                    {{else}}
+                    <img src="/images/default-person.svg">
+                    {{/nullCheck}}
+                </div>
+                <div class="user-message--list__message">
+                    <p><em>{{requester_name}}</em>[[#{alarm.request_group}]]</p>
+                    <time>{{date}}</time>
+                </div>
+                <div class="user-message--list__conditions">
+                    <button type="button" class="__cancel-button" data-idx="{{alarm_idx}}">[[#{reject}]]</button>
+                    <button type="button" class="__accept-button" data-idx="{{alarm_idx}}" requester-idx="{{requester}}">[[#{accept}]]</button>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage1}}
+
+        {{#checkMessage2 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a class="my-reply__link" href="/community/{{board_idx}}/{{comment_idx}}/alert/{{alarm_idx}}">
+                <div class="user-message--list__profile">
+                    {{#nullCheck requester_thumbnail}}
+                    <img src="{{requester_thumbnail}}"/>
+                    {{else}}
+                    <img src="/images/default-person.svg"/>
+                    {{/nullCheck}}
+                </div>
+                <div class="user-message--list__message">
+                    <p><em>{{requester_name}}</em>[[#{alarm.write_comment}]]</p>
+                    <time>{{date}}</time>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage2}}
+
+        {{#checkMessage3 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a class="my-reply__link" href="/gallery/alert/{{board_idx}}/{{comment_idx}}/{{alarm_idx}}">
+                <div class="user-message--list__profile">
+                    {{#nullCheck requester_thumbnail}}
+                    <img src="{{requester_thumbnail}}">
+                    {{else}}
+                    <img src="/images/default-person.svg">
+                    {{/nullCheck}}
+                </div>
+                <div class="user-message--list__message">
+                    <p><em>{{requester_name}}</em>[[#{alarm.gallery_comment}]]</p>
+                    <time>{{date}}</time>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage3}}
+        {{#checkMessage4 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a href="#">
+                <div class="user-message--list__profile">
+                    {{#nullCheck requester_thumbnail}}
+                    <img src="{{requester_thumbnail}}">
+                    {{else}}
+                    <img src="/images/default-person.svg">
+                    {{/nullCheck}}
+                </div>
+                <div class="user-message--list__message">
+                    <em class="__writer">{{requester_name}}</em>
+                    <p>[[#{alarm.diary}]]</p>
+                    <time>{{date}}</time>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage4}}
+        {{#checkMessage5 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a href="#">
+                <div class="user-message--list__profile">
+                    {{#nullCheck requester_thumbnail}}
+                    <img src="{{requester_thumbnail}}">
+                    {{else}}
+                    <img src="/images/default-person.svg">
+                    {{/nullCheck}}
+                </div>
+                <div class="user-message--list__message">
+                    <em class="__writer">{{requester_name}}</em>
+                    <p>[[#{alarm.schedule}]]</p>
+                    <time>{{date}}</time>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage5}}
+        {{#checkMessage6 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a href="/dashboard">
+                <div class="user-message--list__profile">
+                    <img src="/images/dashboard/card-pooing-icn-diaper.svg">
+                </div>
+                <div class="user-message--list__message">
+                    <p>[[#{alarm.defec}]]</p>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage6}}
+        {{#checkMessage7 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a href="/dashboard">
+                <div class="user-message--list__profile">
+                    <img src="/images/dashboard/card-feeding-icn-smart-bottle.svg">
+                </div>
+                <div class="user-message--list__message">
+                    <p>[[#{alarm.feed}]]</p>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage7}}
+        {{#checkMessage8 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a href="/dashboard">
+                <div class="user-message--list__profile">
+                    <img src="/images/dashboard/card-feeding-icn-smart-bottle.svg">
+                </div>
+                <div class="user-message--list__message">
+                    <p>[[#{alarm.temp_low}]] {{temp}}</p>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage8}}
+        {{#checkMessage9 event_type}}
+        <li data-alarm-idx="{{alarm_idx}}" role="listitem" class="user-message--list">
+            <a href="/dashboard">
+                <div class="user-message--list__profile">
+                    <img src="/images/dashboard/card-feeding-icn-smart-bottle.svg">
+                </div>
+                <div class="user-message--list__message">
+                    <p>[[#{alarm.temp_high}]] {{temp}}</p>
+                </div>
+            </a>
+        </li>
+        {{/checkMessage9}}
+        {{/each}}
+        {{#isEmpty alarm}}
+        <li class="default_message">
+            <a href="#">
+                <p><em>[[#{alarm.new}]]</em>[[#{alarm.no}]]</p>
+            </a>
+        </li>
+        {{/isEmpty}}
+        {{#listSizeCheck checkMaxSize}}
+        {{/listSizeCheck}}
+    </script>
+
+    <script id="gallery_comment_template" type="text/x-handlebars-template" th:inline="text">
+        {{#each comments}}
+        <li class="client-reply-list--container" data-reply-idx="{{idx}}">
+            <a href="/community/view_member_info/{{member.idx}}/gallery/1">
+                {{#nullCheck member.thumbnail}}
+                <img src="{{member.thumbnail}}" width="auto" height="auto" class="__client-thumb"/>
+                {{else}}
+                <img src="/images/default-person.svg" width="auto" height="auto" class="__client-thumb"/>
+                {{/nullCheck}}
+            </a>
+            <div class="__client-contents">
+                <h4>{{{member.nickname}}}</h4>
+                <p data-comment-idx="{{idx}}">{{contents}}</p>
+            </div>
+            <div class="__client-reply-list--contents-edit" data-comment-idx="{{idx}}"></div>
+            <time class="__client-date">{{date_created}}</time>
+            <div class="client-reply-list--container--modify">
+                <div class="__count" data-comment-idx={{idx}}>{{likes}}</div>
+                <a href="#" class="__add-likes-btn" data-comment-idx="{{idx}}">
+                    {{#comment_likes likes_check}}
+                    <svg width="19" height="18" viewBox="0 0 19 18" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.802 7.446c-.393 1.703-1.303 3.252-2.63 4.48L9.497 18H9.39l-6.562-6.076C1.502 10.698.592 9.15.198 7.446c-.213-.918-.231-1.617-.162-2.048C.314 2.272 2.488 0 5.21 0 6.945 0 8.51.922 9.45 2.476 10.4.94 12.029 0 13.789 0c2.723 0 4.896 2.271 5.175 5.395.069.441.05 1.135-.162 2.05zm-.781-.187c.256-1.107.15-1.733.15-1.74C17.931 2.78 16.09.817 13.789.817c-1.738 0-3.311 1.09-4.01 2.777l-.333.807-.333-.807C8.403 1.88 6.909.816 5.21.816 2.911.816 1.07 2.78.834 5.484l-.005.038c0 .004-.106.63.15 1.737.357 1.542 1.183 2.946 2.39 4.062l6.08 5.628 6.185-5.63c1.204-1.113 2.03-2.518 2.387-4.06z"
+                              fill="#ff5274" fill-rule="nonzero" class="svg-fill" data-comment-idx="{{idx}}"/>
+                    </svg>
+                    {{else}}
+                    <svg width="19" height="18" viewBox="0 0 19 18" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.802 7.446c-.393 1.703-1.303 3.252-2.63 4.48L9.497 18H9.39l-6.562-6.076C1.502 10.698.592 9.15.198 7.446c-.213-.918-.231-1.617-.162-2.048C.314 2.272 2.488 0 5.21 0 6.945 0 8.51.922 9.45 2.476 10.4.94 12.029 0 13.789 0c2.723 0 4.896 2.271 5.175 5.395.069.441.05 1.135-.162 2.05zm-.781-.187c.256-1.107.15-1.733.15-1.74C17.931 2.78 16.09.817 13.789.817c-1.738 0-3.311 1.09-4.01 2.777l-.333.807-.333-.807C8.403 1.88 6.909.816 5.21.816 2.911.816 1.07 2.78.834 5.484l-.005.038c0 .004-.106.63.15 1.737.357 1.542 1.183 2.946 2.39 4.062l6.08 5.628 6.185-5.63c1.204-1.113 2.03-2.518 2.387-4.06z"
+                              fill="#181818" fill-rule="nonzero" class="svg-fill" data-comment-idx="{{idx}}"/>
+                    </svg>
+                    {{/comment_likes}}
+                </a>
+                {{#checkWriter member.idx}}
+                <a href="#" class="__modify-reply-btn" data-comment-idx="{{idx}}">
+                    <span>...</span>
+                </a>
+                {{/checkWriter}}
+            </div>
+            {{#checkWriter member.idx}}
+            <div class="__modify-reply-container" data-comment-idx="{{idx}}">
+                <button type="button" data-comment-idx="{{idx}}" class="__modify-gallery-reply">[[#{comment.modify}]]</button>
+                <button type="button" data-comment-idx="{{idx}}" class="__remove-gallery-reply">[[#{comment.delete}]]</button>
+            </div>
+            {{/checkWriter}}
+        </li>
+        {{/each}}
+    </script>
+
+    <script id="community_comment_template" type="text/x-handlebars-template" th:inline="text">
+        {{#each comments}}
+        <li class="client-reply-list--container" data-reply-idx="{{idx}}">
+            <a href="/community/view_member_info/{{writer_idx}}/gallery/1">
+                {{#nullCheck writer_thumbnail}}
+                <img src="{{writer_thumbnail}}" width="auto" height="auto" class="__client-thumb"/>
+                {{else}}
+                <img src="/images/default-person.svg" width="auto" height="auto" class="__client-thumb"/>
+                {{/nullCheck}}
+            </a>
+            <div class="__client-contents">
+                <h4>{{{writer_nickname}}}</h4>
+                <p data-comment-idx="{{idx}}">{{contents}}</p>
+            </div>
+            <div class="__client-reply-list--contents-edit" data-comment-idx="{{idx}}"></div>
+            <time class="__client-date">{{date_created}}</time>
+            <div class="client-reply-list--container--modify">
+                <div class="__count" data-comment-idx={{idx}}>{{likes}}</div>
+                <a href="#" class="__add-likes-btn" data-comment-idx="{{idx}}">
+                    {{#comment_likes likes_check}}
+                    <svg width="19" height="18" viewBox="0 0 19 18" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.802 7.446c-.393 1.703-1.303 3.252-2.63 4.48L9.497 18H9.39l-6.562-6.076C1.502 10.698.592 9.15.198 7.446c-.213-.918-.231-1.617-.162-2.048C.314 2.272 2.488 0 5.21 0 6.945 0 8.51.922 9.45 2.476 10.4.94 12.029 0 13.789 0c2.723 0 4.896 2.271 5.175 5.395.069.441.05 1.135-.162 2.05zm-.781-.187c.256-1.107.15-1.733.15-1.74C17.931 2.78 16.09.817 13.789.817c-1.738 0-3.311 1.09-4.01 2.777l-.333.807-.333-.807C8.403 1.88 6.909.816 5.21.816 2.911.816 1.07 2.78.834 5.484l-.005.038c0 .004-.106.63.15 1.737.357 1.542 1.183 2.946 2.39 4.062l6.08 5.628 6.185-5.63c1.204-1.113 2.03-2.518 2.387-4.06z"
+                              fill="#ff5274" fill-rule="nonzero" class="svg-fill" data-comment-idx="{{idx}}"/>
+                    </svg>
+                    {{else}}
+                    <svg width="19" height="18" viewBox="0 0 19 18" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.802 7.446c-.393 1.703-1.303 3.252-2.63 4.48L9.497 18H9.39l-6.562-6.076C1.502 10.698.592 9.15.198 7.446c-.213-.918-.231-1.617-.162-2.048C.314 2.272 2.488 0 5.21 0 6.945 0 8.51.922 9.45 2.476 10.4.94 12.029 0 13.789 0c2.723 0 4.896 2.271 5.175 5.395.069.441.05 1.135-.162 2.05zm-.781-.187c.256-1.107.15-1.733.15-1.74C17.931 2.78 16.09.817 13.789.817c-1.738 0-3.311 1.09-4.01 2.777l-.333.807-.333-.807C8.403 1.88 6.909.816 5.21.816 2.911.816 1.07 2.78.834 5.484l-.005.038c0 .004-.106.63.15 1.737.357 1.542 1.183 2.946 2.39 4.062l6.08 5.628 6.185-5.63c1.204-1.113 2.03-2.518 2.387-4.06z"
+                              fill="#181818" fill-rule="nonzero" class="svg-fill" data-comment-idx="{{idx}}"/>
+                    </svg>
+                    {{/comment_likes}}
+                </a>
+                {{#checkWriter writer_idx}}
+                <a href="#" class="__modify-reply-btn" data-comment-idx="{{idx}}">
+                    <span>...</span>
+                </a>
+                {{/checkWriter}}
+            </div>
+            {{#checkWriter writer_idx}}
+            <div class="__modify-reply-container" data-comment-idx="{{idx}}">
+                <button type="button" data-comment-idx="{{idx}}" class="__modify-gallery-reply">[[#{comment.modify}]]</button>
+                <button type="button" data-comment-idx="{{idx}}" class="__remove-gallery-reply">[[#{comment.delete}]]</button>
+            </div>
+            {{/checkWriter}}
+        </li>
+        {{/each}}
+    </script>
+
+    <script id="gallery_template" type="text/x-handlebars-template" th:inline="text">
+        {{#each gallery}}
+        <li class="post" data-idx={{board_idx}}>
+            <a href="/gallery/view/{{board_idx}}">
+                <div class="inner">
+                    <div class="grid_image">
+                        <img src="{{file_url}}" alt="모델김원중님이 업로드한 사진">
+                    </div>
+                    <div class="grid_caption">
+                        <span class="grid_date">{{date_created}}</span>
+                        <div class="grid_board_title">{{subject}}</div>
+                        <div class="grid_writer">
+                            <span>by</span><span>{{nickname}}</span>
+                            <div class="box_tag">
+                                <span class="tagging"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        {{/each}}
+    </script>
+
+    <script id="like-client-list--template" type="text/x-handlebars-template" th:inline="text">
+        <div class="client-like-info-section modal-form" style="z-index:9999999999" data-modal-name="client-like-modal">
+            <span style="relative;">
+                 <button type="button" class="__info-close-button"></button>
+            </span>
+            <div>
+                <span class="__text">[[#{likes}]]</span>
+                <span class="__count">{{likes}}[[#{num}]]</span>
+            </div>
+            <ul>
+                {{#if likes_list}}
+                {{#each likes_list}}
+                <li>
+                    <a href="/community/view_member_info/{{member_idx}}/board/1">
+                        {{#if thumbnail}}
+                        <img src="{{thumbnail}}" alt="test01님의 프로필 사진입니다.">
+                        {{else}}
+                        <img src="/images/default-person.svg" alt="test01님의 프로필 사진입니다.">
+                        {{/if}}
+                        <h4>{{nickname}}</h4>
+                    </a>
+                </li>
+                {{/each}}
+                {{else}}
+                <li>
+                    [[#{no_likes}]]
+                </li>
+                {{/if}}
+            </ul>
+        </div>
+    </script>
+
+
+    <script id="list-template" type="text/x-handlebars-template" th:inline="text">
+        {{#address_list}}
+        <li>
+            <div class="user_address">
+                <div class="contents_box">
+                    <span class="font_large">{{address_name}}</span>
+                    <span class="default_address_icon">[[#{shipping.default}]]</span>
+                </div>
+                <div class="contents_box">
+                    <span class="font_large">[[#{shipping.recipient}]]</span>
+                    <span>{{recipient_name}}</span>
+                    <ol class="contact_list">
+                        <li>
+                            <img src="/images/svg/smartphone.svg" class="address_phone_icon">
+                            <span>{{recipient_phone}}</span>
+                        </li>
+                        <li>
+                            <img src="/images/svg/smartphone.svg" class="address_phone_icon">
+                            <span>{{#recipient_phone2}}{{recipient_phone2}}{{/recipient_phone2}}</span>
+                        </li>
+                    </ol>
+                </div>
+                <div class="contents_box">
+                    <span class="font_large">[[#{shipping.address}]]</span>
+                    <span class="box_address_zip">{{zipcode}}</span><span>{{address1}} {{address2}}</span>
+                </div>
+            </div>
+            <div class="container_address_control">
+                <div>
+                    <button class="address_button address_default" name="{{idx}}">[[#{shipping.setting_default}]] ></button>
+                </div>
+                <div>
+                    <button class="address_button address_update" name="{{idx}}">[[#{comment.modify}]] ></button>
+                </div>
+                <div>
+                    <button class="address_button address_delete" name="{{idx}}">[[#{comment.delete}]] ></button>
+                </div>
+            </div>
+        </li>
+        {{/address_list}}
+    </script>
+
+    <script id="reply-template" type="text/x-handlebars-template" th:inline="text">
+        {{#each comments}}
+        <div class="bg_reply">
+            <section class="box_message community_reply_section" data-reply-idx="{{idx}}">
+                <div class="users_info dp_ib">
+                    <div>
+                        <a class="comment_writer_thumb community" href="#">
+                            {{#if writer_thumbnail}}
+                            <img src="{{writer_thumbnail}}" alt="test01님의 프로필 사진입니다.">
+                            {{else}}
+                            <img src="/images/default-person.svg" alt="test01님의 프로필 사진입니다.">
+                            {{/if}}
+                            <input type="hidden" name="writer_idx" value="{{writer_idx}}"/>
+                        </a>
+                    </div>
+                    <div>
+                        <div class="dp_ib">
+                            <a href="#"><h1>{{writer_nickname}}</h1></a>
+                            <time datetime="2018-05-08">{{date_created}}</time>
+                            {{#if date_updated}}
+                            <time datetime="2018-05-08">{{date_updated}}</time>
+                            {{/if}}
+                            <input type="hidden" class="comment_idx" name="comment_idx" value="{{idx}}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="users_text dp_ib box_reply_modify">
+                    <p class="reply_context_{{idx}}">{{contents}}</p>
+                    <div class="context_reply context_reply_{{idx}}"></div>
+                    {{#checkWriter writer_idx}}
+                    <div class="mg_height_sm">
+                        <a href="#" class="comment_modify community" data-modify-idx="{{idx}}">
+                            <span></span>
+                        </a>
+                        <a href="#" class="comment_delete community" data-modify-idx="{{idx}}">
+                            <span></span>
+                        </a>
+                    </div>
+                    {{/checkWriter}}
+                    <div class="img_reply_likes">
+                        <div class="align_c padding_h_10" data-reply-idx="cim_{{idx}}">{{likes}}</div>
+                        <a href="#" class="btn_add_like">
+                            <input type="hidden" name="comment_idx" value="{{idx}}"/>
+                            {{#likesCheck likes_check}}
+                            <span>
+                        	<svg class="box_avg_{{idx}}" xmlns="http://www.w3.org/2000/svg"
+                                 width="20" height="15.191" viewBox="246 248.404 20 15.191">
+                                 <g class='icon_reply_like' fill="#ff5274">
+                                    path d="M259.365 259.135l.803.958-.958.803-.803-.957zM261.294 257.55l.802.958-.958.803-.803-.958z"/>
+                                   <path d="M264.941 250.132l-.088-.104a4.813 4.813 0 0 0-6.688-.505L256 251.335l-2.163-1.813a4.813 4.813 0 0 0-6.688.504 4.599 4.599 0 0 0 .41 6.49l.105.09 8.336 6.988 2.255-1.89-.804-.958-1.451 1.22-7.534-6.319a3.346 3.346 0 0 1-.448-4.712c.024-.029.048-.058.073-.085a3.563 3.563 0 0 1 4.945-.371l2.964 2.486 2.968-2.487a3.562 3.562 0 0 1 4.945.371 3.348 3.348 0 0 1-.294 4.726l-.085.073-1.293 1.083.804.958 1.293-1.083a4.597 4.597 0 0 0 .603-6.474z"/>
+                               	</g>
+                           </svg>
+                        </span>
+                            {{else}}
+                            <span>
+                            <svg class="box_svg_{{idx}}" xmlns="http://www.w3.org/2000/svg"
+                                 width="20" height="15.191" viewBox="246 248.404 20 15.191">
+                                <g class='icon_reply_like'>
+                                    <path d="M259.365 259.135l.803.958-.958.803-.803-.957zM261.294 257.55l.802.958-.958.803-.803-.958z"/>
+                                    <path d="M264.941 250.132l-.088-.104a4.813 4.813 0 0 0-6.688-.505L256 251.335l-2.163-1.813a4.813 4.813 0 0 0-6.688.504 4.599 4.599 0 0 0 .41 6.49l.105.09 8.336 6.988 2.255-1.89-.804-.958-1.451 1.22-7.534-6.319a3.346 3.346 0 0 1-.448-4.712c.024-.029.048-.058.073-.085a3.563 3.563 0 0 1 4.945-.371l2.964 2.486 2.968-2.487a3.562 3.562 0 0 1 4.945.371 3.348 3.348 0 0 1-.294 4.726l-.085.073-1.293 1.083.804.958 1.293-1.083a4.597 4.597 0 0 0 .603-6.474z"/>
+                                </g>
+                            </svg>
+                        </span>
+                            {{/likesCheck}}
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+        {{/each}}
+    </script>
+
+    
+</section>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<body>
+<div class="dashboard-babybook--box--section default-list active" th:fragment="center-calendar">
+    <!--달력-->
+    <div class="date-picker"></div>
+    <!--아이콘 표시-->
+    <!--<div class="icon-description">-->
+        <!--locale 변경-->
+        <!--<div>-->
+            <!--<div class="hospital" th:text="#{event.schedule.hospital}">병원 일정</div>-->
+            <!--<div class="birth-day" th:text="#{event.schedule.birth}">생일 일정</div>-->
+            <!--<div class="etc" th:text="#{event.schedule.etc}">기타 일정</div>-->
+            <!--<div class="babybook" th:text="#{event.diary}">육아 일기</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <a class="__mobile-close-modal-button">
+        닫기
+    </a>
+    <div class="icon-description">
+        <div class="icon-description--desc-icon">
+            <span class="today-icon"></span>
+            <p>오늘 일자</p>
+        </div>
+        <div class="icon-description--desc-icon">
+            <span class="selected-icon"></span>
+            <p>선택일자</p>
+        </div>
+        <span class="icon-description-vertical-line"></span>
+        <div class="icon-description--desc-icon">
+            <span class="schedule-icon"></span>
+            <p>일정</p>
+        </div>
+        <div class="icon-description--desc-icon">
+            <span class="diary-icon"></span>
+            <p>일기</p>
+        </div>
+    </div>
+    <!--일정, 일기의 갯수-->
+    <div class="dashboard-babybook--client--info">
+        <h1 class="dashboard-babybook--client--info--date" th:title="${selected_date}" th:text="${selected_date != null ? selected_date:'서버 오류'}"></h1>
+        <div class="dashboard-babybook--client--info--container">
+            <div class="dashboard-babybook--client--info--container__schedule-count">
+                <div>
+                    <h2 th:text="#{dashboard.babybook.schedule_num}">일정 수</h2>
+                    <span  th:unless="${schedule_list == null}" title="15개의 일정이 있습니다." th:text="${#arrays.length(schedule_list)}">ㅁ</span><em th:unless="${schedule_list == null}">개</em>
+                    <p th:if="${schedule_list == null || #arrays.length(schedule_list) < 1}" th:text="#{dashboard.time.none}">기록 없음</p>
+                </div>
+            </div>
+            <div class="dashboard-babybook--client--info--container__babybook-count">
+                <div>
+                    <h2 th:text="#{dashboard.babybook.diary_num}">일기 수</h2>
+                    <span th:unless="${diary_list == null}" title="6개의 육아일기가 있습니다." th:text="${#arrays.length(diary_list)}">ㅁ</span><em th:unless="${diary_list == null}">개</em>
+                    <p th:if="${diary_list == null || #arrays.length(diary_list) < 1}" th:text="#{dashboard.time.none}">기록 없음</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

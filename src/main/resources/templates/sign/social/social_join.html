@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<div id="firebaseui-auth-container" style="width:360px; max-width: 100%;"></div>
+<section class="client-join-section section" th:style="${app != null && app == true ? 'padding:60px 0 60px 0;':null}">
+    <div class="client-join-section--logo" th:text="#{google_join.logo}">
+        리틀원의 회원가입 섹션의 로고입니다.
+    </div>
+    <div class="client-join-section--bar"></div>
+    <div class="client-join-section--desc">
+        <h1 th:text="#{join}">회원가입</h1>
+        <p th:text="#{naver_join.msg}"></p>
+    </div>
+    <div class="client-join-section--sns-email">
+        <span>계정 아이디 :</span>
+        <p th:text="${naver_email}"></p>
+    </div>
+    <div>
+        <form class="client-join-section--form" id="client-join-section--form" role="form">
+            <fieldset form="client-join-section--form">
+                <legend th:text="#{google_join.legend}">리틀원의 sns 회원가입 폼입니다.</legend>
+                <div class="client-join-section--form--box">
+                    <label for="nickname-icon-input-component" class="nickname-icon"
+                           th:title="#{join.nickname.placeholder}"></label>
+                    <input type="text" name="nickname" th:value="${naver_nickname != null ? naver_nickname : ''}" required="required"
+                           id="nickname-icon-input-component" th:placeholder="#{join.nickname.placeholder}"
+                           autocapitalize="off" class="__default-input-component"/>
+                    <button type="button" role="button" data-name="nickname" class="__remove-input-button" th:text="#{join.delete_input}">입력 값을 지웁니다.</button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 12" class="__check-animation" data-name="nickname">
+                        <path fill="none" stroke="#19ebdd" stroke-width="3" stroke-miterlimit="10" d="M1.1,5.6"/>
+                    </svg>
+                </div>
+                <div class="client-join-section--form--warning" data-name="nickname">
+                    <em></em>
+                </div>
+                <div class="client-join-section--form--box">
+                    <label for="last-name-input-component" class="family-name-icon" th:title="#{join.name.placeholder}"></label>
+                    <input type="text" name="name" th:value="${naver_name != null ? naver_name : ''}" required="required" id="last-name-input-component" th:placeholder="#{google_join.name.placeholder}" autocapitalize="off" class="__default-input-component" maxlength="24"/>
+                    <button type="button" role="button" data-name="name" class="__remove-input-button" th:text="#{join.delete_input}">입력 값을 지웁니다.</button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 12" class="__check-animation" data-name="name">
+                        <path fill="none" stroke="#19ebdd" stroke-width="3" stroke-miterlimit="10" d="M1.1,5.6"/>
+                    </svg>
+                </div>
+                <div class="client-join-section--form--warning" data-name="name">
+                    <em></em>
+                </div>
+                <div class="client-join-section--form--box multiple-input-box">
+                    <div class="multiple-input-box--icon">
+                        <label for="birthdate-input-component" class="birthdate-icon" th:title="#{join.birth.title}"></label>
+                    </div>
+                    <input type="hidden" th:if="${naver_birth != null}" th:value="${naver_birth}">
+                    <input type="text" name="year" value="" id="birthdate-input-component" placeholder="YYYY" autocapitalize="off" class="__birth-date-input-component" required="required" maxlength="4" data-type="year"/>
+                    <input type="text" name="month" th:value="${naver_birth_month != null ? naver_birth_month : ''}" placeholder="MM" autocapitalize="off" class="__birth-date-input-component" required="required" maxlength="2" data-type="month"/>
+                    <input type="text" name="date" th:value="${naver_birth_day != null ? naver_birth_day : ''}" placeholder="DD" autocapitalize="off" class="__birth-date-input-component" required="required" maxlength="2" data-type="date"/>
+                </div>
+                <div class="client-join-section--form--warning" data-name="birthdate">
+                    <em></em>
+                </div>
+                <div class="client-join-section--form--box" style="overflow: hidden; border-bottom: none;">
+                    <label for="gender-input-component--female" class="gender-icon" th:title="#{google_join.gender.title}"></label>
+                    <label for="gender-input-component--female" class="__check-button" th:classappend="${#strings.equals(naver_gender,'F') ? 'active':null}" th:inline="text">[[#{join.gender.female}]]
+                        <input type="radio" name="gender" id="gender-input-component--female" value="f" th:checked="${#strings.equals(naver_gender, 'F') ? true:false}" class="__radio-input-component"/>
+                        <input type="radio" name="gender" id="gender-input-component--male" value="m" th:checked="${#strings.equals(naver_gender, 'M') ? true:false}" class="__radio-input-component"/>
+                    </label>
+                    <label for="gender-input-component--male" class="__check-button" th:classappend="${#strings.equals(naver_gender,'M') ? 'active':null}" th:text="#{join.gender.male}">남성</label>
+                </div>
+                <div class="client-join-section--form--warning" data-name="gender"></div>
+                <div class="client-join-section--form--authorization-box">
+                    <a href="javascript:void(0)" class="__auth-client-phone-button" role="button" id="buttons">
+                        <span class="--mobile-icon" th:text="#{join.auth_phone}">휴대폰 인증</span>
+                        <input type="hidden" name="phone" value="" required="required" readonly="readonly" aria-hidden="true">
+                        <input type="hidden" name="token" value="">
+                        <span class="__authorization"></span>
+                    </a>
+                </div>
+                <div class="client-join-section--form--warning" data-name="phone">
+                    <em></em>
+                </div>
+                <div class="client-join-section--form--terms-box">
+                    <a href="javascript:void(0)" class="__check-terms-agree-button" role="button"
+                       aria-labelledby="term-check-input-component">
+                        <svg width="15" height="12" viewBox="0 0 15 12" class="svg-animated">
+                            <path d="M12.708 0l-7.5 7.447-2.916-2.895L0 6.83 5.208 12 15 2.277z" fill="#9013FE" fill-rule="nonzero"/>
+                        </svg>
+                    </a>
+                    <label for="term-check-input-component" class="__terms-and-agree" th:inline="text">[[#{join.term1}]] <a href="/join_business/privacypolicy" role="link" target="_blank" th:text="#{join.term2}">개인정보보호정책</a> [[#{join.term.and}]] <a href="/join_business/termsofuse" role="link" target="_blank" th:text="#{join.term3}">모든 약관</a>[[#{join.term4}]]
+                        <input type="checkbox" name="terms" id="term-check-input-component" role="checkbox" required="required"/>
+                    </label>
+                </div>
+                <div class="client-join-section--form--warning" data-name="terms">
+                    <em></em>
+                </div>
+                <div>
+                    <input type="hidden" name="social_email" th:value="${email}">
+                    <button type="submit" role="button" class="__join-sns-member-button __submit-default-button" th:text="#{join}">회원가입</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>
+<div id="loader"></div>
+<footer th:replace="./include/footer ::footer"></footer>
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+<script th:if="${session.tmp_locale ==  null}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__ko.js"></script>
+<script th:if="${#strings.equals(locale, 'ko')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__ko.js"></script>
+<script th:if="${#strings.equals(locale, 'en')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__en.js"></script>
+<script th:if="${#strings.equals(locale, 'ja')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__ja.js"></script>
+<script th:if="${#strings.equals(locale, 'zh')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__zh_cn.js"></script>>
+<script th:src="@{~/js/api/fireBaseAuth.js}" type="text/javascript"></script>
+<script th:src="@{~/js/lib/snap.svg-min.js}" type="text/javascript"></script>
+<script type="text/javascript" charset="UTF-8" th:src="@{~/js/littleone_script.js}"></script>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/sign/socialSignup.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/login_ajax.js}" type="text/javascript"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+</body>
+</html>
+<!-- name: social_type, value: naver 또는 google -->

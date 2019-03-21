@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting :: head"></head>
+<body oncontextmenu="return false">
+<section th:include="./include/header :: header"></section>
+<!--[if lt IE 9]>
+<div class="ie_warining">
+    <h1 class="browserupgrade">(주)리틀원의 웹사이트는 인터넷 익스폴로러 10버전 미만은 지원하지 않습니다. 더 나은 환경과 좋은 서비스를 위해 불편하시더라도 이곳에서<a
+            href="http://browsehappy.com/">브라우저 업그레이드 하기</a>최신버젼으로 업그레이드 해주세요.</h1>
+    <p> 최적의 환경을 위해 크롬(chrome) 최신 버젼을 추천합니다.</p>
+</div>
+<![endif]-->
+<div class="application">
+    <section class="community-index-section">
+        <div class="community-index-section--logo"></div>
+        <div class="community-index-section--desc">
+            <h1 th:text="#{community}">커뮤니티</h1>
+            <p th:text="#{community.msg}">리틀원 커뮤니티에서 육아정보, 제품과 관련된 아이디어와 질문들을 나누어보세요.</p>
+        </div>
+        <div class="community-index-section--links">
+            <div>
+                <a href="/community/qna/page/1" class="__qna-board">
+                    <h2 th:text="#{community.product}">제품 커뮤니티</h2>
+                    <p th:text="#{community.product.msg}">리틀원의 제품에 대해 자유롭게 토론할 수 있습니다.</p>
+                </a>
+                <a href="/community/service/page/1" class="__service-board">
+                    <h2 th:text="#{community.service}">서비스 커뮤니티</h2>
+                    <p th:text="#{community.service.msg}">리틀원의 서비스에 대해 자유롭게 토론할 수 있습니다.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/login_ajax.js}" type="text/javascript"></script>
+<script th:src="@{~/js/mypage.js}" type="text/javascript"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+<script th:replace="./include/handlebar_template ::handlebar_template"></script>
+</body>
+</html>

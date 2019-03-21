@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<br>
+<section style="margin:100px auto;">
+<center>
+<form method="post" id="form_data" action="#">
+메일 템플릿 이름 : <input type="text" name="template_name"/><br>
+템플릿 파일명 : <input type="text" name="template_file_name"/>.html<br>
+메일 제목 : [Littleone] <input type="text" name="mail_subject"/><br>
+<button type="submit" id="add_template_submit">create</button>
+</form>
+</center>
+<br>
+</section>
+<footer th:include="./include/footer :: footer"></footer>
+<script>
+	$(document).ready(function() {
+		$("#add_template_submit").on("click", function(e) {
+			e.preventDefault();
+			$.ajax({
+				url: "/admin/createTemplate",
+				type: "POST",
+				data: $("#form_data").serialize(),
+				dataType: "text",
+				beforeSend: function(xhr) {
+					sendCsrfToken(xhr);
+				},
+				success: function(data) {
+					if(data == 'success') {
+						alert("성공적으로 메일 템플릿을 생성하였습니다.");
+					} else {
+						alert("메일 템플릿 생성에 실패하였습니다.");
+					}
+				},
+				error: function() {
+					alert("ajax 통신 에러");
+				}
+			});
+		});
+	});
+</script>
+</body>
+</html>

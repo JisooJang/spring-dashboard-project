@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer role="contentinfo" class="footer-section" th:classappend="${index_check == true ? null:'theme-02'}" th:fragment="footer">
+    <input type="hidden" name="index_check" th:value="${index_check}"/>
+    <div class="footer-section--upper">
+        <div>
+            <div class="footer-section--upper--email">
+                <label for="email-subscription-input" class="footer-section--upper--email--desc" th:text="#{footer.subscribe}">
+                    구독하고 생생한 육아 정보를 얻어가세요!
+                </label>
+                <div class="footer-section--upper--email--component">
+                    <form id="email-subscription-form">
+                        <fieldset form="email-subscription-form">
+                            <legend th:text="#{footer.subscribe.legend}">리틀원을 구독하고 새로운 육아정보를 매일 얻어가세요.</legend>
+                            <input type="text" name="subscrbe_email" id="email-subscription-input" autocapitalize="off" maxlength="42" required="required" th:placeholder="#{footer.subscribe.placeholder}"/>
+                            <button type="reset" class="__remove-input-button"></button>
+                            <button type="submit" class="__subscribe-email-button"></button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-section--upper--links">
+                <a href="https://www.facebook.com/littleonesns" class="__link-facebook" target="_blank"></a>
+                <a href="https://twitter.com/littleonesns" class="__link-twitter" target="_blank"></a>
+                <a href="https://www.instagram.com/littleonesns/" class="__link-instagram" target="_blank"></a>
+                <a href="https://www.youtube.com/channel/UC2viX5InWtasFUGrRRw3rwQ/" class="__link-youtube" target="_blank"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-section--lower">
+        <div>
+            <div class="footer-section--lower--store">
+                <a href="https://itunes.apple.com/kr/app/jellidaesi/id1269000433?mt=8" data-temp="1436950482" role="button" class="__link-apple-store" target="_blank">App Store</a>
+                <a href="https://play.google.com/store/apps/details?id=com.xrz.xxkko" role="button" class="__link-play-store" target="_blank">Google Play</a>
+            </div>
+            <div class="footer-section--lower--list">
+                <ul class="footer-section--lower--list--about">
+                    <li>
+                        <a href="/about" th:text="#{footer.corp_intro}">회사소개</a> <span class="vertical-bar">│</span>
+                    </li>
+                    <li>
+                        <a href="javascript:generateModal('help-modal','알림','현재 예정된 채용일정이 없습니다.')" th:text="#{footer.recruit}">채용안내</a> <span class="vertical-bar">│</span>
+                    </li>
+                    <!--<li>-->
+                        <!--<a href="javascript:generateModal('help-modal','알림','현재 파트너 페이지는 준비 중입니다.',false)" target="_blank" th:text="#{footer.partner}">파트너</a> <span class="vertical-bar">│</span>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<a href="javascript:generateModal('help-modal','알림','현재 도움말 페이지는 준비 중입니다.', false)" th:text="#{footer.help}">도움말</a> <span class="vertical-bar">│</span>-->
+                    <!--</li>-->
+                    <li>
+                        <a href="http://pf.kakao.com/_xmIQHu/chat" target="_blank" th:text="#{footer.customer_center}">고객센터</a>
+                    </li>
+                </ul>
+                <em class="littleone-inc" th:text="#{footer.littleone}">리틀원 주식회사</em>
+                <ul class="footer-section--lower--list--info" th:if="${session.lang_value != null && #strings.equals(session.lang_value, 'ko')}">
+                    <li th:inline="text">[[#{footer.represent}]] <span class="vertical-bar">│</span></li>
+                    <li th:inline="text">[[#{footer.telemarketing_num}]] <span class="vertical-bar">│</span></li>
+                    <li><span class="__crn-text" th:text="#{footer.corp_num}">사업자등록번호 : 324-87-00848</span>
+                        <a href="http://ftc.go.kr/www/bizCommView.do?key=232&apv_perm_no=2017362014530200487&pageUnit=10&searchCnd=
+rkr_no&searchKrwd=3248700848&pageIndex=1" class="__check-crn-info" target="_blank" title="리틀원의 사업자등록번호를 확인하실 수 있습니다." th:text="#{footer.confirm_corp_info}">사업자정보확인</a>
+                    </li>
+                    <li th:inline="text">[[#{footer.address}]] <span class="vertical-bar">│</span></li>
+                    <li class="mobile-break" th:inline="text">[[#{footer.tel}]]<span class="vertical-bar">│</span></li>
+                    <li th:text="#{footer.fax}">팩스번호 : 050-8090-2503</li>
+                </ul>
+                <div class="footer-section--lower--list--terms">
+                    <div class="footer-section--lower--list--terms--desc">
+                        <em th:text="#{footer.copyright}">ⓒ 2018 LITTLEONE All rights reserved.</em>
+                        <div>
+                            <a href="/join_business/privacypolicy" th:text="#{footer.privacypolicy}">개인정보보호정책</a>
+                            <a href="/join_business/termsofuse" class="__link-service-terms" th:text="#{footer.termsofuse}">서비스 약관</a>
+                        </div>
+                    </div>
+                    <div id="footer-language-box">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0)" class="__change-locale __current-lang">
+                                    <div class="locale-container">
+                                        <div class="locale-container--flag korea-flag"></div>
+                                        <div class="locale-container--country">한국</div>
+                                        <div class="locale-container--down-arrow"></div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                        <ol>
+                            <li class="footer-language-box--list" data-select-value="US">
+                                <a href="#" class="__change-locale">
+                                    <div class="locale-container">
+                                        <div class="locale-container--flag usa-flag"></div>
+                                        <div class="locale-container--country">US</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="footer-language-box--list" data-select-value="中國">
+                                <a href="#" class="__change-locale">
+                                    <div class="locale-container">
+                                        <div class="locale-container--flag china-flag"></div>
+                                        <div class="locale-container--country">中國</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="footer-language-box--list" data-select-value="日本">
+                                <a href="#" class="__change-locale">
+                                    <div class="locale-container">
+                                        <div class="locale-container--flag japan-flag"></div>
+                                        <div class="locale-container--country">日本</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="footer-language-box--list" data-select-value="한국">
+                                <a href="#" class="__change-locale">
+                                    <div class="locale-container">
+                                        <div class="locale-container--flag korea-flag"></div>
+                                        <div class="locale-container--country">한국</div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

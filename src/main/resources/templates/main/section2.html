@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<section class="secondary-section section" th:fragment="main-section-02">
+    <div class="secondary-section--content">
+        <div class="secondary-section--content--head">
+            <div class="outer">
+                <div class="inner">
+                    <div class="centered">
+                        <h1 th:text="#{littleone}">리틀원</h1><span th:text="#{main.is}">은</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p th:inline="text">[[#{main.info1}]]<br> <em>[[#{main.info2}]]</em> [[#{main.info3}]]</p>
+    </div>
+</section>
+</body>
+</html>

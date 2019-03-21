@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<section class="fourth-section section" th:fragment="main-section-04">
+    <div class="fourth-section--article">
+        <div>
+            <h1 th:inline="text">[[#{main.device_title1}]] <br>[[#{main.device_title2}]]</h1>
+            <p th:inline="text">[[#{main.device_title.info1}]]<br> [[#{main.device_title.info2}]]<br>
+                [[#{main.device_title.info3}]]</p>
+        </div>
+    </div>
+    <div class="fourth-section--mobile">
+        <div class="fourth-section--mobile--devices" th:text="#{main.voice_reader.device_photo}">리틀원의 디바이스 제품군 사진입니다.</div>
+        <div class="fourth-section--mobile--mobile" th:text="#{main.voice_reader.app_photo}">리틀원 앱 어플리케이션의 사진입니다.</div>
+        <div class="fourth-section--mobile--pictures" th:text="#{main.voice_reader.gallery}">리틀원의 갤러리 사진 나열 입니다.</div>
+    </div>
+</section>
+</body>
+</html>

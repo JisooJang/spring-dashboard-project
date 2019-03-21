@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body>
+<div th:include="./include/modal"></div>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="littleone-common-section">
+    <div class="littleone-common-section--logo">
+        리틀원의 회원탈퇴 섹션 로고입니다.
+    </div>
+    <div class="littleone-common-section--bar"></div>
+    <div class="littleone-common-section--desc">
+        <h1>회원탈퇴</h1>
+        <p th:text="${#strings.equals('personal_s',session.session_type) ? '리틀원을 탈퇴하기 위해서 이메일을 인증해주세요.':'리틀원을 탈퇴하기 위해서는 비밀번호를 입력해주세요.'}"></p>
+    </div>
+    <form class="littleone-common-section--form" id="client-leaving-form" role="form"
+          th:method="${session.session_type == 'personal_s' ? 'get':'post'}"
+          th:action="${session.session_type == 'personal_s' ? '#':'/mypage/member_leave'}">
+        <fieldset form="client-leaving-form">
+            <legend>리틀원 회원탈퇴 입력 폼 입니다.</legend>
+            <div class="littleone-common-section--form--box" th:if="${session.session_type!='personal_s'}">
+                <label for="__check-client-password" class="__lock-icon"></label>
+                <input type="password" id="__check-client-password" maxlength="16" name="password" required="required"/>
+                <button type="button" class="__remove-input-value">입력 값 삭제 버튼입니다.</button>
+            </div>
+            <div class="littleone-common-section--form--error">
+                <p th:text="${auth_failed=='true' ? '비밀번호를 다시 확인하세요.':null}"></p>
+            </div>
+            <button type="submit" role="button" class="__submit-btn"
+                    th:text="${session.session_type != 'personal_s' ? '확인':'이메일 전송'}"
+                    th:id="${session.session_type != 'personal_s' ? 'member_leave':'send_auth_mail'}">확인
+            </button>
+            <input type="hidden" th:value="${session.session_type}" name="session_type">
+            <input type="hidden" th:value="${session.idx}" name="session_idx">
+            <input type="hidden" th:value="${session.session_email}" name="session_email">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="hidden" th:if="${auth_failed =='true'}" th:value="true" id="autoFocus"/>
+        </fieldset>
+    </form>
+</div>
+
+
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/sign/leave.js}" type="text/javascript"></script>
+<script th:replace="./include/handlebar_template :: handlebar_template"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LITTLEONE STORE LINK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="format-detection" content="telephone=no, address=no, email=no">
+</head>
+<body>
+<script type="text/javascript" charset="UTF-8">
+    var os = getOS();
+
+    var visitedTime = (new Date()).getTime();//방문시간
+
+    if (os === 'iOS' || os === 'Mac OS') {
+        setTimeout(function () {
+            if ((new Date().getTime() - visitedTime < 3000)) {
+                window.location.replace('https://itunes.apple.com/kr/app/jellidaesi/id1436950482?mt=8')
+            }
+        }, 400);
+
+        setTimeout(function () {
+            window.location.replace('https://itunes.apple.com/kr/app/jellidaesi/id1436950482?mt=8')
+        }, 0)
+
+    } else if (os === 'Android') {
+        setTimeout(function () {
+            if ((new Date().getTime() - visitedTime < 3000)) {
+                window.location.replace('https://play.google.com/store/apps/details?id=com.littleone.feeder')
+            }
+        }, 400);
+    } else {
+        setTimeout(function () {
+            if ((new Date().getTime() - visitedTime < 3000)) {
+                window.location.replace('https://play.google.com/store/apps/details?id=com.littleone.feeder')
+            }
+        }, 400);
+    }
+
+
+    function getOS() {
+        var userAgent = window.navigator.userAgent,
+            platform = window.navigator.platform,
+            macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+            windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+            iosPlatforms = ['iPhone', 'iPad', 'iPod'];
+
+        var os = null;
+
+        if (macosPlatforms.indexOf(platform) !== -1 && !window.MSStream) {
+            os = 'Mac OS'
+        } else if (iosPlatforms.indexOf(platform) !== -1 && !window.MSStream) {
+            os = 'iOS';
+        } else if (windowsPlatforms.indexOf(platform) !== -1) {
+            os = 'Windows';
+        } else if (/Android/.test(userAgent)) {
+            os = 'Android';
+        } else if (!os && /Linux/.test(platform)) {
+            os = 'Linux';
+        }
+
+        return os;
+    }
+
+</script>
+</body>
+</html>

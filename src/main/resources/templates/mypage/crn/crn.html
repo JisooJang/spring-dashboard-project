@@ -1,0 +1,66 @@
+{{>../include/setting}}
+{{>../include/new_header}}
+<section class="wrap_contents">
+    <div class="container_contents">
+        <div class="box_crn">
+            <form action="#" method="post" enctype="multipart/form-data" id="crn_submit_form">
+            <div class="container_table">
+                <div class="box_request_crn">
+                    <div>
+                        <div class="container_crn_contents">
+                            <h1>사업자 등록증 인증신청</h1>
+                            <p>사업자 등록증을 저희에게 보내주시면 검토 후 인증회원처리 해드리고 있습니다.</p>
+                            <p>※ 인증완료후 전자상거래 및 상담서비스 이용이 가능합니다.</p>
+                            <div class="m_padding">
+                                <span class="text_crn_h">기업명</span>
+                                <span class="text_proposals">{{#corp_name}}{{corp_name}}{{/corp_name}}</span>
+                            </div>
+                            <div class="m_padding">
+                                <span class="text_crn_h">사업자 번호</span>
+                                <span class="text_proposals">{{#corp_num}}{{corp_num}}{{/corp_num}}</span>
+                            </div>
+                            <div class="m_padding">
+                                <span class="text_crn_h">대표성함</span>
+                                <span class="text_proposals">{{#name}}{{name}}{{/name}}</span>
+                            </div>
+                            <div class="m_padding">
+                                <span class="text_crn_h">신청일</span>
+                                <span class="text_proposals">{{#date}}{{date}}{{/date}}</span>
+                            </div>
+                            {{#license_url}}
+                            <div class="m_padding">
+                                <span class="text_crn_h">접수 현황</span>
+                                <span class="text_proposals">승인 대기중</span>
+                                <span class="text_proposals"><a href="{{license_url}}">제출 파일 확인</a></span>
+                                <button id="cancel_application">접수 취소</button>
+                            </div> 
+                			{{/license_url}}
+                            <ul class="box_info_crn">
+                                <li class="infi_stit">사업자 등록번호 인증이 되지 않을 경우, 아래 방법으로 확인하실 수 있습니다.</li>
+                                <li>- FAX 접수 : 050-8090-2503으로 사업자등록증 1부, 연락처 기재</li>
+                                <li>- 이메일접수 : smart@littleone.kr 로 사업자등록증 1부, 연락처 기재</li>
+                                <li>- 전화 문의 : NICE평가정보㈜ 고객센터로 문의 바랍니다. (1600-1522)</li>
+                                <li>- 사업자 판매회원 사업자등록<a href="http://www.niceinfo.co.kr/main.nice" class="sm_link">바로가기</a></li>
+                                <li>- NICE 평가정보<a href="http://www.niceinfo.co.kr/main.nice" class="sm_link">바로가기</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {{^license_url}}
+                <input type="file" id="license_file" name="license_file" class="thumb_button user_profile" capture='camera' accept='.pdf, .jpeg, jpg, png'><button type="button" class="reset_button margin_0_5">파일 삭제</button>
+                </div>
+                <div class="container_button_crn">
+                <button class="button crn_button" type="submit">제출</button>
+            	</div>
+                {{/license_url}} 
+            </form>
+        </div>
+    </div>
+</section>
+{{>../include/footer}}
+<script src="../../../../resources/js/validation.js"></script>
+<script src="../../../../resources/js/littleone_script.js"></script>
+<script src="../../../../resources/js/login_ajax.js"></script>
+<script src="../../../resources/js/crn.js"></script>
+</body>
+</html>

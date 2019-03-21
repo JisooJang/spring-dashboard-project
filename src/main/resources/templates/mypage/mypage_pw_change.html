@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<section class="littleone-common-section password-change-section">
+    <div class="littleone-common-section--logo" th:text="#{mypage.modify_password.title}">
+        리틀원의 비밀번호 변경 페이지의 로고입니다.
+    </div>
+    <div class="littleone-common-section--bar"></div>
+    <div class="littleone-common-section--desc">
+        <h1 th:text="#{mypage.modify_password}">비밀번호 변경</h1>
+        <p th:text="#{mypage.modify_password.msg}">회원님의 소중한 개인정보 보호를 위해서는 주기적인 비밀번호 변경을 권장합니다.</p>
+        <span th:text="#{mypage.modify_password.last_change} + ${pw_renew_date}"></span>
+    </div>
+    <form class="littleone-common-section--form" id="password-change-form" role="form" action="/mypage/modify_password" method="post">
+        <fieldset form="password-change-form">
+            <legend th:text="#{mypage.modify_password.legend}">리틀원 비밀번호 변경 폼 입니다.</legend>
+            <div class="littleone-common-section--form--box">
+                <label for="__check-client-password" class="__lock-icon"></label>
+                <input type="password" id="__check-client-password" class="__input-component" maxlength="20" name="old_password" required="required" th:placeholder="#{mypage.modify_password.now}"/>
+                <button type="button" class="__remove-input-value"  data-name="old_password" th:text="#{mypage.confirm_password.input.delete}">입력 값 삭제 버튼입니다.</button>
+            </div>
+            <div class="littleone-common-section--form--error" data-name="old_password">
+                <p th:if="${auth_failed=='true'}" th:text="#{mypage.confirm_password.auth_failed}"></p>
+                <p th:unless="${auth_failed=='true'}"></p>
+            </div>
+            <div class="littleone-common-section--form--box">
+                <label for="__check-client-new-password" class="__lock-icon"></label>
+                <input type="password" id="__check-client-new-password" class="__input-component" maxlength="20" name="new_password"
+                       required="required" th:placeholder="#{mypage.modify_password.new}"/>
+                <button type="button" class="__remove-input-value"  data-name="new_password" th:text="#{mypage.confirm_password.input.delete}">입력 값 삭제 버튼입니다.</button>
+            </div>
+            <div class="littleone-common-section--form--error" data-name="new_password">
+                <p th:if="${password_validation_error=='true'}" th:text="#{mypage.modify_password.failed}"></p>
+                <p th:unless="${apassword_validation_error=='true'}"></p>
+            </div>
+            <div class="littleone-common-section--form--box">
+                <label for="__check-client-new-password-again" class="__lock-icon"></label>
+                <input type="password" id="__check-client-new-password-again" class="__input-component" maxlength="20" name="new_password_config"
+                       required="required" th:placeholder="#{mypage.modify_password.new.confirm}"/>
+                <button type="button" class="__remove-input-value"  data-name="new_password_config" th:text="#{mypage.confirm_password.input.delete}">입력 값 삭제 버튼입니다.</button>
+            </div>
+            <div class="littleone-common-section--form--error" data-name="new_password_config">
+                <p th:if="${password_same_error=='true'}" th:text="#{mypage.modify_password.same_failed}"></p>
+                <p th:unless="${password_same_error=='true'}"></p>
+            </div>
+            <button type="submit" role="button" class="__submit-btn" th:text="#{mypage.confirm}">확인</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="hidden" th:if="${auth_failed =='true'}" th:value="true" id="autoFocus"/>
+        </fieldset>
+    </form>
+</section>
+
+
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/sign/passwordChange.js}" type="text/javascript"></script>
+<script th:src="@{~/js/sign/leave.js}" type="text/javascript"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+<script th:replace="./include/handlebar_template ::handlebar_template"></script>
+</body>
+</html>

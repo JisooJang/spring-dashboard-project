@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<div class="container_join modal form_add">
+    <h1 class="join_header">기업 회원 사업자등록증 인증 대기 목록</h1>
+    <div class="address_header">
+        <p>배송지는 최대 3개까지 추가하실 수 있습니다.</p>
+    </div>
+    <br>
+    <form action="#" method="post" id="address_form">
+        <label for="get_user_button">
+            <input type="checkbox" id="get_user_button">기본정보 가져오기
+        </label>
+        <div class="container_join_input">
+            <input type="text" class="join_input" name="address_name" id="address_name" placeholder="배송지명">
+        </div>
+        <div class="container_join_input">
+            <input type="text" class="join_input" name="recipient_name" id="recipient_name" placeholder="수령자 성함">
+            <span class="validation_check"></span>
+        </div>
+        <div class="container_join_input">
+            <input type="tel" class="join_input" name="recipient_phone" id="recipient_phone" placeholder="연락처1">
+            <input type="tel" class="join_input" name="recipient_phone2" id="recipient_phone2" placeholder="연락처2">
+        </div>
+        <div class="container_join_input">
+            <input type="text" value="" id="zipcode" name="zipcode" class="join_input box_api" placeholder="우편번호" readonly="readonly">
+            <button type="button" class="join_button" onclick="execDaumPostcode('zipcode','address1','address2')">주소 찾기</button>
+            <input type="text" value="" id="address1" name="address1" class="join_input font_address" placeholder="○○시 ○○구 ○○로 123-1" readonly="readonly">
+            <input type="text" value="" id="address2" name="address2" class="join_input font_address" placeholder="나머지 상세주소">
+        </div>
+        <button type="submit" class="button margin_t_15 submit_adress_add" id="add_address">배송지 추가하기</button>
+    </form>
+
+</div>
+<div class="container_join modal form_update">
+    <h1 class="join_header">배송지 수정</h1>
+    <br><br>
+    <form action="#" method="post" id="update_address_form">
+        <div class="container_join_input">
+            <input type="text" class="join_input" name="address_name" id="update_address_name" placeholder="배송지명">
+        </div>
+        <div class="container_join_input">
+            <input type="text" class="join_input" name="recipient_name" id="update_recipient_name" placeholder="수령자 성함">
+            <span class="validation_check"></span>
+        </div>
+        <div class="container_join_input">
+            <input type="tel" class="join_input" name="recipient_phone" id="update_recipient_phone" placeholder="연락처1">
+            <input type="tel" class="join_input" name="recipient_phone2" id="update_recipient_phone2" placeholder="연락처2">
+        </div>
+        <div class="container_join_input">
+            <input type="text" value="" id="update_zipcode" name="zipcode" class="join_input box_api" placeholder="우편번호">
+            <button type="button" class="join_button" onclick="execDaumPostcode('update_zipcode','update_address1','update_address2')">주소 찾기</button>
+            <input type="text" value="" id="update_address1" name="address1" class="join_input font_address" placeholder="○○시 ○○구 ○○로 123-1">
+            <input type="text" value="" id="update_address2" name="address2" class="join_input font_address" placeholder="나머지 상세주소">
+        </div>
+        <button type="submit" class="button margin_t_15" id="update_address">배송지 수정완료</button>
+    </form>
+</div>
+<section class="wrap_contents">
+    <div class="modal_block"></div>
+    <div class="container_contents">
+        <br>
+        <div class="box_address"><!--배송지 목록-->
+            <div class="address_header">
+                <h1 class="join_header">기업 회원 인증 대기 목록</h1>
+            </div>
+            <br>
+            <div class="address_center">
+                <div id="list" align="center">
+                <table align="center">
+                <tr align="center">
+				<th width="100">회원번호</th><th width="100">제출서류</th><th width="200">사업자번호</th><th width="200">기업명</th><th width="100">대표자명</th><th width="100">분야 코드</th><th width="100">서비스 코드</th><th width="100"></th>
+				</tr>
+				<tr align="center">
+				<td th:if="${approval_list}" th:text="${member_idx}"></td>
+				<td th:if="${approval_list}"><a th:href="${license_url}">서류보기</a></td>
+				<td th:if="${approval_list}" th:text="${corp_num}"></td>
+				<td th:if="${approval_list}" th:text="${corp_name}"></td>
+				<td th:if="${approval_list}" th:text="${name}"></td>
+				<td th:if="${approval_list}" th:text="${field_code}"></td>
+				<td th:if="${approval_list}" th:text="${service_code}"></td>
+				<td><a href="/authentication_approved/{{member_idx}}" id="approved">승인처리</a></td>
+				</tr>
+				</table>
+                </div>
+            </div>
+        </div>
+    </div><!--인증 대기 목록-->
+</section>
+<footer th:include="./include/footer:: footer"></footer>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/license.js}" type="text/javascript"></script>
+</body>
+</html>

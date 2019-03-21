@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>이메일 찾기</title>
+</head>
+<body>
+<div class="inquiry-email-modal modal-form"
+     style="width: 440px;max-width: 100%;padding: 50px 60px;background-color: #fff;text-align: center;margin: 0 auto;border: 1px solid #c0ccc9;-webkit-border-radius: 8px;-mozborder-radius: 8px;border-radius: 8px;">
+    <div class="inquiry-email-modal--logo"
+         style="display: inline-block;width: 120px;height: 100px; background-image: url('https://s3.ap-northeast-2.amazonaws.com/littleone/etc/littleone-320-x-460%402x.png'); background-size: 120px 100px; background-repeat: no-repeat; background-position: center;"></div>
+    <div class="inquiry-email-modal--vertical-bar" style="width: 30px;height: 1px;background-color: #333;margin: 35px auto;"></div>
+    <h1 style="font-weight: 700;letter-spacing: -0.8px;font-size: 28px;color: #333;margin: 0;padding: 0;">이메일 문의</h1>
+    <div id="client-inquiry-form" class="inquiry-email-modal--form" style="overflow: hidden;margin-top: 40px;text-align: left;width: 100%;">
+        <div class="inquiry-email-modal--form--container" style="margin-top: 18px;">
+            <h3 style="font-size: 14px;font-weight: 500;letter-spacing: -0.2px;color: #898e9d;padding: 0;margin: 0;margin-bottom: 10px;">이름</h3>
+            <p style=" margin: 0;border: 1px solid #b8bcc9;min-height: 14px;padding: 7px 14px;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;word-break: keep-all;-ms-word-wrap: break-word;word-wrap: break-word;background-color: #f9fbff;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;color: #181818;font-size: 14px;line-height: normal;">
+                {{subject}}</p>
+        </div>
+        <div class="inquiry-email-modal--form--container" style="margin-top: 18px;">
+            <h3 style="font-size: 14px;font-weight: 500;letter-spacing: -0.2px;color: #898e9d;padding: 0;margin: 0;margin-bottom: 10px;">이메일</h3>
+            <p style=" margin: 0;border: 1px solid #b8bcc9;min-height: 14px;padding: 7px 14px;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;word-break: keep-all;-ms-word-wrap: break-word;word-wrap: break-word;background-color: #f9fbff;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;color: #181818;font-size: 14px;line-height: normal;">
+                {{writer_name}}</p>
+        </div>
+        <div class="inquiry-email-modal--form--container" style="margin-top: 18px;">
+            <h3 style="font-size: 14px;font-weight: 500;letter-spacing: -0.2px;color: #898e9d;padding: 0;margin: 0;margin-bottom: 10px;">제목</h3>
+            <p style=" margin: 0;border: 1px solid #b8bcc9;min-height: 14px;padding: 7px 14px;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;word-break: keep-all;-ms-word-wrap: break-word;word-wrap: break-word;background-color: #f9fbff;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;color: #181818;font-size: 14px;line-height: normal;">
+                {{writer_email}}</p>
+        </div>
+        <div class="inquiry-email-modal--form--container" style="margin-top: 18px;">
+            <h3 style="font-size: 14px;font-weight: 500;letter-spacing: -0.2px;color: #898e9d;padding: 0;margin: 0;margin-bottom: 10px;">내용</h3>
+            <p style=" margin: 0;border: 1px solid #b8bcc9;padding: 7px 14px;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;word-break: keep-all;-ms-word-wrap: break-word;word-wrap: break-word;background-color: #f9fbff;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;color: #181818;font-size: 14px;line-height: normal;min-height: 170px;">
+                {{contents}}</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="babybook-modal">
+    <div class="dashboard-babybook--main-modal dashboard-modal">
+        <div class="dashboard-babybook--box">
+            <button type="button" class="__close-button" role="button" th:text="#{dashboard.babybook.close}">창을 닫는 버튼 입니다.</button>
+            <!--좌측-->
+            <div th:replace="./dashboard/widget/babybook/components/left-schedule.html"></div>
+            <!--중앙-->
+            <div th:replace="./dashboard/widget/babybook/components/center-calendar.html"></div>
+            <!--모바일 탭-->
+            <div class="mobile-babybook--heading">
+                <a class="__tab-button __schedule-list active" href="javascript:void(0);">
+                    <h1 th:text="#{dashboard.babybook.schedule}">일정 목록</h1>
+                    <div class="__count">
+                        <span>+20</span>
+                    </div>
+                </a>
+                <span></span>
+                <a class="__tab-button __babybook-list" href="javascript:void(0);">
+                    <h1 th:text="#{dashboard.babybook.diary}">일기 목록</h1>
+                    <div class="__count">
+                        <span>+10</span>
+                    </div>
+                </a>
+            </div>
+            <!--우측-->
+            <div th:replace="./dashboard/widget/babybook/components/right-diary.html"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

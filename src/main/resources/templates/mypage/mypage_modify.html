@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<div id="firebaseui-auth-container" style="width:360px; max-width: 100%;"></div>
+<section class="client-update-section client-join-section section">
+    <div class="client-join-section--logo" th:text="#{mypage.modify.section_logo}">
+        리틀원의 회원정보 수정 섹션의 로고입니다.
+    </div>
+    <div class="client-join-section--bar"></div>
+    <div class="client-join-section--desc">
+        <h1 th:text="#{mypage.modify.title}">회원정보 수정</h1>
+        <p th:text="#{mypage.modify.title.msg}">회원님의 개인정보를 수정하실 수 있습니다.</p>
+    </div>
+    <div>
+        <form class="client-join-section--form" id="client-update-section--form" role="form" action="#">
+            <fieldset form="client-update-section--form">
+                <legend>리틀원의 회원가입 폼입니다.</legend>
+                <!--파일-->
+                <div class="client-join-section--form--box thumbnail-container">
+                    <div class="thumbnail-container--image">
+                        <img th:src="${member.thumbnail!=null ?member.thumbnail:'/images/default-person.svg'}" src="" width="auto" height="auto" th:alt="${original_filename != null ?  original_filename:null}"/>
+                    </div>
+                    <div class="thumbnail-container--file-upload">
+                        <button type="button" data-name="thumbnail" class="__remove-client-thumbnail" th:text="#{mypage.delete}">삭제</button>
+                        <a href="javascript:void(0)">
+                            <label for="thumbnail-input-component" class="__upload-client-thumbnail" th:inline="text">[[#{mypage.modify.find_thumb}]]
+                                <input type="file" name="hidden-thumbnail" id="thumbnail-input-component" capture=".jpg, .png, .jpeg, .gif"/>
+                            </label>
+                        </a>
+                    </div>
+                </div>
+                <!--파일-->
+                <div class="client-join-section--form--box">
+                    <label for="email-input-component" class="email-icon" disabled="disabled" style="opacity: .4;"></label>
+                    <input type="email" name="email" th:value="${member.email}" id="email-input-component" required="required" placeholder="이메일 (id@email.com)" autocapitalize="off" class="__default-input-component" maxlength="42"
+                           disabled="disabled"/>
+                    <button type="button" role="button" data-name="email" class="__remove-input-button" th:text="#{join.delete_input}">입력 값을 지웁니다.</button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 12" class="__check-animation" data-name="email">
+                        <path fill="none" stroke="#19ebdd" stroke-width="3" stroke-miterlimit="10" d="M1.1,5.6"/>
+                    </svg>
+                </div>
+                <div class="client-join-section--form--warning" data-name="email">
+                    <em></em>
+                </div>
+                <div class="client-join-section--form--box">
+                    <label for="nickname-icon-input-component" class="nickname-icon" th:title="#{join.nickname.placeholder}"></label>
+                    <input type="text" name="nickname" th:value="${member.nickname}" required="required" id="nickname-icon-input-component" th:placeholder="#{join.nickname.placeholder}" autocapitalize="off"
+                           class="__default-input-component"/>
+                    <button type="button" role="button" data-name="nickname" class="__remove-input-button" th:text="#{join.delete_input}">
+                    </button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 12" class="__check-animation" data-name="nickname">
+                        <path fill="none" stroke="#19ebdd" stroke-width="3" stroke-miterlimit="10" d="M1.1,5.6"/>
+                    </svg>
+                </div>
+                <div class="client-join-section--form--warning" data-name="nickname">
+                    <em></em>
+                </div>
+                <div class="client-join-section--form--box">
+                    <label for="last-name-input-component" class="family-name-icon" title="성을 입력해주세요"></label>
+                    <input type="text" name="name" th:value="${member.name}" required="required" id="last-name-input-component" placeholder="성/이름" autocapitalize="off" class="__default-input-component" maxlength="24"/>
+                    <button type="button" role="button" data-name="name" class="__remove-input-button" th:text="#{join.delete_input}">
+                    </button>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 12" class="__check-animation" data-name="name"><path fill="none" stroke="#19ebdd" stroke-width="3" stroke-miterlimit="10" d="M1.1,5.6"/></svg>
+                </div>
+                <div class="client-join-section--form--warning" data-name="name">
+                    <em></em>
+                </div>
+                <div class="client-join-section--form--box multiple-input-box">
+                    <div class="multiple-input-box--icon">
+                        <label for="birthdate-input-component" class="birthdate-icon" th:title="#{join.birth.title}"></label>
+                    </div>
+                    <input type="text" name="year" th:value="${#strings.substring(member.birth,0,4)}" id="birthdate-input-component" placeholder="YYYY" autocapitalize="off" class="__birth-date-input-component" required="required"
+                           maxlength="4" data-type="year"/>
+                    <input type="text" name="month" th:value="${#strings.substring(member.birth,4,6)}" placeholder="MM" autocapitalize="off" class="__birth-date-input-component" required="required" maxlength="2"
+                           data-type="month"/>
+                    <input type="text" name="date" th:value="${#strings.substring(member.birth,6,8)}" placeholder="DD" autocapitalize="off" class="__birth-date-input-component" required="required" maxlength="2" data-type="date"/>
+                </div>
+                <div class="client-join-section--form--warning" data-name="birthdate">
+                    <em></em>
+                </div>
+                <div class="client-join-section--form--box" style="overflow: hidden; border-bottom: none;">
+                    <label for="gender-input-component--female" class="gender-icon" th:title="#{mypage.modify.gender.title}"></label>
+                    <label for="gender-input-component--female" class="__check-button" th:classappend="${#strings.equals(member.sex, 'f') ? 'active':null}" th:inline="text">[[#{join.gender.female}]]
+                        <input type="radio" name="gender" id="gender-input-component--female" value="f" class="__radio-input-component" th:checked="${#strings.equals(member.sex, 'f') ?  true:false}"/>
+                    </label>
+                    <label for="gender-input-component--male" class="__check-button" th:classappend="${#strings.equals(member.sex, 'm') ? 'active':null}" th:inline="text">[[#{join.gender.male}]]
+                        <input type="radio" name="gender" id="gender-input-component--male" value="m" class="__radio-input-component" th:checked="${#strings.equals(member.sex, 'm') ?  true:false}"/>
+                    </label>
+                </div>
+                <div class="client-join-section--form--warning" data-name="gender"></div>
+                <div class="client-join-section--form--authorization-box">
+                    <a href="javascript:void(0)" class="__auth-client-phone-button" role="button">
+                        <span class="--mobile-icon" th:text="#{mypage.modify.auth_phone}">휴대폰 재인증</span>
+                        <input type="hidden" name="token" value="">
+                        <span class="__authorization"></span>
+                    </a>
+                </div>
+                <div class="client-join-section--form--warning" data-name="phone">
+                    <em class="pass" th:text="#{mypage.modify.auth_complete}">인증완료된 회원입니다.</em>
+                </div>
+                <div class="client-join-section--form--box">
+                    <label for="phone-input-component" class="phone-icon" title="회원님이 인증하신 전화번호입니다.">
+                        <input type="hidden" name="phone" th:value="${member.phone}" required="required"/>
+                    </label>
+                    <input type="tel" th:value="${member.phone}" id="phone-input-component" class="__default-input-component" maxlength="24" readonly="readonly" disabled="disabled"/>
+                </div>
+                <div>
+                    <button type="submit" role="button" class="__modify-member-button __submit-default-button" th:text="#{mypage.modify.title}">회원정보 수정</button>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>
+<div id="loader"></div>
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+<script th:if="${session.tmp_locale ==  null}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__ko.js"></script>
+<script th:if="${#strings.equals(locale, 'ko')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__ko.js"></script>
+<script th:if="${#strings.equals(locale, 'en')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__en.js"></script>
+<script th:if="${#strings.equals(locale, 'ja')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__ja.js"></script>
+<script th:if="${#strings.equals(locale, 'zh')}" src="https://www.gstatic.com/firebasejs/ui/3.5.0/firebase-ui-auth__zh_cn.js"></script>
+<!--<script src="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.js"></script>-->
+<script th:src="@{~/js/api/fireBaseAuth.js}" type="text/javascript" charset="UTF-8"></script>
+<script type="text/javascript" th:src="@{~/js/lib/cropper.js}" charset="UTF-8"></script>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/lib/snap.svg-min.js}" type="text/javascript"></script>
+<script th:src="@{~/js/mypage/modifyClient.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript" charset="UTF-8"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+<script th:replace="./include/handlebar_template ::handlebar_template"></script>
+</body>
+</html>

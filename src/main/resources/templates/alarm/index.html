@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<div class="ie_warining">
+    <h1 class="browserupgrade">(주)리틀원의 웹사이트는 인터넷 익스폴로러 10버전 미만은 지원하지 않습니다. 더 나은 환경과 좋은 서비스를 위해 불편하시더라도 이곳에서<a
+            href="http://browsehappy.com/">브라우저 업그레이드 하기</a>최신버젼으로 업그레이드 해주세요.</h1>
+    <p> 최적의 환경을 위해 크롬(chrome) 최신 버젼을 추천합니다.</p>
+</div>
+<![endif]-->
+<div class="application">
+    <section class="alarm-all-section">
+        <div class="alarm-all-section--header">
+            <h1 th:text="#{alarm.list}">알림 내역</h1>
+            <div class="alarm-all-section--header--settings">
+                <a th:if="${alarm_list != null && #lists.size(alarm_list) > 0}" href="javascript:void(0)" class="__read-all-list" th:text="#{alarm.read_all}">
+                    모두 읽은 상태로 표시
+                </a>
+                <!--<span class="__vertical-bar">ㅣ</span>-->
+                <!--<a href="/mypage/setting" class="__option-btn">-->
+                    <!--알림 환경설정-->
+                <!--</a>-->
+            </div>
+        </div>
+        <ul class="alarm-all-section--list-body">
+            <li class="client-alarm--info" th:each="alarm : ${alarm_list}">
+            	<div th:if="${alarm.event_type} == '0'">
+                    <a href="javascript:void(0)" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:inline="text"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.accept_group}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+           		</div>
+           		<div th:if="${alarm.event_type} == 'a'">
+                   <a href="javascript:void(0)" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:text="inline"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.request_group}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                    <div class="client-alarm--info--confirm-box">
+						<p th:text="#{alarm.accept}">수락함</p>
+                    </div>
+           		</div>
+           		<div th:if="${alarm.event_type} == 'b'">
+                    <a href="javascript:void(0)" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:inline="text"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.request_group}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                    <div class="client-alarm--info--confirm-box">
+                    	<p th:text="#{alarm.reject}">거절함</p>    
+                    </div>
+           		</div>
+                <div th:if="${alarm.event_type} == '1'">
+                    <a href="javascript:void(0)" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:inline="text"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.request_group}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                    <div class="client-alarm--info--confirm-box">
+                        <a href="javascript:void(0)" class="__cancel-request-btn" th:text="#{alarm.accept_btn}">거절</a>
+                        <a href="javascript:void(0)" class="__accept-request-btn" th:text="#{alarm.reject_btn}">수락</a>
+                    </div>
+                </div>
+                <div th:if="${alarm.event_type} == '2'">
+                    <!--qna 변경-->
+                    <a th:href="@{'/community/' + ${alarm.board_idx} + '/' + ${alarm.comment_idx} + '/alert/' + ${alarm.alarm_idx}}" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:inline="text"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.comment}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                </div>
+                <div th:if="${alarm.event_type} == '3'">
+                    <a th:href="@{'/gallery/alert/' + ${alarm.board_idx} + '/' + ${alarm.comment_idx} + '/' + ${alarm.alarm_idx}}" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:inline="text"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.gallery_comment}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                </div>
+                <div th:if="${alarm.event_type} == '4'">
+                    <a href="javascript:void(0)" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:inline="text"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.diary}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                </div>
+                <div th:if="${alarm.event_type} == '5'">
+                    <a href="javascript:void(0)" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:inline="text"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.diary}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                </div>
+                <div th:if="${alarm.event_type} == '6'">
+                    <a href="javascript:void(0)" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:inline="text"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.peepee}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                </div>
+                <div th:if="${alarm.event_type} == '7'">
+                    <a href="javascript:void(0)" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.bottle}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                </div>
+                <div th:if="${alarm.event_type} == '8'">
+                    <a href="javascript:void(0)" class="client-alarm--info--thumb">
+                        <img th:src="${alarm.requester_thumbnail != null ? alarm.requester_thumbnail:'/images/default-person.svg'}">
+                    </a>
+                    <div class="client-alarm--info--desc">
+                        <p th:inline="text"><em th:text="${alarm.requester_name}">그룹요청자</em>[[#{alarm.temp}]]</p>
+                        <time th:text="${alarm.date}">시간</time>
+                    </div>
+                </div>
+            </li>
+            <li th:if="${#lists.size(alarm_list) == 0}">
+                <h2 style="text-align: center; font-size: 24px; min-height: 300px;" th:text="#{alarm.none}">알림내역이 없습니다.</h2>
+            </li>
+        </ul>
+    </section>
+</div>
+<footer th:replace="./include/footer ::footer"></footer>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+<script th:replace="./include/handlebar_template :: handlebar_template"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".__read-all-list").on("click", function (e) {
+            e.preventDefault();
+            var result = confirm("모든 알람을 읽음 처리하시겠습니까?");
+            if (result) {
+                $.ajax({
+                    url: "/alarm/readAll",
+                    type: "GET",
+                    dataType: "text",
+                    success: function (data) {
+                        if (data === 'success') {
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        alert("ajax 통신 에러");
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

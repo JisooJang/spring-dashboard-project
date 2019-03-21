@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" th:lang="${lang_value}">
+<head th:include="/include/setting::head"></head>
+<body oncontextmenu="return false">
+<section th:include="/include/header::header"></section>
+
+<!--[if lt IE 10]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<p>testing...</p>
+<![endif]-->
+<div class="application">
+    <section th:replace="./main/section1 :: main-section-01"></section>
+    <section th:replace="./main/section2 :: main-section-02"></section>
+    <section th:replace="./main/section3 :: main-section-03"></section>
+    <section th:replace="./main/section4 :: main-section-04"></section>
+    <div class="application--background">
+        <section th:replace="./main/section5 :: main-section-05"></section>
+        <section th:replace="./main/section7 :: main-section-07"></section>
+        <section th:replace="./main/section12 :: main-section-12"></section>
+        <section th:replace="./main/section17 :: main-section-17"></section>
+    </div>
+</div>
+<footer th:replace="./include/footer ::footer" class="footer" role="contentinfo"></footer>
+<script th:replace="./include/handlebar_template :: handlebar_template"></script>
+<script th:src="@{~/js/lib/fullpage.min.js}" type="text/javascript"></script>
+<script th:src="@{~/js/lib/snap.svg-min.js}" type="text/javascript"></script>
+<script th:src="@{~/js/main/index.js}" type="text/javascript"></script>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript" async></script>
+<script th:src="@{~/js/header/header.js}" type="text/javascript" charset="UTF-8"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131305558-1"></script>
+<script>
+  	window.dataLayer = window.dataLayer || [];
+  	function gtag(){dataLayer.push(arguments);}
+  	gtag('js', new Date());
+
+  	gtag('config', 'UA-131305558-1');
+</script>
+</body>
+</html>

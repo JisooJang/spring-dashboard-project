@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js">
+<head th:include="./include/setting::head"></head>
+<body>
+<section th:include="./include/header::header"></section>
+<!--[if lt IE 9]>
+<div class="ie_warining">
+    <h1 class="browserupgrade">(주)리틀원의 웹사이트는 인터넷 익스폴로러 10버전 미만은 지원하지 않습니다. 더 나은 환경과 좋은 서비스를 위해 불편하시더라도 이곳에서<a
+            href="http://browsehappy.com/">브라우저 업그레이드 하기</a>최신버젼으로 업그레이드 해주세요.</h1>
+    <p> 최적의 환경을 위해 크롬(chrome) 최신 버젼을 추천합니다.</p>
+</div>
+<![endif]-->
+<section class="application" style="background-color: #e6e7ee;">
+    <div class="babybook">
+        <div class="babybook--datepicker" data-language='kr' data-date-format="YYYY MM"></div>
+        <!--내용이 들어올 공간-->
+        <div class="babybook--contents">
+            <!--#2 일정목록 -->
+            <div class="babybook--contents--schedule" th:if="${schedule_list != null}">
+                <ul>
+                    <li th:each="schedule_list : ${schedule_list}"><!--each 반복 돌리기-->
+                        <div>
+                            <div class="babybook--contents--schedule__event-type">
+                            </div>
+                            <div class="babybook--contents--schedule__desc" th:data-schedule-idx="${schedule_list.idx}">
+                                <h2 th:text="${schedule_list.title}">제목</h2>
+                                <p th:text="${schedule_list.contents}">내용</p>
+                                <span th:text="'작성자 idx : ' + ${schedule_list.member.idx}">작성자</span>
+                                <time th:text="${schedule_list.date_created}">작성날짜</time>
+                                <time th:if="${schedule_list.date_updated != null}"
+                                      th:text="${schedule_list.date_updated}">수정날짜
+                                </time>
+                            </div>
+                            <div th:if="${schedule_list.member.idx == session.idx}"
+                                 class="babybook--contents--schedule__modify" th:data-idx="${schedule_list.idx}">
+                                <button type="button" class="babybook--contents--schedule__modify__update">수정</button>
+                                <button type="button" class="babybook--contents--schedule__modify__delete">삭제</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="babybook--contents--schedule">
+                <ul></ul>
+            </div>
+            <ul class="babybook--contents--no-schedule"></ul>
+            <div class="babybook--contents--no-diary"></div>
+            <div class="babybook--contents--diary" th:if="${diary_list != null}" th:each="diary_list : ${diary_list}"
+                 th:data-diary-idx="${diary_list.idx}">
+                <time class="babybook--contents--diary--date-time" th:text="${diary_list.date_created}">날짜</time>
+                <!--내 글이면 수정,삭제 버튼 보이게 하기(sns내보내기 기능도 고려)-->
+                <div class="babybook--contents--diary__modify" th:data-idx="${diary_list.idx}">
+                    <button type="button" class="babybook--contents--diary__modify__update">수정</button>
+                    <button type="button" class="babybook--contents--diary__modify__delete">삭제</button>
+                </div>
+                <div class="babybook--contents--diary--info">
+                    <div class="babybook--contents--diary--info__event-type">
+                        <span>육아일기</span>
+                    </div>
+                    <div class="babybook--contents--diary--info__private">
+                        <span>전체공개</span>
+                    </div>
+                    <img th:if="${diary_list.id_files != null}" th:src="${diary_list.id_files[0].file_url}" alt=""
+                         th:data-img-idx="${diary_list.id_files[0].idx}"/>
+                    <input type="hidden" th:value="${diary_list.id_files[0].original_filename}" name="original_name">
+                </div>
+                <div class="babybook--contents--diary--desc" th:data-desc-idx="${diary_list.idx}">
+                    <div class="babybook--contents--diary--desc__title">
+                        <h1 th:text="${diary_list.subject}">제목</h1>
+                    </div>
+                    <span class="babybook--contents--diary--desc__writer">작성자</span>
+                    <p class="babybook--contents--diary--desc__paragraph" th:text='${diary_list.contents}'>"내용"</p>
+                </div>
+            </div>
+            <div class="babybook--contents--diary"></div>
+            <input type="hidden" name="session_idx" th:value="${session.idx}">
+        </div>
+    </div>
+</section>
+<footer th:include="./include/footer :: footer" class="footer" role="contentinfo"></footer>
+
+<script type="text/x-handlebars-template" id="schedule_template">
+    {{#each schedule_list}}
+    <li class="babybook--contents--schedule--desc" data-schedule-idx={{idx}}>
+        <div class="babybook--contents--schedule--desc__time">
+            <time>{{date}}</time>
+        </div>
+        <div class="babybook--contents--schedule--desc__info">
+            <div class="babybook--contents--schedule--desc__info--time">
+                <time>{{event_date_start}}</time>
+                <p>{{interval}}</p>
+            </div>
+            <div class="babybook--contents--schedule--desc__info--reserve">
+                <div>
+                    <img src="" alt={{event_type}}/>
+                </div>
+                <div>
+                    <h2>{{title}}</h2>
+                    <p>{{contents}}</p>
+                    <input type="hidden" class="babybook_schedule_place" value={{place}}>
+                    <input type="hidden" class="babybook_schedule_publicCheck" value={{public_check}}>
+                </div>
+            </div>
+        </div>
+        <div data-idx={{idx}}>
+            <button type="button" class="babybook--contents--schedule__modify__update">수정</button>
+            <button type="button" class="babybook--contents--schedule__modify__delete">삭제</button>
+        </div>
+    </li>
+    {{/each}}
+</script>
+
+<script type="text/x-handlebars-template" id="none_schedule_template">
+    <li class="babybook--contents--no-schedule__desc">
+        <div>
+            <time>{{date}}</time>
+        </div>
+        <h2>일정 없음</h2>
+    </li>
+</script>
+<script type="text/x-handlebars-template" id="none_babybook_template">
+    <div class="babybook--contents--no-diary__desc">
+        <div>
+            <time>{{date}}</time>
+        </div>
+        <h2>육아일기 없음</h2>
+    </div>
+</script>
+<script type="text/x-handlebars-template" id="babybook_template">
+    {{#each diary_list}}
+    <div data-diary-idx={{idx}}>
+        <time class="babybook--contents--diary--date-time">{{date_created}}</time>
+        <!--내 글이면 수정,삭제 버튼 보이게 하기(sns내보내기 기능도 고려)-->
+        <div class="babybook--contents--diary__modify">
+            <button type="button" class="babybook--contents--diary__modify__update">수정</button>
+            <button type="button" class="babybook--contents--diary__modify__delete">삭제</button>
+        </div>
+        <div class="babybook--contents--diary--info">
+            <div class="babybook--contents--diary--info__event-type">
+                <span>육아일기</span>
+            </div>
+            <div class="babybook--contents--diary--info__private">
+                <span>전체공개</span>
+            </div>
+            {{#nullCheck id_files}}
+            <img data-img-idx={{id_files.[0].idx}} src={{id_files.[0].file_url}}>
+            <input type="hidden" value="{{id_files.[0].original_filename}}" name="original_name">
+            {{/nullCheck}}
+        </div>
+        <div class="babybook--contents--diary--desc" data-desc-idx="">
+            <div class="babybook--contents--diary--desc__title">
+                <h1>{{subject}}</h1>
+            </div>
+            <span class="babybook--contents--diary--desc__writer">{{member.nickname}}</span>
+            <p class="babybook--contents--diary--desc__paragraph">{{contents}}</p>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script th:src="@{~/js/validation.js}" type="text/javascript"></script>
+<script th:src="@{~/js/littleone_script.js}" type="text/javascript"></script>
+<script th:src="@{~/js/file.js}" type="text/javascript"></script>
+<script th:src="@{~/js/modal/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/babyboard/modal.js}" type="text/javascript"></script>
+<script th:src="@{~/js/dashboard/babyboard/index.js}" type="text/javascript"></script>
+<script th:src="@{~/js/lib/datepicker.min.js}" type="text/javascript"></script>
+<script th:src="@{~/js/lib/datepicker.lang.js}" type="text/javascript"></script>
+<script th:replace="./include/handlebar_template :: handlebar_template"></script>
+<script type="text/javascript">
+    $(function () {
+
+
+
+
+
+
+        /*데이트 픽커 셀렉터*/
+        var $picker = $('.babybook--datepicker');
+
+        /*먼저 inputbox에 focus가 갈 경우 토글 active.*/
+        $(".box-calendar").on("focus", function () {
+            $(this).toggleClass('active');
+        });
+
+        /*오늘 날짜 구하는 객체*/
+        var todayObject = new Date();
+        var currentMonth = todayObject.getMonth() + 1 < 10 ? "0" + (todayObject.getMonth() + 1) : todayObject.getMonth() + 1;
+        var currentYear = todayObject.getFullYear();
+        var currentDay = todayObject.getDate() < 10 ? "0" + (todayObject.getDate()) : todayObject.getDate();
+        /* -로 틀 갖추기*/
+        var today = [currentYear, currentMonth, currentDay].join('-');
+
+        /*처음 페이지에 접속 했을 때 AJAX통신을 하여 현재 날짜의 DATA를 가져온다.*/
+        $.ajax({
+            url: "/dashboard/babybook/list_view_byDate",
+            type: "POST",
+            data: {
+                date: today
+            },
+            dataType: "text",
+            beforeSend: function (xhr) {
+                sendCsrfToken(xhr);
+            },
+            success: function (data) {
+                console.log('최초 통신시 넘어온 값');
+                console.log(JSON.parse(data));
+            }
+        });
+
+        setTimeout(function () {
+            $picker.datepicker({
+                language: 'kr',
+                onShow: function (inst, animationCompleted) {
+
+                },
+                onRenderCell: function (date, cellType) {
+                    var currentDate = date.getDate();
+
+                    if (currentDate < 10) {
+                        currentDate = '0' + currentDate;
+                    }
+
+                    // Add extra element, if `eventDates` contains `currentDate`
+                    if (cellType === 'day' && eventDates.indexOf(currentDate) != -1) {
+                        return {
+                            html: currentDate + '<div class="content"></div>',
+                        }
+                    }//end if
+
+                },
+                onSelect: function onSelect(fd, date) {
+                    var month;
+                    var day;
+                    var dateVal;
+                    if (date != null || undefined) {
+                        month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+                        day = date.getDate() < 10 ? "0" + (date.getDate()) : date.getDate();
+                        dateVal = [date.getFullYear(), month, day].join('-');
+                        // $(".box-calendar.date1").val(dateVal);
+                    }
+                    /* 달력에서 날짜클릭시 해당날짜의 다이어리와 일정 불러오는 ajax 통신 */
+                    $.ajax({
+                        url: "/dashboard/babybook/list_view_byDate",
+                        type: "POST",
+                        data: {
+                            date: dateVal
+                        },
+                        dataType: "text",
+                        beforeSend: function (xhr) {
+                            sendCsrfToken(xhr);
+                        },
+                        success: function (data) {
+                            var Data;
+
+                            /*넘어온 data를 확인*/
+                            if (data === ' ' || data.length === 0) {
+                                Data = null;
+                                (function () {
+                                    var template = Handlebars.compile($("#none_schedule_template").html());
+                                    var obj = {};
+                                    obj.date = dateVal;
+                                    var html = template(obj);
+                                    $(".babybook--contents--no-schedule").html(html);
+                                })();
+                                (function () {
+                                    var template = Handlebars.compile($("#none_babybook_template").html());
+                                    var obj = {};
+                                    obj.date = dateVal;
+                                    var html = template(obj);
+                                    $(".babybook--contents--no-diary").html(html);
+                                })();
+                                $(".babybook--contents--schedule > ul >li").remove();
+                                $(".babybook--contents--diary>div").remove();
+                                return;
+                            } else {
+                                /*넘어온 DATA를 JSON파싱*/
+                                Data = JSON.parse(data);
+                            }
+                            var isScheduleEmpty = Data.schedule_list === null;
+                            var isBabyEmpty = Data.diary_list === null;
+
+                            if (isScheduleEmpty) {
+                                /*일정이 없다는 템플릿을 추가한다.*/
+                                (function () {
+                                    var template = Handlebars.compile($("#none_schedule_template").html());
+                                    var html = template();
+                                    $(".babybook--contents--no-schedule").html(html);
+                                    $(".babybook--contents--schedule > ul >li").remove();
+                                    $(".babybook--contents--diary>div").remove();
+                                })();
+                            }
+                            if (isBabyEmpty) {
+                                /*육아일기가 없다는 템플릿을 추가한다.*/
+                                (function () {
+                                    var template = Handlebars.compile($("#none_babybook_template").html());
+                                    var html = template();
+                                    $(".babybook--contents--no-diary").html(html);
+                                    $(".babybook--contents--schedule > ul >li").remove();
+                                    $(".babybook--contents--diary>div").remove();
+                                })();
+                            }
+                            if (data != null || undefined || '' || false || data.length !== 0) {
+                                /*스케쥴 감싸기*/
+                                var scheduleObj = {};
+                                scheduleObj.data = Data;
+                                /*다이어리 감싸기*/
+                                var diaryObj = {};
+                                diaryObj.data = Data;
+
+                                /*리스트 갯수만큼 date추가*/
+                                diaryObj.data['schedule_list'].forEach(function (ele, idx) {
+                                    /*데이트 추가*/
+                                    diaryObj.data['schedule_list'][idx].date = dateVal;
+
+                                });
+
+                                console.log(diaryObj);
+
+
+                                /*스케쥴 템플릿 렌더링*/
+                                var template = Handlebars.compile($("#schedule_template").html());
+                                var html = template(scheduleObj.data);	// data는 댓글 배열
+                                $(".babybook--contents--schedule > ul").html(html);
+                                /*다이어리 템플릿 렌더링*/
+                                var diaryTemplate = Handlebars.compile($("#babybook_template").html());
+                                var diaryHtml = diaryTemplate(diaryObj.data);
+                                $(".babybook--contents--diary").html(diaryHtml);
+                                $(".babybook--contents--no-schedule__desc").remove();
+                                $(".babybook--contents--no-diary__desc").remove();
+                            } else {
+                            }
+                        },
+                        error: function (error) {
+                            generateModal(error.status);
+                        }
+                    });
+                }
+            });
+
+        }, 500);
+
+    });
+</script>
+</body>
+</html>
