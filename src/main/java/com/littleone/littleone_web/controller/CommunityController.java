@@ -32,12 +32,16 @@ import com.littleone.littleone_web.domain.Comment;
 import com.littleone.littleone_web.domain.Comment_check;
 import com.littleone.littleone_web.domain.Comment_data;
 import com.littleone.littleone_web.domain.Comment_likes;
+import com.littleone.littleone_web.domain.Infant;
 import com.littleone.littleone_web.domain.Member;
+import com.littleone.littleone_web.domain.Member_mng;
 import com.littleone.littleone_web.domain.TmpFileInfo;
 import com.littleone.littleone_web.service.AlertService;
 import com.littleone.littleone_web.service.AmazonS3Service;
 import com.littleone.littleone_web.service.BoardService;
 import com.littleone.littleone_web.service.GalleryService;
+import com.littleone.littleone_web.service.InfantService;
+import com.littleone.littleone_web.service.MemberMngService;
 import com.littleone.littleone_web.service.MemberService;
 import software.amazon.ion.IonException;
 
@@ -46,6 +50,12 @@ public class CommunityController {
 
     @Autowired
     private MemberService memberService;
+    
+    @Autowired
+    private MemberMngService mngService;
+    
+    @Autowired
+    private InfantService infantService;
 
     @Autowired
     private AmazonS3Service amazonS3Service;
@@ -1421,7 +1431,7 @@ public class CommunityController {
     // 커뮤니티 작성자 썸네일 클릭시 회원정보
 	@GetMapping("/community/view_member_info/{member_idx}/board/{page_index}")
 	public String viewMemberInfoPaging(@PathVariable("member_idx") int member_idx, @PathVariable("page_index") int page_index,
-			Model model) {
+			Model model, HttpSession session) throws ParseException {
 		Member member = memberService.findByIdx(member_idx);
 		List<Board_index> board = boardService.getListByMember_idx(member_idx, page_index);
 		int comment_count = boardService.countComment(member_idx);
@@ -1436,6 +1446,22 @@ public class CommunityController {
 		}
 		model.addAttribute("comment_count", comment_count);
 		model.addAttribute("totalLikes", boardService.getTotalLikes(member_idx));
+		
+		Member_mng mng = mngService.findOne(member_idx);
+		
+		model.addAttribute("point", mng.getPoint());
+		model.addAttribute("grade", mng.getGrade());
+		
+		Integer infant_idx = (Integer) session.getAttribute("infant_idx");
+		if(infant_idx != null) {
+			Infant infant = infantService.findOne(infant_idx);
+			model.addAttribute("infant", infant);
+			model.addAttribute("infant_age", infantService.getInfantYear(infant.getBirth()));
+		}
+		
+		
+		
+		
 		return "user/view";
 	}
 
