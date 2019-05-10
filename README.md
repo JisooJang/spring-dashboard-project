@@ -9,24 +9,26 @@ Spring framework를 이용하여 앱을 통해 들어오는 육아용 3가지 �
 이 외에도 기본 로그인, 회원가입, 배송지 관리, 갤러리, 커뮤니티 기능 구현
 
 
-DB : MariaDB, AWS DynamoDB(디바이스 데이터 실시간 저장 및 연산, 로딩)
-AWS : EC2, ELB, ACM, S3, SES, DynamoDB 사용
+# DB
+MariaDB, AWS DynamoDB(디바이스 데이터 실시간 저장 및 연산, 로딩)
+# AWS
+EC2, ELB, ACM, S3, SES, DynamoDB 사용
 
-#담당 기능
+# 담당 기능
 혼자서 모든 백엔드 개발과 AWS 클라우드 서버 구축 및 프로젝트 배포 담당
 웹소켓, Oauth 로그인, 트위터와 페이스북 공유 기능 <클라이언트 + 서버 코드> 작성
 
-#프로젝트 기간
+# 프로젝트 기간
 2018.01 ~ 2019.01 (약 1년)
 
-#Database  
+# Database  
 MariaDB – 기본 정형화된 데이터 저장. (회원, 아이, 게시글, 배송지, 파일 정보 등)
 DynamoDB(AWS) - 하드웨어로부터 초 단위 및 이벤트 단위로 데이터를 빠른 속도로 저장 및 로딩
 (온도,수유, 배변 데이터)
 
-#Websocket 
+# Websocket 
 (Stomp 프로토콜 + SockJS) 
 
-#Session-Management
+# Session-Management
 spring-session-data-redis를 이용한 세션 관리
 
