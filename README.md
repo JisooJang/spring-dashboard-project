@@ -32,3 +32,24 @@ DynamoDB(AWS) - 하드웨어로부터 초 단위 및 이벤트 단위로 데이
 # Session-Management
 spring-session-data-redis를 이용한 세션 관리
 
+
+# 보안  
+- Spring security, AWS ACM(certificate manager) SSL 연동 
+- AWS ELB(Elastic Load Balancer) 포트포워딩 http -> https
+- EC2 및 RDS 보안 그룹 설정 (IP 제한)
+- 모든 요청(ajax 요청 포함)에 csrf 토큰 인증
+ 
+언어 : java 8
+프레임워크 : Spring Framework (boot)
+테스트 : jmeter, JUnit4 (소켓 대량 동시 접속 테스트)
+
+API
+Oauth 로그인(카카오, 네이버, 구글), 구글 Recaptcha, 카카오 알림톡 메시지 전송, AWS 연동 등...
+
+Front-end 
+Javascript - 웹소켓 연동(SockJS),  handlebars.js(게시판 댓글, 갤러리 페이징)
+
+Template Engine : thymeleaf 3.0.9 version
+
+협업도구 : Git, Slack
+
