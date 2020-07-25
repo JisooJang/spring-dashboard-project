@@ -40,7 +40,7 @@ spring-session-data-redis를 이용한 세션 관리
 - 모든 요청(ajax 요청 포함)에 csrf 토큰 인증
  
 언어 : java 8
-프레임워크 : Spring Framework (boot)
+프레임워크 : Spring Framework(4.3 version) (boot 1.5.9)
 테스트 : jmeter, JUnit4 (소켓 대량 동시 접속 테스트)
 
 API
