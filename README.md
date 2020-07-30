@@ -10,6 +10,7 @@
 ## Technology Used
 java 8
 Spring boot 1.5.9 (Spring framework 4.3.2)
+JPA 
 Stomp protocol for websocket communication
 ## Database  
 MariaDB – 기본 정형화된 데이터 저장. (회원, 아이, 게시글, 배송지, 파일 정보 등)
